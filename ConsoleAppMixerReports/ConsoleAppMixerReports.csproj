@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Sharp7" Version="1.1.79" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MixerReports.lib\MixerReports.lib.csproj" />
+  </ItemGroup>
+
+</Project>
