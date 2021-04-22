@@ -7,7 +7,7 @@ using MixerReports.lib.Models.Base;
 
 namespace MixerReports.lib.Models
 {
-    public class Mix : Entity
+    public partial class Mix : Entity
     {
         private int _Number;
 
@@ -242,7 +242,6 @@ namespace MixerReports.lib.Models
             get => _SandInMud;
             set => Set(ref _SandInMud, value);
         }
-
         private bool _Normal;
 
         /// <summary> Нормальная заливка </summary>
@@ -256,9 +255,6 @@ namespace MixerReports.lib.Models
             }
         }
 
-        [NotMapped]
-        public string NormalStr => (Normal) ? "Норма" : "Ошибка";
-
         private bool _Undersized;
 
         /// <summary> Недоросток </summary>
@@ -267,9 +263,6 @@ namespace MixerReports.lib.Models
             get => _Undersized;
             set => Set(ref _Undersized, value);
         }
-
-        [NotMapped]
-        public string UndersizedStr => (Undersized) ? "Недоросток" : String.Empty;
 
         private bool _Overground;
 
@@ -280,9 +273,6 @@ namespace MixerReports.lib.Models
             set => Set(ref _Overground, value);
         }
 
-        [NotMapped]
-        public string OvergroundStr => (Overground) ? "Переросток" : string.Empty;
-
         private bool _Boiled;
 
         /// <summary> Закипевший </summary>
@@ -292,9 +282,6 @@ namespace MixerReports.lib.Models
             set => Set(ref _Boiled, value);
         }
 
-        [NotMapped]
-        public string BoiledStr => (Boiled) ? "Закипел" : string.Empty;
-
         private bool _Other;
 
         /// <summary> Другое </summary>
@@ -302,29 +289,6 @@ namespace MixerReports.lib.Models
         {
             get => _Other;
             set => Set(ref _Other, value);
-        }
-
-        [NotMapped]
-        public string OtherStr => (Other) ? "Другое" : string.Empty;
-
-        /// <summary> Характеристики в виде строки </summary>
-        [NotMapped]
-        public string CharsStr
-        {
-            get
-            {
-                List<string> strs = new List<string>();
-                if (Undersized) strs.Add(UndersizedStr);
-                if (Overground) strs.Add(OvergroundStr);
-                if (Boiled) strs.Add(BoiledStr);
-                if (Other) strs.Add(OtherStr);
-                if (strs.Count > 1)
-                    return strs.Aggregate((m, n) => m + ',' + n);
-                else if (strs.Count > 0)
-                    return strs.First();
-                else
-                    return string.Empty;
-            }
         }
 
         private string _Comment;
@@ -337,5 +301,6 @@ namespace MixerReports.lib.Models
             set => Set(ref _Comment, value);
         }
     }
+
 
 }

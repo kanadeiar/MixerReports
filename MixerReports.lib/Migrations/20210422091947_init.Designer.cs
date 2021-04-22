@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MixerReports.lib.Data;
+using MixerReports.lib.Data.Base;
 
 namespace MixerReports.lib.Migrations
 {

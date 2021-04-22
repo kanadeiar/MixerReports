@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MixerReports.lib.Models;
 
-namespace MixerReports.lib.Data
+namespace MixerReports.lib.Data.Base
 {
     /// <summary> База данных отчетов по заливкам </summary>
     public class SPBSUMixerRaportsEntities : DbContext
