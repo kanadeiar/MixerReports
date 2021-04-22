@@ -1,6 +1,12 @@
 ﻿using System;
+using System.Configuration;
 using System.Windows;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MixerReports.lib.Data;
+using MixerReports.lib.Data.Base;
+using MixerReports.lib.Interfaces;
+using MixerReports.lib.Models;
 using MixerReportsServer.ViewModels;
 
 namespace MixerReportsServer
@@ -22,10 +28,12 @@ namespace MixerReportsServer
         /// <param name="services">сервисы приложения</param>
         private static void InitializeServices(IServiceCollection services)
         {
+            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SPBSUMixerRaportsDev.DB";
+            services.AddDbContext<SPBSUMixerRaportsEntities>(c => c.UseSqlServer(connectionString));
 
             services.AddScoped<MainWindowViewModel>();
 
-
+            services.AddScoped<IRepository<Mix>, MixRepository>();
 
         }
 

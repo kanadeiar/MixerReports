@@ -9,7 +9,40 @@
 
         Title="{Binding Title}"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}">
-    <Grid>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Главное меню">
+                <MenuItem Header="Выход" 
+                          Command="{Binding CloseAppCommand}"/>
+            </MenuItem>
+        </Menu>
 
-    </Grid>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Text="Соединение с ПЛК отсутствует"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock Text="Соединение с базой данных отсутствует"/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock Text="Прошло 0 из 230 секунд"/>
+            </StatusBarItem>
+
+        </StatusBar>
+        <TabControl>
+            <TabItem Header="Лог работы">
+
+            </TabItem>
+            <TabItem Header="Данные">
+
+            </TabItem>
+            <TabItem Header="Настройки">
+
+            </TabItem>
+        </TabControl>
+
+
+    </DockPanel>
 </Window>
