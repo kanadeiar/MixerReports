@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MixerReportsServer"
         mc:Ignorable="d"
-        Title="Заливочные отчеты - Сервер" Height="500" Width="800">
+        Height="500" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Background="LightGreen"
+
+        Title="{Binding Title}"
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}">
     <Grid>
 
     </Grid>
