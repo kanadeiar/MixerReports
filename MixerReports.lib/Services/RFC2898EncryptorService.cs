@@ -2,10 +2,11 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using MixerReports.lib.Interfaces;
 
 namespace MixerReports.lib.Services
 {
-    public class RFC2898EncryptorService
+    public class RFC2898EncryptorService : IEncryptService
     {
         private static readonly byte[] Salt =
         {
