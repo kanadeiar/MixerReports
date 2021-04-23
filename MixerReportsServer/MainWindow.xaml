@@ -24,27 +24,81 @@
         </Menu>
 
         <StatusBar DockPanel.Dock="Bottom">
+            <StatusBar.Resources>
+                <Style TargetType="TextBlock" x:Key="StyleConnectPLC">
+                    <Setter Property="Background" Value="#ffaaaa"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ConnectToPLC}" Value="True">
+                            <Setter Property="Background" Value="Orange"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <Style TargetType="TextBlock" x:Key="StyleConnectDataBase">
+                    <Setter Property="Background" Value="#ffaaaa"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ConnectToDataBase}" Value="True">
+                            <Setter Property="Background" Value="Orange"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StatusBar.Resources>
             <StatusBarItem>
-                <TextBlock Text="Соединение с ПЛК отсутствует"/>
+                <TextBlock Text="{Binding ConnectToPLCStr}" Style="{StaticResource StyleConnectPLC}"/>
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
-                <TextBlock Text="Соединение с базой данных отсутствует"/>
+                <TextBlock Text="{Binding ConnectToDataBaseStr}" Style="{StaticResource StyleConnectDataBase}"/>
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
-                <TextBlock Text="Прошло 0 из 230 секунд"/>
+                <TextBlock Text="{Binding MixInfo}"/>
             </StatusBarItem>
 
         </StatusBar>
         <TabControl>
             <TabItem Header="Лог работы" Height="40">
-                <TextBlock Margin="10" Background="OldLace" TextWrapping="Wrap"
+                <TextBox Margin="10" Background="OldLace" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Visible"
                            Text="{Binding Log}"/>
             </TabItem>
-            <TabItem Header="Данные" Height="40">
+            <TabItem Header="Данные за последние два часа" Height="40">
                 <DataGrid IsReadOnly="True" AutoGenerateColumns="False" HorizontalGridLinesBrush="Transparent" VerticalGridLinesBrush="Gray" AlternatingRowBackground="LightGreen" SelectionMode="Extended"
-                          ItemsSource="{Binding Mixes}">
+                          ItemsSource="{Binding LastMixes}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
+                        <DataGridTextColumn Header="Датавремя" Binding="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm}"/>
+                        <DataGridTextColumn Header="Номер формы" Binding="{Binding FormNumber}"/>
+                        <DataGridTextColumn Header="Номер рецепта" Binding="{Binding RecipeNumber}"/>
+                        <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Зад. холодная вода" Binding="{Binding SetColdWater, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Факт холодная вода" Binding="{Binding ActColdWater, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Зад. горячая вода" Binding="{Binding SetHotWater, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Факт горячая вода" Binding="{Binding ActHotWater, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Зад. ИПВ1" Binding="{Binding SetMixture1, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Факт ИПВ1" Binding="{Binding ActMixture1, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Зад. ИПВ2" Binding="{Binding SetMixture2, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Факт ИПВ2" Binding="{Binding ActMixture2, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Зад. цемент1" Binding="{Binding SetCement1, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Факт цемент1" Binding="{Binding ActCement1, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Зад. цемент2" Binding="{Binding SetCement2, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Факт цемент2" Binding="{Binding ActCement2, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Зад. алюминий1" Binding="{Binding SetAluminium1, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Факт алюминий1" Binding="{Binding ActAluminium1, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Зад. алюминий2" Binding="{Binding SetAluminium2, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Факт алюминий2" Binding="{Binding ActAluminium2, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
+                        <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
+                        <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Данные этой смены" Height="40">
+                <DataGrid IsReadOnly="True" AutoGenerateColumns="False" HorizontalGridLinesBrush="Transparent" VerticalGridLinesBrush="Gray" AlternatingRowBackground="LightGreen" SelectionMode="Extended"
+                          ItemsSource="{Binding NowShiftMixes}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
                         <DataGridTextColumn Header="Датавремя" Binding="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm}"/>

@@ -7,6 +7,7 @@ using MixerReports.lib.Data;
 using MixerReports.lib.Data.Base;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
+using MixerReports.lib.Services;
 using MixerReportsServer.ViewModels;
 
 namespace MixerReportsServer
@@ -34,6 +35,9 @@ namespace MixerReportsServer
             services.AddScoped<MainWindowViewModel>();
 
             services.AddScoped<IRepository<Mix>, MixRepository>();
+
+            services.AddScoped<ISharp7ReaderService, Sharp7ReaderService>();
+            //services.AddScoped<ISharp7ReaderService, DebugReaderService>();
 
         }
 

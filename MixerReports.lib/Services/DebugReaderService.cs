@@ -10,7 +10,7 @@ namespace MixerReports.lib.Services
         private bool _edgeMixRunning = false; //звонок новой заливки
         private Random _random = new Random();
 
-        public int SetSecondsToRead { get; set; } = 220;
+        public int SetSecondsToRead { get; set; } = 210;
         public int AluminiumProp { get; set; } = 20;
         public bool TestConnection(out int error)
         {

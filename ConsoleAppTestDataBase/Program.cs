@@ -23,7 +23,7 @@ namespace ConsoleAppTestDataBase
                     => new Mix
                     {
                         Number = t,
-                        DateTime = DateTime.Now.AddSeconds(- _random.Next(1000)),
+                        DateTime = DateTime.Now.AddSeconds(- _random.Next(10_000)).AddHours(-25 ),
                         FormNumber = _random.Next(1, 100),
                         RecipeNumber = 0,
                         MixerTemperature = (float)_random.NextDouble() * 10.0f + 50.0f,

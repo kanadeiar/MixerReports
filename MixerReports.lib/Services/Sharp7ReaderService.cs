@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Sockets;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
 using Sharp7;
@@ -15,7 +16,7 @@ namespace MixerReports.lib.Services
         /// <summary> Адрес контроллера </summary>
         public string Address { get; set; } = "10.0.57.10";
         /// <summary> Уставка срабатывания чтения новой заливки </summary>
-        public int SetSecondsToRead { get; set; } = 220;
+        public int SetSecondsToRead { get; set; } = 210;
         /// <summary> Пропорция алюминий к воде </summary>
         public int AluminiumProp { get; set; } = 20;
 
