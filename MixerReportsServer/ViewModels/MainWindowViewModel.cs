@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using Microsoft.EntityFrameworkCore;
+using MixerReports.lib.Data.Base;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
 using MixerReportsServer.Commands;
@@ -85,6 +87,12 @@ namespace MixerReportsServer.ViewModels
 
         private void LoadData()
         {
+            var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
+                .UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SPBSUMixerRaportsDev.DB").Options;
+            using (var db = new SPBSUMixerRaportsEntities(options))
+            {
+                db.Database.Migrate();
+            }
             Mixes.Clear();
             foreach (var mix in _Mixes.GetAll())
             {
