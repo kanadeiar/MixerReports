@@ -11,7 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{453C7D5A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppMixerReports", "ConsoleAppMixerReports\ConsoleAppMixerReports.csproj", "{812655A2-E2AC-427F-93E2-CF86D4540941}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppTestDataBase", "ConsoleAppTestDataBase\ConsoleAppTestDataBase.csproj", "{02DEBF8A-609D-4F3F-86DB-D3D08EEE8C5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppTestDataBase", "ConsoleAppTestDataBase\ConsoleAppTestDataBase.csproj", "{02DEBF8A-609D-4F3F-86DB-D3D08EEE8C5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MixerReportsEditor", "MixerReportsEditor\MixerReportsEditor.csproj", "{F42DCC13-150B-4411-AF9B-1A08A3C2AA5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{02DEBF8A-609D-4F3F-86DB-D3D08EEE8C5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02DEBF8A-609D-4F3F-86DB-D3D08EEE8C5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02DEBF8A-609D-4F3F-86DB-D3D08EEE8C5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F42DCC13-150B-4411-AF9B-1A08A3C2AA5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F42DCC13-150B-4411-AF9B-1A08A3C2AA5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F42DCC13-150B-4411-AF9B-1A08A3C2AA5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F42DCC13-150B-4411-AF9B-1A08A3C2AA5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
