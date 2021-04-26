@@ -256,7 +256,7 @@ namespace MixerReportsServer.ViewModels
         private void LoadData()
         {
             var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
-                .UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SPBSUMixerRaportsDev.DB").Options;
+                .UseSqlServer(App.GetDefaultConnectionString()).Options;
             using (var db = new SPBSUMixerRaportsEntities(options))
             {
                 db.Database.Migrate();
@@ -282,10 +282,8 @@ namespace MixerReportsServer.ViewModels
         private void AddToLog(string text)
         {
             Log += text + "\n";
-            using (var fileLog = File.AppendText("log.txt"))
-            {
-                fileLog.Write(text + "\n");
-            }
+            using var fileLog = File.AppendText("log.txt");
+            fileLog.Write(text + "\n");
         }
         #endregion
     }

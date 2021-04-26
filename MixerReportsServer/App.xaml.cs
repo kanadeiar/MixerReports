@@ -40,7 +40,7 @@ namespace MixerReportsServer
 
         }
 
-        private static string GetDefaultConnectionString()
+        public static string GetDefaultConnectionString()
         {
             AppSettingsReader ar = new AppSettingsReader();
             var password = ((string)ar.GetValue("password", typeof(string))).Decrypt();
