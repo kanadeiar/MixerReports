@@ -29,8 +29,7 @@ namespace MixerReportsServer
         /// <param name="services">сервисы приложения</param>
         private static void InitializeServices(IServiceCollection services)
         {
-            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=SPBSUMixerRaportsDev.DB";
-            services.AddDbContext<SPBSUMixerRaportsEntities>(c => c.UseSqlServer(connectionString));
+            services.AddDbContext<SPBSUMixerRaportsEntities>(c => c.UseSqlServer(GetDefaultConnectionString()));
 
             services.AddScoped<MainWindowViewModel>();
 
@@ -41,5 +40,12 @@ namespace MixerReportsServer
 
         }
 
+        private static string GetDefaultConnectionString()
+        {
+            AppSettingsReader ar = new AppSettingsReader();
+            var password = ((string)ar.GetValue("password", typeof(string))).Decrypt();
+            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            return connectionString.Replace("{{password}}", password);
+        }
     }
 }
