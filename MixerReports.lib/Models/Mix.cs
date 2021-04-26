@@ -244,6 +244,24 @@ namespace MixerReports.lib.Models
         }
         private bool _Normal;
 
+        private float _DensitySandMud;
+
+        /// <summary> Плотность песчаного шлама </summary>
+        public float DensitySandMud
+        {
+            get => _DensitySandMud;
+            set => Set(ref _DensitySandMud, value);
+        }
+
+        private float _DensityRevertMud;
+
+        /// <summary> Плотность обратного шлама </summary>
+        public float DensityRevertMud
+        {
+            get => _DensityRevertMud;
+            set => Set(ref _DensityRevertMud, value);
+        }
+
         /// <summary> Нормальная заливка </summary>
         public bool Normal
         {

@@ -56,6 +56,8 @@ namespace MixerReports.lib.Services
                     SetAluminium2 = 0.0f,
                     ActAluminium2 = 0.0f,
                     SandInMud = (float)_random.NextDouble() * 10.0f + 1300.0f,
+                    DensitySandMud = (float)_random.NextDouble() * 1.0f + 1.0f,
+                    DensityRevertMud = (float)_random.NextDouble() * 1.0f + 1.0f,
                     Normal = true,
                 };
                 _nowMixRunning = false;

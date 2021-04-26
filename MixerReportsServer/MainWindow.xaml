@@ -9,10 +9,13 @@
         Height="500" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Background="LightGreen"
 
         Title="{Binding Title}"
-        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}">
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}" Closing="Window_Closing">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding ClosedCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <DockPanel>
@@ -57,7 +60,7 @@
         </StatusBar>
         <TabControl>
             <TabItem Header="Лог работы" Height="40">
-                <TextBox Margin="10" Background="OldLace" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Visible"
+                <TextBox Margin="4" Background="OldLace" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Visible"
                            Text="{Binding Log}"/>
             </TabItem>
             <TabItem Header="Данные за последние два часа" Height="40">
@@ -90,6 +93,8 @@
                         <DataGridTextColumn Header="Зад. алюминий2" Binding="{Binding SetAluminium2, StringFormat=f2}"/>
                         <DataGridTextColumn Header="Факт алюминий2" Binding="{Binding ActAluminium2, StringFormat=f2}"/>
                         <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Плотность песч.шл." Binding="{Binding DensitySandMud, StringFormat=f3}"/>
+                        <DataGridTextColumn Header="Плотность обрат.шл." Binding="{Binding DensityRevertMud, StringFormat=f3}"/>
                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
                         <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
@@ -126,6 +131,8 @@
                         <DataGridTextColumn Header="Зад. алюминий2" Binding="{Binding SetAluminium2, StringFormat=f2}"/>
                         <DataGridTextColumn Header="Факт алюминий2" Binding="{Binding ActAluminium2, StringFormat=f2}"/>
                         <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
+                        <DataGridTextColumn Header="Плотность песч.шл." Binding="{Binding DensitySandMud, StringFormat=f3}"/>
+                        <DataGridTextColumn Header="Плотность обрат.шл." Binding="{Binding DensityRevertMud, StringFormat=f3}"/>
                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
                         <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
@@ -133,6 +140,18 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="Настройки" Height="40">
+                <DockPanel>
+                    <GroupBox Header="Настройка записи значений" DockPanel.Dock="Top">
+                        <StackPanel>
+                            <TextBlock Text="Сколько секунд должно пройти от начала заливки перед тем, как будут прочитаны и запомнены данные новой заливки:" TextWrapping="WrapWithOverflow"/>
+                            <TextBox Width="200" HorizontalAlignment="Left" Text="{Binding Settings.SetSecondsToRead}" ToolTip="Ввести целое число"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <Grid>
+
+                    </Grid>
+
+                </DockPanel>
 
             </TabItem>
         </TabControl>

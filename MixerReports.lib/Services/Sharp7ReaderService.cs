@@ -119,6 +119,8 @@ namespace MixerReports.lib.Services
                 SetAluminium2 = bufferDb.GetDIntAt(96) / 100.0f / (AluminiumProp + 1),
                 ActAluminium2 = bufferDb.GetDIntAt(100) / 100.0f / (AluminiumProp + 1),
                 SandInMud = sandInMud,
+                DensitySandMud = densSand / 1000.0f,
+                DensityRevertMud = bufferDb.GetIntAt(120) / 1000.0f,
                 Normal = true,
             };
             return mix;
@@ -128,7 +130,8 @@ namespace MixerReports.lib.Services
             byte[] bufferDb = new byte[300];
             client.DBRead(401, 0, 300, bufferDb);
             var actSandMud = bufferDb.GetDIntAt(20) / 100.0f;
-            var sandInMud = (actSandMud / bufferDb.GetDIntAt(122) / 100.0f) * 1300.0f;
+            var densSand = bufferDb.GetIntAt(122);
+            var sandInMud = (actSandMud / densSand) * 1200.0f;
             var mix = new Mix
             {
                 Number = 1,
@@ -152,13 +155,15 @@ namespace MixerReports.lib.Services
                 ActCement1 = bufferDb.GetDIntAt(76) / 100.0f,
                 SetCement2 = bufferDb.GetDIntAt(80) / 100.0f,
                 ActCement2 = bufferDb.GetDIntAt(84) / 100.0f,
-                SetAluminium1 = bufferDb.GetDIntAt(88) / 100.0f / 21.0f,
-                ActAluminium1 = bufferDb.GetDIntAt(92) / 100.0f / 21.0f,
-                SetAluminium2 = bufferDb.GetDIntAt(96) / 100.0f / 21.0f,
-                ActAluminium2 = bufferDb.GetDIntAt(100) / 100.0f / 21.0f,
+                SetAluminium1 = bufferDb.GetDIntAt(88) / 100.0f / (AluminiumProp + 1),
+                ActAluminium1 = bufferDb.GetDIntAt(92) / 100.0f / (AluminiumProp + 1),
+                SetAluminium2 = bufferDb.GetDIntAt(96) / 100.0f / (AluminiumProp + 1),
+                ActAluminium2 = bufferDb.GetDIntAt(100) / 100.0f / (AluminiumProp + 1),
                 SandInMud = sandInMud,
+                DensitySandMud = densSand / 1000.0f,
+                DensityRevertMud = bufferDb.GetIntAt(120) / 1000.0f,
                 Normal = false,
-                Comment = $"Заливка с ошибкой - {seconds} сек.",
+                Comment = $"Заливка с ошибкой, продолжительность заливки {seconds} сек.",
             };
             return mix;
         }

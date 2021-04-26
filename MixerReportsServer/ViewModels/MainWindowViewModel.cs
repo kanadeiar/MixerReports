@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Timers;
 using System.Windows;
@@ -11,7 +12,9 @@ using MixerReports.lib.Data.Base;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
 using MixerReportsServer.Commands;
+using MixerReportsServer.Models;
 using MixerReportsServer.ViewModels.Base;
+using Newtonsoft.Json;
 
 namespace MixerReportsServer.ViewModels
 {
@@ -38,16 +41,6 @@ namespace MixerReportsServer.ViewModels
             Mixes.Where(m => m.DateTime >= GetDateTimesFrom())
                 .OrderByDescending(m => m.DateTime)
                 .ToList();
-        ///// <summary> Заливки за завершенную последнюю смену </summary>
-        //public ICollection<Mix> LastShiftMixes =>
-        //    Mixes.Where(m => m.DateTime < GetDateTimesFrom() && m.DateTime >= GetDateTimesFrom().AddHours(- 12))
-        //        .OrderByDescending(m => m.DateTime)
-        //        .ToList();
-        ///// <summary> Заливки за завершенную предидущюю смену </summary>
-        //public ICollection<Mix> PreShiftMixes =>
-        //    Mixes.Where(m => m.DateTime < GetDateTimesFrom().AddHours(- 12) && m.DateTime >= GetDateTimesFrom().AddHours(- 24))
-        //        .OrderByDescending(m => m.DateTime)
-        //        .ToList();
 
         #endregion
 
@@ -98,6 +91,21 @@ namespace MixerReportsServer.ViewModels
         }
         public string ConnectToDataBaseStr => (ConnectToDataBase) ? "Соединение с базой данных установлено" : "Соединение с базой данных потеряно";
 
+        #region Настройки
+
+        private Settings _Settings;
+
+        /// <summary> Настройки </summary>
+        public Settings Settings
+        {
+            get => _Settings;
+            set => Set(ref _Settings, value);
+        }
+
+
+
+        #endregion
+
         #region Вспомогательное
 
         private string _Title = "Заливочные отчеты - Сервер";
@@ -117,11 +125,14 @@ namespace MixerReportsServer.ViewModels
         {
             _Mixes = mixes;
             _sharp7ReaderService = sharp7ReaderService;
+            if (File.Exists("data.json"))
+                Settings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText("data.json"));
+            else
+                Settings = new Settings();
+
             _timer.Elapsed += TimerOnElapsed;
             _timer.Start();
         }
-
-
 
         #region Команды
 
@@ -136,9 +147,21 @@ namespace MixerReportsServer.ViewModels
         private void OnLoadDataCommandExecuted(object p)
         {
             LoadData();
+
         }
 
+        private ICommand _ClosedCommand;
 
+        /// <summary> Команда закрытие приложения </summary>
+        public ICommand ClosedCommand => _ClosedCommand ??=
+            new LambdaCommand(OnClosedCommandExecuted, CanClosedCommandExecute);
+
+        private bool CanClosedCommandExecute(object p) => true;
+
+        private void OnClosedCommandExecuted(object p)
+        {
+            System.IO.File.WriteAllText("data.json", JsonConvert.SerializeObject(Settings));
+        }
 
         #region Вспомогательные команды
 
@@ -169,6 +192,7 @@ namespace MixerReportsServer.ViewModels
             Mix mix = null;
             try
             {
+                _sharp7ReaderService.SetSecondsToRead = Settings.SetSecondsToRead;
                 if (_sharp7ReaderService.GetMixOnTime(out seconds, out error, out mix))
                 {
                     ConnectToPLC = true;
@@ -258,6 +282,10 @@ namespace MixerReportsServer.ViewModels
         private void AddToLog(string text)
         {
             Log += text + "\n";
+            using (var fileLog = File.AppendText("log.txt"))
+            {
+                fileLog.Write(text + "\n");
+            }
         }
         #endregion
     }
