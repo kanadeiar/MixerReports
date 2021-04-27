@@ -16,9 +16,11 @@ namespace MixerReports.lib.Services
         /// <summary> Адрес контроллера </summary>
         public string Address { get; set; } = "10.0.57.10";
         /// <summary> Уставка срабатывания чтения новой заливки </summary>
-        public int SetSecondsToRead { get; set; } = 210;
+        public int SetSecondsToRead { get; set; } = 220;
         /// <summary> Пропорция алюминий к воде </summary>
         public int AluminiumProp { get; set; } = 20;
+        /// <summary> Корректировка временная каждой заливки </summary>
+        public int SecondsCorrect { get; set; } = - 10;
 
         public Sharp7ReaderService()
         {
@@ -60,13 +62,13 @@ namespace MixerReports.lib.Services
                 secondsBegin = buffer.GetDIntAt(0); //прошло секунд заливки
                 if (secondsBegin > SetSecondsToRead && _nowMixRunning) //заливка окончена по времени
                 {
-                    mix = GetGoodMix(_S7Client, secondsBegin);
+                    mix = GetGoodMix(_S7Client, SecondsCorrect);
                     _nowMixRunning = false;
                     outResult = true;
                 }
                 if (!mixRunning && _nowMixRunning) //заливка ошибочно закончена
                 {
-                    mix = GetBadMix(_S7Client, secondsBegin);
+                    mix = GetBadMix(_S7Client, SecondsCorrect);
                     _nowMixRunning = false;
                     outResult = true;
                 }
@@ -94,7 +96,7 @@ namespace MixerReports.lib.Services
             var mix = new Mix
             {
                 Number = 1,
-                DateTime = DateTime.Now.AddSeconds(- seconds),
+                DateTime = DateTime.Now.AddSeconds(seconds),
                 FormNumber = bufferDb.GetIntAt(0),
                 RecipeNumber = 0,
                 MixerTemperature = bufferDb.GetIntAt(6) / 10.0f,
@@ -135,7 +137,7 @@ namespace MixerReports.lib.Services
             var mix = new Mix
             {
                 Number = 1,
-                DateTime = DateTime.Now.AddSeconds(- seconds),
+                DateTime = DateTime.Now.AddSeconds(seconds),
                 FormNumber = bufferDb.GetIntAt(0),
                 RecipeNumber = 0,
                 MixerTemperature = bufferDb.GetIntAt(6) / 10.0f,

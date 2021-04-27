@@ -13,6 +13,9 @@ namespace MixerReports.lib.Interfaces
         /// <summary> Адрес контроллера </summary>
         string Address { get; set; }
 
+        /// <summary> Корректировка временная каждой заливки </summary>
+        int SecondsCorrect { get; set; }
+
         /// <summary> Тест соединения с контроллером </summary>
         bool TestConnection(out int error);
 

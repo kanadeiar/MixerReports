@@ -192,8 +192,14 @@ namespace MixerReportsServer.ViewModels
             Mix mix = null;
             try
             {
-                _sharp7ReaderService.SetSecondsToRead = Settings.SetSecondsToRead;
-                _sharp7ReaderService.Address = Settings.Address;
+                if (Settings.Changed)
+                {
+                    _sharp7ReaderService.SetSecondsToRead = Settings.SetSecondsToRead;
+                    _sharp7ReaderService.Address = Settings.Address;
+                    _sharp7ReaderService.AluminiumProp = Settings.AluminiumProp;
+                    _sharp7ReaderService.SecondsCorrect = Settings.SecondsCorrect;
+                    Settings.Changed = false;
+                }
                 if (_sharp7ReaderService.GetMixOnTime(out seconds, out error, out mix))
                 {
                     ConnectToPLC = true;
@@ -226,7 +232,7 @@ namespace MixerReportsServer.ViewModels
                     _Mixes.Add(mix);
                     OnPropertyChanged(nameof(LastMixes));
                     OnPropertyChanged(nameof(NowShiftMixes));
-                    AddToLog($"{DateTime.Now} Заливка: {mix.DateTime} номер: {mix.Number} номер формы: {mix.FormNumber} нормальность: {mix.NormalStr} температура: {mix.MixerTemperature}");
+                    AddToLog($"{DateTime.Now:dd.MM.yyyy HH:mm:ss}, Заливка: {mix.DateTime:dd.MM.yyyy HH:mm:ss}, номер заливки: {mix.Number}, номер формы: {mix.FormNumber}, температура: {mix.MixerTemperature}, норма: {mix.NormalStr} ");
                     ConnectToDataBase = true;
                 }
                 catch (ArgumentNullException ex)

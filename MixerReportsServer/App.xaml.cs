@@ -35,8 +35,8 @@ namespace MixerReportsServer
 
             services.AddScoped<IRepository<Mix>, MixRepository>();
 
-            services.AddScoped<ISharp7ReaderService, Sharp7ReaderService>();
-            //services.AddScoped<ISharp7ReaderService, DebugReaderService>();
+            //services.AddScoped<ISharp7ReaderService, Sharp7ReaderService>();
+            services.AddScoped<ISharp7ReaderService, DebugReaderService>();
 
         }
 

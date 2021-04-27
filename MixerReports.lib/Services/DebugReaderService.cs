@@ -10,9 +10,10 @@ namespace MixerReports.lib.Services
         private bool _edgeMixRunning = false; //звонок новой заливки
         private Random _random = new Random();
 
-        public int SetSecondsToRead { get; set; } = 210;
+        public int SetSecondsToRead { get; set; } = 220;
         public int AluminiumProp { get; set; } = 20;
         public string Address { get; set; } = "10.0.57.10";
+        public int SecondsCorrect { get; set; } = - 10;
 
         public bool TestConnection(out int error)
         {
@@ -33,7 +34,7 @@ namespace MixerReports.lib.Services
                 mix = new Mix
                 {
                     Number = 1,
-                    DateTime = DateTime.Now.AddSeconds(-_seconds),
+                    DateTime = DateTime.Now.AddSeconds(SecondsCorrect),
                     FormNumber = _random.Next(1, 100),
                     RecipeNumber = 0,
                     MixerTemperature = (float)_random.NextDouble() * 10.0f + 50.0f,
