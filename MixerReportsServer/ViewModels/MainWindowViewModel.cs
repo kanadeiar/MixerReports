@@ -193,6 +193,7 @@ namespace MixerReportsServer.ViewModels
             try
             {
                 _sharp7ReaderService.SetSecondsToRead = Settings.SetSecondsToRead;
+                _sharp7ReaderService.Address = Settings.Address;
                 if (_sharp7ReaderService.GetMixOnTime(out seconds, out error, out mix))
                 {
                     ConnectToPLC = true;

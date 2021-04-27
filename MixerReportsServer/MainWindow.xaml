@@ -147,6 +147,12 @@
                             <TextBox Width="200" HorizontalAlignment="Left" Text="{Binding Settings.SetSecondsToRead}" ToolTip="Ввести целое число"/>
                         </StackPanel>
                     </GroupBox>
+                    <GroupBox Header="Настройка связи с контроллером" DockPanel.Dock="Top">
+                        <StackPanel>
+                            <TextBlock Text="IP-адрес контроллера" TextWrapping="WrapWithOverflow"/>
+                            <TextBox Width="200" HorizontalAlignment="Left" Text="{Binding Settings.Address}" ToolTip="Ввести IP-адрес контроллера"/>
+                        </StackPanel>
+                    </GroupBox>
                     <Grid>
 
                     </Grid>

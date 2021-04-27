@@ -12,5 +12,14 @@ namespace MixerReportsServer.Models
             get => _SetSecondsToRead;
             set => Set(ref _SetSecondsToRead, value);
         }
+
+        private string _Address = "10.0.57.10";
+
+        /// <summary> IP адрес контроллера </summary>
+        public string Address
+        {
+            get => _Address;
+            set => Set(ref _Address, value);
+        }
     }
 }

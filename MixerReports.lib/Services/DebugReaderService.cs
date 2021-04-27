@@ -12,6 +12,8 @@ namespace MixerReports.lib.Services
 
         public int SetSecondsToRead { get; set; } = 210;
         public int AluminiumProp { get; set; } = 20;
+        public string Address { get; set; } = "10.0.57.10";
+
         public bool TestConnection(out int error)
         {
             error = 0;

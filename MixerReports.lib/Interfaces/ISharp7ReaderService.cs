@@ -10,6 +10,9 @@ namespace MixerReports.lib.Interfaces
         /// <summary> Пропорция алюминий к воде </summary>
         int AluminiumProp { get; set; }
 
+        /// <summary> Адрес контроллера </summary>
+        string Address { get; set; }
+
         /// <summary> Тест соединения с контроллером </summary>
         bool TestConnection(out int error);
 
