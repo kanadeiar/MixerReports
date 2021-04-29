@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using MixerReportsCorrector.ViewModel;
 
 namespace MixerReportsCorrector
 {
@@ -13,5 +10,21 @@ namespace MixerReportsCorrector
     /// </summary>
     public partial class App : Application
     {
+        private static IServiceProvider __Services;
+        private static IServiceCollection GetServices()
+        {
+            var services = new ServiceCollection();
+            InitializeServices(services);
+            return services;
+        }
+        public static IServiceProvider Services => __Services ??= GetServices().BuildServiceProvider();
+        /// <summary> Инит сервисов </summary>
+        /// <param name="services">сервисы приложения</param>
+        private static void InitializeServices(IServiceCollection services)
+        {
+            services.AddScoped<MainWindowViewModel>();
+
+        }
+
     }
 }
