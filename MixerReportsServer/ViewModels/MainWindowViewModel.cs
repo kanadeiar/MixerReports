@@ -19,7 +19,7 @@ namespace MixerReportsServer.ViewModels
 {
     class MainWindowViewModel : ViewModel
     {
-        private readonly IRepository<Mix> _Mixes;
+        //private readonly IRepository<Mix> _Mixes;
         private readonly Timer _timer = new Timer(3_000);
         private readonly ISharp7ReaderService _sharp7ReaderService;
 
@@ -120,9 +120,9 @@ namespace MixerReportsServer.ViewModels
 
         #endregion
 
-        public MainWindowViewModel(ISharp7ReaderService sharp7ReaderService, IRepository<Mix> mixes)
+        public MainWindowViewModel(ISharp7ReaderService sharp7ReaderService)
         {
-            _Mixes = mixes;
+            //_Mixes = mixes;
             _sharp7ReaderService = sharp7ReaderService;
             if (File.Exists("data.json"))
                 Settings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText("data.json"));
@@ -228,7 +228,13 @@ namespace MixerReportsServer.ViewModels
                         .OrderByDescending(r => r.Number)
                         .FirstOrDefault()?.Number + 1 ?? 1;
                     Mixes.Add(mix);
-                    _Mixes.Add(mix);
+                    var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
+                        .UseSqlServer(App.DefaultConnectionString).Options;
+                    using (var db = new SPBSUMixerRaportsEntities(options))
+                    {
+                        db.Mixes.Add(mix);
+                        db.SaveChanges();
+                    }
                     OnPropertyChanged(nameof(LastMixes));
                     OnPropertyChanged(nameof(NowShiftMixes));
                     AddToLog($"{DateTime.Now:dd.MM.yyyy HH:mm:ss}, Заливка: {mix.DateTime:dd.MM.yyyy HH:mm:ss}, номер заливки: {mix.Number}, номер формы: {mix.FormNumber}, температура: {mix.MixerTemperature}, норма: {mix.NormalStr} ");
@@ -258,19 +264,19 @@ namespace MixerReportsServer.ViewModels
 
             _timer.Enabled = true;
         }
-
+        /// <summary> Загрузка данных из бд в вьюмодель </summary>
         private void LoadData()
         {
             var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
-                .UseSqlServer(App.GetDefaultConnectionString()).Options;
+                .UseSqlServer(App.DefaultConnectionString).Options;
+            Mixes.Clear();
             using (var db = new SPBSUMixerRaportsEntities(options))
             {
                 db.Database.Migrate();
-            }
-            Mixes.Clear();
-            foreach (var mix in _Mixes.GetAll())
-            {
-                Mixes.Add(mix);
+                foreach (var mix in db.Mixes.Where(m => m.DateTime >= DateTime.Now.AddDays(- 7)))
+                {
+                    Mixes.Add(mix);
+                }
             }
             OnPropertyChanged(nameof(LastMixes));
             OnPropertyChanged(nameof(NowShiftMixes));

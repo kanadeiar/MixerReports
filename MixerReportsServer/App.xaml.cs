@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Configuration;
 using System.Windows;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using MixerReports.lib.Data;
-using MixerReports.lib.Data.Base;
 using MixerReports.lib.Interfaces;
-using MixerReports.lib.Models;
 using MixerReports.lib.Services;
 using MixerReportsServer.ViewModels;
 
@@ -25,24 +21,27 @@ namespace MixerReportsServer
             return services;
         }
         public static IServiceProvider Services => __Services ??= GetServices().BuildServiceProvider();
+
+        private static string __DefaultConnectionString;
+        public static string DefaultConnectionString => __DefaultConnectionString ??= GetDefaultConnectionString();
+
         /// <summary> Инит сервисов </summary>
         /// <param name="services">сервисы приложения</param>
         private static void InitializeServices(IServiceCollection services)
         {
-            services.AddDbContext<SPBSUMixerRaportsEntities>(c => c.UseSqlServer(GetDefaultConnectionString()));
+            //services.AddDbContext<SPBSUMixerRaportsEntities>(c => c.UseSqlServer(GetDefaultConnectionString()));
 
             services.AddScoped<MainWindowViewModel>();
 
-            services.AddScoped<IRepository<Mix>, MixRepository>();
+            //services.AddScoped<IRepository<Mix>, MixRepository>();
 #if DEBUG
             services.AddScoped<ISharp7ReaderService, DebugReaderService>();
 #else
             services.AddScoped<ISharp7ReaderService, Sharp7ReaderService>();
 #endif
-
         }
 
-        public static string GetDefaultConnectionString()
+        private static string GetDefaultConnectionString()
         {
             AppSettingsReader ar = new AppSettingsReader();
             var password = ((string)ar.GetValue("password", typeof(string))).Decrypt();
