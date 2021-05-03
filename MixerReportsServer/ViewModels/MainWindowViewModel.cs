@@ -227,7 +227,6 @@ namespace MixerReportsServer.ViewModels
                     mix.Number = NowShiftMixes
                         .OrderByDescending(r => r.Number)
                         .FirstOrDefault()?.Number + 1 ?? 1;
-                    Mixes.Add(mix);
                     var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
                         .UseSqlServer(App.DefaultConnectionString).Options;
                     using (var db = new SPBSUMixerRaportsEntities(options))
@@ -235,6 +234,7 @@ namespace MixerReportsServer.ViewModels
                         db.Mixes.Add(mix);
                         db.SaveChanges();
                     }
+                    Mixes.Add(mix);
                     OnPropertyChanged(nameof(LastMixes));
                     OnPropertyChanged(nameof(NowShiftMixes));
                     AddToLog($"{DateTime.Now:dd.MM.yyyy HH:mm:ss}, Заливка: {mix.DateTime:dd.MM.yyyy HH:mm:ss}, номер заливки: {mix.Number}, номер формы: {mix.FormNumber}, температура: {mix.MixerTemperature}, норма: {mix.NormalStr} ");
@@ -253,8 +253,6 @@ namespace MixerReportsServer.ViewModels
                 catch (DbUpdateException ex)
                 {
                     AddToLog($"{DateTime.Now} Ошибка обновления данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}");
-                    _Mixes = (IRepository<Mix>)App.Services.GetService(typeof(IRepository<Mix>));
-                    AddToLog("Попытка починки приложения - пересоздание репозитория базы данных");
                     ConnectToDataBase = false;
                 }
                 catch (Exception ex)
