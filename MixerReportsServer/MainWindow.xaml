@@ -9,7 +9,8 @@
         Height="500" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Background="LightGreen"
 
         Title="{Binding Title}"
-        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}" Closing="Window_Closing">
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}" 
+        Closing="Window_Closing">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>

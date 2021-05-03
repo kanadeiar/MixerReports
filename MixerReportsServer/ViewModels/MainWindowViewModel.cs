@@ -7,7 +7,6 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
-using MixerReports.lib.Data;
 using MixerReports.lib.Data.Base;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
