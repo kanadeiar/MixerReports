@@ -92,7 +92,7 @@ namespace MixerReports.lib.Services
             client.DBRead(401, 0, 300, bufferDb);
             var actSandMud = bufferDb.GetDIntAt(20) / 100.0f;
             var densSand = bufferDb.GetIntAt(122);
-            var sandInMud = (actSandMud / densSand) * 1200.0f;
+            var sandInMud = (actSandMud / densSand) * 1150.0f;
             var mix = new Mix
             {
                 Number = 1,
@@ -133,7 +133,7 @@ namespace MixerReports.lib.Services
             client.DBRead(401, 0, 300, bufferDb);
             var actSandMud = bufferDb.GetDIntAt(20) / 100.0f;
             var densSand = bufferDb.GetIntAt(122);
-            var sandInMud = (actSandMud / densSand) * 1200.0f;
+            var sandInMud = (actSandMud / densSand) * 1150.0f;
             var mix = new Mix
             {
                 Number = 1,
