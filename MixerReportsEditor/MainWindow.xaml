@@ -26,8 +26,111 @@
             </StatusBarItem>
         </StatusBar>
         <TabControl>
-            <TabItem Header="Последние два часа" Height="40">
+            <TabItem Header="Ввод данных" Height="40">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.Row="0" Header="Оперативные данные">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="5, 0">
+                                <TextBlock Text="Смена продолжается:"/>
+                                <TextBox Text="1 час. 1 мин." IsReadOnly="True" FontSize="14" FontWeight="Bold"/>
+                            </StackPanel>
+                            <StackPanel Margin="5, 0">
+                                <TextBlock Text="Всего залито форм:"/>
+                                <TextBox Text="10" IsReadOnly="True" FontSize="14" FontWeight="Bold"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Header="Ввод новых данных по заливкам">
+                        <DataGrid>
 
+                        </DataGrid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Данные по сменам">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.Row="0" Header="Фильтрация по дате работы смен">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Вчерашние две смены" Padding="5" VerticalAlignment="Center"/>
+                            <StackPanel>
+                                <TextBlock Text="Выбор даты работы двух смен:" Margin="10, 0"/>
+                                <DatePicker ToolTip="Выберите дату, за которую следует отобразить данные" Margin="10,0" FontSize="14" FontWeight="Bold"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <TabControl Grid.Row="1">
+                        <TabItem Header="День - с 8 до 20 часов" Height="30">
+                            <DataGrid>
+
+                            </DataGrid>
+                        </TabItem>
+                        <TabItem Header="Ночь - с 20 до 8 часов" Height="30">
+                            <DataGrid>
+
+                            </DataGrid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Архивные данные">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Набор фильтров">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="5, 0">
+                                <TextBlock Text="Начало:" VerticalAlignment="Center"/>
+                                <DatePicker Width="180" Name="DatePickerSelectFrom" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                                <TextBlock Text="Конец:" VerticalAlignment="Center"/>
+                                <DatePicker Width="180" Name="DatePickerSelectTo" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Header="Отфильтрованные архивные данные">
+                        <DataGrid>
+
+                        </DataGrid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Редактирование данных">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <GridSplitter Grid.Column="0" Width="5" Background="Transparent"/>
+                    <GroupBox Grid.Column="0" Header="Все отчеты за последние два часа">
+                        <DataGrid>
+
+                        </DataGrid>
+                    </GroupBox>
+                    <GroupBox Grid.Column="1" Header="Подробные сведения выделенного отчета">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
             </TabItem>
         </TabControl>
     </DockPanel>

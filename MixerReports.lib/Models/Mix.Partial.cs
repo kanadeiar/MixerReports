@@ -9,8 +9,6 @@ namespace MixerReports.lib.Models
 {
     public partial class Mix
     {
-
-
         [NotMapped] public string NormalStr => (Normal) ? "Норма" : "Ошибка";
 
         [NotMapped] public string UndersizedStr => (Undersized) ? "Недоросток" : String.Empty;
@@ -20,6 +18,10 @@ namespace MixerReports.lib.Models
         [NotMapped] public string BoiledStr => (Boiled) ? "Закипел" : string.Empty;
 
         [NotMapped] public string OtherStr => (Other) ? "Другое" : string.Empty;
+
+        [NotMapped] public string IsMudStr => (IsMud) ? "Сброс в шлам" : string.Empty;
+
+        [NotMapped] public string IsExperimentStr => (IsExperiment) ? "Эксперимент" : string.Empty;
 
         /// <summary> Характеристики в виде строки </summary>
         [NotMapped]
@@ -32,6 +34,8 @@ namespace MixerReports.lib.Models
                 if (Overground) strs.Add(OvergroundStr);
                 if (Boiled) strs.Add(BoiledStr);
                 if (Other) strs.Add(OtherStr);
+                if (IsMud) strs.Add(IsMudStr);
+                if (IsExperiment) strs.Add(IsExperimentStr);
                 if (strs.Count > 1)
                     return strs.Aggregate((m, n) => m + ',' + n);
                 else if (strs.Count > 0)

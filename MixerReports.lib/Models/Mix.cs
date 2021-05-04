@@ -300,6 +300,24 @@ namespace MixerReports.lib.Models
             set => Set(ref _Boiled, value);
         }
 
+        private bool _IsMud;
+
+        /// <summary> Шлам, скинут в шлам </summary>
+        public bool IsMud
+        {
+            get => _IsMud;
+            set => Set(ref _IsMud, value);
+        }
+
+        private bool _IsExperiment;
+
+        /// <summary> Эксперимент </summary>
+        public bool IsExperiment
+        {
+            get => _IsExperiment;
+            set => Set(ref _IsExperiment, value);
+        }
+
         private bool _Other;
 
         /// <summary> Другое </summary>
