@@ -147,7 +147,6 @@ namespace MixerReportsServer.ViewModels
         private void OnLoadDataCommandExecuted(object p)
         {
             LoadData();
-
         }
 
         private ICommand _ClosedCommand;
