@@ -7,6 +7,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using MixerReports.lib.Data.Base;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
@@ -228,31 +229,42 @@ namespace MixerReportsServer.ViewModels
                         .OrderByDescending(r => r.Number)
                         .FirstOrDefault()?.Number + 1 ?? 1;
                     var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
-                        .UseSqlServer(App.DefaultConnectionString).Options;
+                        .UseSqlServer(App.DefaultConnectionString, o => o.EnableRetryOnFailure()).Options;
                     using (var db = new SPBSUMixerRaportsEntities(options))
                     {
                         db.Mixes.Add(mix);
                         db.SaveChanges();
                     }
+
                     Mixes.Add(mix);
                     OnPropertyChanged(nameof(LastMixes));
                     OnPropertyChanged(nameof(NowShiftMixes));
-                    AddToLog($"{DateTime.Now:dd.MM.yyyy HH:mm:ss}, Заливка: {mix.DateTime:dd.MM.yyyy HH:mm:ss}, номер заливки: {mix.Number}, номер формы: {mix.FormNumber}, температура: {mix.MixerTemperature}, норма: {mix.NormalStr} ");
+                    AddToLog(
+                        $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}, Заливка: {mix.DateTime:dd.MM.yyyy HH:mm:ss}, номер заливки: {mix.Number}, номер формы: {mix.FormNumber}, температура: {mix.MixerTemperature}, норма: {mix.NormalStr} ");
                     ConnectToDataBase = true;
                 }
                 catch (ArgumentNullException ex)
                 {
-                    AddToLog($"{DateTime.Now} Ошибка отсутствия аргумента при доступе к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
+                    AddToLog(
+                        $"{DateTime.Now} Ошибка отсутствия аргумента при доступе к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
                     ConnectToDataBase = false;
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
-                    AddToLog($"{DateTime.Now} Ошибка конкурентного доступа к базе данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
+                    AddToLog(
+                        $"{DateTime.Now} Ошибка конкурентного доступа к базе данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
                     ConnectToDataBase = false;
                 }
                 catch (DbUpdateException ex)
                 {
-                    AddToLog($"{DateTime.Now} Ошибка обновления данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
+                    AddToLog(
+                        $"{DateTime.Now} Ошибка обновления данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
+                    ConnectToDataBase = false;
+                }
+                catch (RetryLimitExceededException ex)
+                {
+                    AddToLog(
+                        $"{DateTime.Now} Превышение лимита попыток подключения к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
                     ConnectToDataBase = false;
                 }
                 catch (Exception ex)
@@ -268,7 +280,7 @@ namespace MixerReportsServer.ViewModels
         private void LoadData()
         {
             var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
-                .UseSqlServer(App.DefaultConnectionString).Options;
+                .UseSqlServer(App.DefaultConnectionString, o => o.EnableRetryOnFailure()).Options;
             Mixes.Clear();
             using (var db = new SPBSUMixerRaportsEntities(options))
             {

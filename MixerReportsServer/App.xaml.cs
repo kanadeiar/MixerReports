@@ -29,7 +29,7 @@ namespace MixerReportsServer
         /// <param name="services">сервисы приложения</param>
         private static void InitializeServices(IServiceCollection services)
         {
-            //services.AddDbContext<SPBSUMixerRaportsEntities>(c => c.UseSqlServer(GetDefaultConnectionString()));
+            //services.AddDbContext<SPBSUMixerRaportsEntities>(c => c.UseSqlServer(GetDefaultConnectionString(), o => o.EnableRetryOnFailure()));
 
             services.AddScoped<MainWindowViewModel>();
 
