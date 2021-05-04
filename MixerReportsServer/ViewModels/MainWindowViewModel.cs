@@ -304,7 +304,8 @@ namespace MixerReportsServer.ViewModels
                       $"холодная вода: {row.SetColdWater} {row.ActColdWater} горячая вода {row.SetHotWater} {row.ActHotWater} " +
                       $"ипв1: {row.SetMixture1} {row.ActMixture1} ипв2: {row.SetMixture2} {row.ActMixture2} \n" +
                       $"цемент1: {row.SetCement1} {row.ActCement1} цемент2: {row.SetCement2} {row.ActCement2} " +
-                      $"алюминий1: {row.SetAluminium1} {row.ActAluminium1} алюминий2: {row.SetAluminium2} {row.ActAluminium2} песок в шламе: {row.SandInMud}";
+                      $"алюминий1: {row.SetAluminium1} {row.ActAluminium1} алюминий2: {row.SetAluminium2} {row.ActAluminium2} \n" +
+                      $"песок в шламе: {row.SandInMud} плотность песка: {row.DensitySandMud} плотность обратки: {row.DensityRevertMud}";
         }
         #endregion
     }
