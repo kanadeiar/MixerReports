@@ -242,22 +242,22 @@ namespace MixerReportsServer.ViewModels
                 }
                 catch (ArgumentNullException ex)
                 {
-                    AddToLog($"{DateTime.Now} Ошибка отсутствия аргумента при доступе к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}");
+                    AddToLog($"{DateTime.Now} Ошибка отсутствия аргумента при доступе к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
                     ConnectToDataBase = false;
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
-                    AddToLog($"{DateTime.Now} Ошибка конкурентного доступа к базе данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}");
+                    AddToLog($"{DateTime.Now} Ошибка конкурентного доступа к базе данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
                     ConnectToDataBase = false;
                 }
                 catch (DbUpdateException ex)
                 {
-                    AddToLog($"{DateTime.Now} Ошибка обновления данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}");
+                    AddToLog($"{DateTime.Now} Ошибка обновления данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
                     ConnectToDataBase = false;
                 }
                 catch (Exception ex)
                 {
-                    AddToLog($"{DateTime.Now} Ошибка связи с базой данных {ex.Message}, Подробности: {ex?.InnerException?.Message}");
+                    AddToLog($"{DateTime.Now} Ошибка связи с базой данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
                     ConnectToDataBase = false;
                 }
             }
@@ -296,6 +296,15 @@ namespace MixerReportsServer.ViewModels
             Log += text + "\n";
             using var fileLog = File.AppendText("log.txt");
             fileLog.Write(text + "\n");
+        }
+        private static string PrintDatas(Mix row)
+        {
+            return $" {row.DateTime:g} {row.Number} Форма №{row.FormNumber} {row.MixerTemperature}, " +
+                      $"обратный шлам: {row.SetRevertMud} {row.ActRevertMud} песчаный шлам: {row.SetSandMud} {row.ActSandMud} \n" +
+                      $"холодная вода: {row.SetColdWater} {row.ActColdWater} горячая вода {row.SetHotWater} {row.ActHotWater} " +
+                      $"ипв1: {row.SetMixture1} {row.ActMixture1} ипв2: {row.SetMixture2} {row.ActMixture2} \n" +
+                      $"цемент1: {row.SetCement1} {row.ActCement1} цемент2: {row.SetCement2} {row.ActCement2} " +
+                      $"алюминий1: {row.SetAluminium1} {row.ActAluminium1} алюминий2: {row.SetAluminium2} {row.ActAluminium2} песок в шламе: {row.SandInMud}";
         }
         #endregion
     }
