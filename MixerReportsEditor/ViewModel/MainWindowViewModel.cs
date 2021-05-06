@@ -24,6 +24,9 @@ namespace MixerReportsEditor.ViewModel
         public ObservableCollection<Mix> Mixes { get; } = new ();
 
 
+
+        #region Данные по сменам за выбранную дату - дневная и ночная
+
         private DateTime _ShiftSelectDateTime = DateTime.Today.AddDays(- 1);
 
         /// <summary> Выбранная дата работы двух смен </summary>
@@ -57,6 +60,8 @@ namespace MixerReportsEditor.ViewModel
                 return mixs;
             }
         }
+
+        #endregion
 
         #region Supports
 

@@ -65,14 +65,14 @@
                     </Grid.RowDefinitions>
                     <GroupBox Grid.Row="0" Header="Фильтрация по дате работы смен">
                         <StackPanel Orientation="Horizontal">
-                            <Button Content="Вчерашний день" Padding="5" VerticalAlignment="Center"
+                            <Button Content="Вчерашний день" Padding="5" VerticalAlignment="Center" Height="40"
                                     Command="{Binding SetYesterdayShiftMixesCommand}"/>
                             <StackPanel>
                                 <TextBlock Text="Выбор даты работы двух смен:" Margin="5, 0"/>
                                 <DatePicker ToolTip="Выберите дату, за которую следует отобразить данные" Margin="5,0" FontSize="14" FontWeight="Bold"
                                             SelectedDate="{Binding ShiftSelectDateTime}"/>
                             </StackPanel>
-                            <Button Content="Обновить" Padding="5" VerticalAlignment="Center"
+                            <Button Content="Обновить" Padding="5" VerticalAlignment="Center" Height="40"
                                     Command="{Binding UpdateShiftMixesCommand}"/>
                         </StackPanel>
                     </GroupBox>
@@ -132,15 +132,32 @@
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Margin="5, 0">
                                 <TextBlock Text="Начало:" VerticalAlignment="Center"/>
-                                <DatePicker Width="180" Name="DatePickerSelectFrom" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                                <DatePicker Width="180" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
                                 <TextBlock Text="Конец:" VerticalAlignment="Center"/>
-                                <DatePicker Width="180" Name="DatePickerSelectTo" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                                <DatePicker Width="180" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
                             </StackPanel>
+                            <Button Content="Обновить" Padding="5" Height="40" VerticalAlignment="Center"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Grid.Row="1" Header="Отфильтрованные архивные данные">
-                        <DataGrid>
-
+                        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
+                                <DataGridTextColumn Header="Датавремя" Binding="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
+                                <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
+                                <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
+                                <DataGridTextColumn Header="?" Binding="{Binding UndersizedStr}"/>
+                                <DataGridTextColumn Header="?" Binding="{Binding OvergroundStr}"/>
+                                <DataGridTextColumn Header="?" Binding="{Binding BoiledStr}"/>
+                                <DataGridTextColumn Header="?" Binding="{Binding IsMudStr}"/>
+                                <DataGridTextColumn Header="?" Binding="{Binding IsExperimentStr}"/>
+                                <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
+                            </DataGrid.Columns>
                         </DataGrid>
                     </GroupBox>
                 </Grid>
