@@ -45,7 +45,11 @@
                                 <TextBox Text="1 час. 1 мин." IsReadOnly="True" FontSize="14" FontWeight="Bold"/>
                             </StackPanel>
                             <StackPanel Margin="5, 0">
-                                <TextBlock Text="Всего залито форм:"/>
+                                <TextBlock Text="Нормальных заливок:"/>
+                                <TextBox Text="10" IsReadOnly="True" FontSize="14" FontWeight="Bold"/>
+                            </StackPanel>
+                            <StackPanel Margin="5, 0">
+                                <TextBlock Text="Всего заливок:"/>
                                 <TextBox Text="10" IsReadOnly="True" FontSize="14" FontWeight="Bold"/>
                             </StackPanel>
                         </StackPanel>
@@ -57,7 +61,125 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Данные по сменам">
+            <TabItem Header="Заливки за смену">
+                <TabControl>
+                    <TabItem Header="Текущая смена" Height="30">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <GroupBox Grid.Row="0" Header="Оперативные данные">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Margin="5, 0">
+                                        <TextBlock Text="Смена продолжается:"/>
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                                 Text="{Binding TimeSpanCurrentShiftMixes, Mode=OneWay}"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="5, 0">
+                                        <TextBlock Text="Нормальных заливок:"/>
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                                 Text="{Binding CountNormalCurrentShiftMixes, Mode=OneWay}"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="5, 0">
+                                        <TextBlock Text="Всего заливок:"/>
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                                 Text="{Binding CountCurrentShiftMixes, Mode=OneWay}"/>
+                                    </StackPanel>
+                                    <Button Content="Обновить" Padding="5" VerticalAlignment="Center" Height="40"
+                                            Command="{Binding UpdateCurrentShiftMixesCommand}"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Grid.Row="1" Header="Данные по заливкам за текущую рабочу смену">
+                                <DataGrid AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen"
+                                          VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                          ItemsSource="{Binding CurrentShiftMixes}">
+                                    <DataGrid.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel/>
+                                        </ItemsPanelTemplate>
+                                    </DataGrid.ItemsPanel>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
+                                        <DataGridTextColumn Header="Датавремя" Binding="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
+                                        <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
+                                        <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding UndersizedStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding OvergroundStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding BoiledStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding IsMudStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding IsExperimentStr}"/>
+                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </GroupBox>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Прошлая смена" Height="30">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <GroupBox Grid.Row="0" Header="Оперативные данные">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Margin="5, 0">
+                                        <TextBlock Text="Начало этой смены:"/>
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                                 Text="{Binding TimeBeginPreShiftMixes, Mode=OneWay}"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="5, 0">
+                                        <TextBlock Text="Нормальных заливок:"/>
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                                 Text="{Binding CountNormalPreShiftMixes, Mode=OneWay}"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="5, 0">
+                                        <TextBlock Text="Всего заливок:"/>
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                                 Text="{Binding CountPreShiftMixes, Mode=OneWay}"/>
+                                    </StackPanel>
+                                    <Button Content="Обновить" Padding="5" VerticalAlignment="Center" Height="40"
+                                            Command="{Binding UpdatePreShiftMixesCommand}"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Grid.Row="1" Header="Данные по заливкам за прошедшую смену">
+                                <DataGrid AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen" EnableRowVirtualization="True"
+                                          VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                          ItemsSource="{Binding PreShiftMixes}">
+                                    <DataGrid.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel/>
+                                        </ItemsPanelTemplate>
+                                    </DataGrid.ItemsPanel>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
+                                        <DataGridTextColumn Header="Датавремя" Binding="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
+                                        <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
+                                        <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding UndersizedStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding OvergroundStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding BoiledStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding IsMudStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding IsExperimentStr}"/>
+                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </GroupBox>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem Header="Данные заливок по сменам">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -65,8 +187,6 @@
                     </Grid.RowDefinitions>
                     <GroupBox Grid.Row="0" Header="Фильтрация по дате работы смен">
                         <StackPanel Orientation="Horizontal">
-                            <Button Content="Вчерашний день" Padding="5" VerticalAlignment="Center" Height="40"
-                                    Command="{Binding SetYesterdayShiftMixesCommand}"/>
                             <StackPanel>
                                 <TextBlock Text="Выбор даты работы двух смен:" Margin="5, 0"/>
                                 <DatePicker ToolTip="Выберите дату, за которую следует отобразить данные" Margin="5,0" FontSize="14" FontWeight="Bold"
@@ -78,46 +198,84 @@
                     </GroupBox>
                     <TabControl Grid.Row="1">
                         <TabItem Header="День - с 8 до 20 часов" Height="30">
-                            <DataGrid ItemsSource="{Binding ShiftDayMixes}" AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
-                                    <DataGridTextColumn Header="Датавремя" Binding="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
-                                    <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
-                                    <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
-                                    <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
-                                    <DataGridTextColumn Header="?" Binding="{Binding UndersizedStr}"/>
-                                    <DataGridTextColumn Header="?" Binding="{Binding OvergroundStr}"/>
-                                    <DataGridTextColumn Header="?" Binding="{Binding BoiledStr}"/>
-                                    <DataGridTextColumn Header="?" Binding="{Binding IsMudStr}"/>
-                                    <DataGridTextColumn Header="?" Binding="{Binding IsExperimentStr}"/>
-                                    <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
-                                    <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
-                                    <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
-                                    <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
-                                    <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                    <TextBlock>
+                                        Количество нормальных заливок: <TextBlock Text="{Binding CountShiftDayMixes}" FontWeight="Bold"/> шт.,
+                                        всего заливок: <TextBlock Text="{Binding CountShiftDayMixes}" FontWeight="Bold"/> шт.
+                                    </TextBlock>
+                                </StackPanel>
+                                <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen"
+                                          VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                          ItemsSource="{Binding ShiftDayMixes}">
+                                    <DataGrid.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel/>
+                                        </ItemsPanelTemplate>
+                                    </DataGrid.ItemsPanel>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
+                                        <DataGridTextColumn Header="Датавремя" Binding="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
+                                        <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
+                                        <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding UndersizedStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding OvergroundStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding BoiledStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding IsMudStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding IsExperimentStr}"/>
+                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
                         </TabItem>
                         <TabItem Header="Ночь - с 20 до 8 часов" Height="30">
-                            <DataGrid ItemsSource="{Binding ShiftNightMixes}" AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
-                                    <DataGridTextColumn Header="Датавремя" Binding="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
-                                    <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
-                                    <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
-                                    <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
-                                    <DataGridTextColumn Header="?" Binding="{Binding UndersizedStr}"/>
-                                    <DataGridTextColumn Header="?" Binding="{Binding OvergroundStr}"/>
-                                    <DataGridTextColumn Header="?" Binding="{Binding BoiledStr}"/>
-                                    <DataGridTextColumn Header="?" Binding="{Binding IsMudStr}"/>
-                                    <DataGridTextColumn Header="?" Binding="{Binding IsExperimentStr}"/>
-                                    <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
-                                    <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
-                                    <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
-                                    <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
-                                    <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                    <TextBlock>
+                                        Количество нормальных заливок: <TextBlock Text="{Binding CountShiftNightMixes}" FontWeight="Bold"/> шт.,
+                                        всего заливок: <TextBlock Text="{Binding CountShiftNightMixes}" FontWeight="Bold"/> шт.
+                                    </TextBlock>
+                                </StackPanel>
+                                <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen"
+                                          VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                          ItemsSource="{Binding ShiftNightMixes}">
+                                    <DataGrid.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel/>
+                                        </ItemsPanelTemplate>
+                                    </DataGrid.ItemsPanel>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
+                                        <DataGridTextColumn Header="Датавремя" Binding="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
+                                        <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
+                                        <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding UndersizedStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding OvergroundStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding BoiledStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding IsMudStr}"/>
+                                        <DataGridTextColumn Header="?" Binding="{Binding IsExperimentStr}"/>
+                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
                         </TabItem>
                     </TabControl>
                 </Grid>
@@ -130,17 +288,35 @@
                     </Grid.RowDefinitions>
                     <GroupBox Header="Набор фильтров">
                         <StackPanel Orientation="Horizontal">
-                            <StackPanel Margin="5, 0">
-                                <TextBlock Text="Начало:" VerticalAlignment="Center"/>
-                                <DatePicker Width="180" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
-                                <TextBlock Text="Конец:" VerticalAlignment="Center"/>
-                                <DatePicker Width="180" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
-                            </StackPanel>
-                            <Button Content="Обновить" Padding="5" Height="40" VerticalAlignment="Center"/>
+                            <Grid Margin="5, 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Начало:" VerticalAlignment="Center"/>
+                                <DatePicker Grid.Column="1" Grid.Row="0" Width="180" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"
+                                            SelectedDate="{Binding FilterArchivesBeginDateTime}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Конец:" VerticalAlignment="Center"/>
+                                <DatePicker Grid.Column="1" Grid.Row="1" Width="180" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"
+                                            SelectedDate="{Binding FilterArchivesEndDateTime}"/>
+                            </Grid>
+                            <Button Content="Обновить" Padding="5" Height="40" VerticalAlignment="Center"
+                                    Command="{Binding UpdateFilteredArchiveMixesCommand}"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Grid.Row="1" Header="Отфильтрованные архивные данные">
-                        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen">
+                        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen"
+                                  VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                  ItemsSource="{Binding FilteredArchivesMixes}">
+                            <DataGrid.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel/>
+                                </ItemsPanelTemplate>
+                            </DataGrid.ItemsPanel>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
                                 <DataGridTextColumn Header="Датавремя" Binding="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
