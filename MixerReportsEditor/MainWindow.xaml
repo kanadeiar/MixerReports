@@ -203,11 +203,7 @@
                                         <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
                                         <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding UndersizedStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding OvergroundStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding BoiledStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding IsMudStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding IsExperimentStr}"/>
+                                        <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
                                         <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
@@ -260,11 +256,7 @@
                                         <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
                                         <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding UndersizedStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding OvergroundStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding BoiledStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding IsMudStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding IsExperimentStr}"/>
+                                        <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
                                         <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
@@ -321,11 +313,7 @@
                                         <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
                                         <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding UndersizedStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding OvergroundStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding BoiledStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding IsMudStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding IsExperimentStr}"/>
+                                        <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
                                         <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
@@ -361,11 +349,7 @@
                                         <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
                                         <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding UndersizedStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding OvergroundStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding BoiledStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding IsMudStr}"/>
-                                        <DataGridTextColumn Header="?" Binding="{Binding IsExperimentStr}"/>
+                                        <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
                                         <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
@@ -421,11 +405,7 @@
                                 <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
                                 <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                 <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
-                                <DataGridTextColumn Header="?" Binding="{Binding UndersizedStr}"/>
-                                <DataGridTextColumn Header="?" Binding="{Binding OvergroundStr}"/>
-                                <DataGridTextColumn Header="?" Binding="{Binding BoiledStr}"/>
-                                <DataGridTextColumn Header="?" Binding="{Binding IsMudStr}"/>
-                                <DataGridTextColumn Header="?" Binding="{Binding IsExperimentStr}"/>
+                                <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
                                 <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
                                 <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                 <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
