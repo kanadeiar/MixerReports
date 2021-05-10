@@ -20,8 +20,12 @@ namespace MixerReportsEditor.ViewModel
 
         #region Properties
 
+        #region Данные по заливкам за последние два часа
+
         /// <summary> Заливки за два последних часа, доступные для изменения </summary>
         public ObservableCollection<Mix> Mixes { get; } = new ();
+
+        #endregion
 
         #region Данные по заливкам за смену
 
@@ -254,8 +258,44 @@ namespace MixerReportsEditor.ViewModel
         }
 
         #endregion
-        
-        #region Данные по сменам
+
+        #region Данные по заливкам за последние два часа
+
+        private ICommand _ShowDetailMixWithEditCommand;
+
+        /// <summary> Детальный просмотр данных по заливке с целью ввода данных </summary>
+        public ICommand ShowDetailMixWithEditCommand => _ShowDetailMixWithEditCommand ??=
+            new LambdaCommand(OnShowDetailMixWithEditCommandExecuted, CanShowDetailMixWithEditCommandExecute);
+
+        private bool CanShowDetailMixWithEditCommandExecute(object p) => true;
+
+        private void OnShowDetailMixWithEditCommandExecuted(object p)
+        {
+            if (!(p is Mix mix))
+                return;
+
+            MessageBox.Show($"Дата: {mix.DateTime} номер: {mix.Number} форма: {mix.FormNumber}");
+        }
+
+        private ICommand _UpdateMixCommand;
+
+        /// <summary> Обновить данные заливок за последние два часа </summary>
+        public ICommand UpdateMixCommand => _UpdateMixCommand ??=
+            new LambdaCommand(OnUpdateMixCommandExecuted, CanUpdateMixCommandExecute);
+
+        private bool CanUpdateMixCommandExecute(object p) => true;
+
+        private void OnUpdateMixCommandExecuted(object p)
+        {
+            OnPropertyChanged(nameof(TimeSpanCurrentShiftMixes));
+            OnPropertyChanged(nameof(CountCurrentShiftMixes));
+            OnPropertyChanged(nameof(CountNormalCurrentShiftMixes));
+            LoadData();
+        }
+
+        #endregion
+
+        #region Данные по заливкам за смену
 
         private ICommand _UpdateCurrentShiftMixesCommand;
 
@@ -289,6 +329,9 @@ namespace MixerReportsEditor.ViewModel
             OnPropertyChanged(nameof(PreShiftMixes));
         }
 
+        #endregion
+
+        #region Данные по заливкам за смену за выбранную дату - дневная и ночная
 
         private ICommand _UpdateShiftMixesCommand;
 
@@ -308,6 +351,10 @@ namespace MixerReportsEditor.ViewModel
             OnPropertyChanged(nameof(CountNormalShiftNightMixes));
         }
 
+        #endregion
+
+        #region Архивные данные за выбранный диапазон дат
+        
         private ICommand _UpdateFilteredArchiveMixesCommand;
 
         /// <summary> Обновить отфильтрованне архивные данные </summary>
@@ -322,7 +369,7 @@ namespace MixerReportsEditor.ViewModel
         }
 
         #endregion
-        
+
         #region Supports
 
         private ICommand _CloseApplicationCommand;

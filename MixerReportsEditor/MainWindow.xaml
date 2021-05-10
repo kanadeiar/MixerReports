@@ -42,22 +42,120 @@
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Margin="5, 0">
                                 <TextBlock Text="Смена продолжается:"/>
-                                <TextBox Text="1 час. 1 мин." IsReadOnly="True" FontSize="14" FontWeight="Bold"/>
+                                <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                         Text="{Binding TimeSpanCurrentShiftMixes, Mode=OneWay}"/>
                             </StackPanel>
                             <StackPanel Margin="5, 0">
                                 <TextBlock Text="Нормальных заливок:"/>
-                                <TextBox Text="10" IsReadOnly="True" FontSize="14" FontWeight="Bold"/>
+                                <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                         Text="{Binding CountNormalCurrentShiftMixes, Mode=OneWay}"/>
                             </StackPanel>
                             <StackPanel Margin="5, 0">
                                 <TextBlock Text="Всего заливок:"/>
-                                <TextBox Text="10" IsReadOnly="True" FontSize="14" FontWeight="Bold"/>
+                                <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                         Text="{Binding CountCurrentShiftMixes, Mode=OneWay}"/>
                             </StackPanel>
+                            <Button Content="Обновить" Padding="5" VerticalAlignment="Center" Height="40"
+                                    Command="{Binding UpdateMixCommand}"/>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Grid.Row="1" Header="Ввод новых данных по заливкам">
-                        <DataGrid>
-
-                        </DataGrid>
+                    <GroupBox Grid.Row="1" Header="Ввод новых данных по заливкам (двойной клик или Enter)">
+                        <ListBox Name="ListBoxMixes" SelectionMode="Single"
+                            ItemsSource="{Binding Mixes}">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.InputBindings>
+                                <KeyBinding Key="Enter"
+                                            Command="{Binding DataContext.ShowDetailMixWithEditCommand, ElementName=ListBoxMixes}"
+                                            CommandParameter="{Binding SelectedItem, ElementName=ListBoxMixes}"/>
+                            </ListBox.InputBindings>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Gray" BorderThickness="1" Padding="5,0" CornerRadius="3">
+                                        <Grid>
+                                            <Grid.InputBindings>
+                                                <MouseBinding Gesture="LeftDoubleClick" 
+                                                              Command="{Binding DataContext.ShowDetailMixWithEditCommand, ElementName=ListBoxMixes}"
+                                                              CommandParameter="{Binding}"/>
+                                            </Grid.InputBindings>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="60"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                                <TextBlock Text="Датавремя заливки:"/>
+                                                <TextBlock FontWeight="Bold"
+                                                           Text="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm}"/>
+                                            </StackPanel>
+                                            <TextBlock Grid.Column="1" Text="№:" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding Number}" FontSize="24" FontWeight="Bold" Margin="10, 0" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="3" Text="Номер формы:" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="4" Text="{Binding FormNumber}" FontSize="24" FontWeight="Bold" Margin="10, 0" VerticalAlignment="Center"/>
+                                            <StackPanel Grid.Column="5" Orientation="Horizontal" VerticalAlignment="Center">
+                                                <CheckBox VerticalAlignment="Center" IsEnabled="False" IsChecked="{Binding Normal}">
+                                                    <CheckBox.LayoutTransform>
+                                                        <ScaleTransform ScaleX="1.8" ScaleY="1.8" />
+                                                    </CheckBox.LayoutTransform>
+                                                </CheckBox>
+                                                <TextBlock  Text="{Binding NormalStr}" FontSize="18" FontWeight="Bold" Margin="10, 0" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="6" VerticalAlignment="Center" Margin="0,0,0,0">
+                                                <CheckBox Content="Недоросток" IsChecked="{Binding Undersized}" IsEnabled="False">
+                                                    <CheckBox.LayoutTransform>
+                                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                    </CheckBox.LayoutTransform>
+                                                </CheckBox>
+                                                <CheckBox Content="Переросток" IsChecked="{Binding Overground}" IsEnabled="False">
+                                                    <CheckBox.LayoutTransform>
+                                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                    </CheckBox.LayoutTransform>
+                                                </CheckBox>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="7" VerticalAlignment="Center" Margin="5,0,0,0">
+                                                <CheckBox Content="Закипел" IsChecked="{Binding Boiled}" IsEnabled="False">
+                                                    <CheckBox.LayoutTransform>
+                                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                    </CheckBox.LayoutTransform>
+                                                </CheckBox>
+                                                <CheckBox Content="Другое" IsChecked="{Binding Other}" IsEnabled="False">
+                                                    <CheckBox.LayoutTransform>
+                                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                    </CheckBox.LayoutTransform>
+                                                </CheckBox>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="8" VerticalAlignment="Center" Margin="5,0,0,0">
+                                                <CheckBox Content="Эксперимент" IsChecked="{Binding IsExperiment}" IsEnabled="False">
+                                                    <CheckBox.LayoutTransform>
+                                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                    </CheckBox.LayoutTransform>
+                                                </CheckBox>
+                                                <CheckBox Content="Сброс в шлам" IsChecked="{Binding IsMud}" IsEnabled="False">
+                                                    <CheckBox.LayoutTransform>
+                                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                    </CheckBox.LayoutTransform>
+                                                </CheckBox>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="9" Margin="5,0,0,0">
+                                                <TextBlock Text="Комментарий:"/>
+                                                <TextBlock Text="{Binding Comment}" FontSize="18"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </GroupBox>
                 </Grid>
             </TabItem>
@@ -335,35 +433,6 @@
                                 <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                             </DataGrid.Columns>
                         </DataGrid>
-                    </GroupBox>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Редактирование данных">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <GridSplitter Grid.Column="0" Width="5" Background="Transparent"/>
-                    <GroupBox Grid.Column="0" Header="Все отчеты за последние два часа">
-                        <DataGrid>
-
-                        </DataGrid>
-                    </GroupBox>
-                    <GroupBox Grid.Column="1" Header="Подробные сведения выделенного отчета">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                        </Grid>
                     </GroupBox>
                 </Grid>
             </TabItem>
