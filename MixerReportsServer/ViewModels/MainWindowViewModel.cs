@@ -7,6 +7,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage;
 using MixerReports.lib.Data.Base;
 using MixerReports.lib.Interfaces;
@@ -228,7 +229,8 @@ namespace MixerReportsServer.ViewModels
                         .OrderByDescending(r => r.Number)
                         .FirstOrDefault()?.Number + 1 ?? 1;
                     var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
-                        .UseSqlServer(App.DefaultConnectionString, o => o.EnableRetryOnFailure()).Options;
+                        .UseSqlServer(App.DefaultConnectionString, o => o.EnableRetryOnFailure())
+                        .ConfigureWarnings(w => w.Throw(RelationalEventId.BoolWithDefaultWarning)).Options;
                     using (var db = new SPBSUMixerRaportsEntities(options))
                     {
                         db.Mixes.Add(mix);
@@ -279,7 +281,8 @@ namespace MixerReportsServer.ViewModels
         private void LoadData()
         {
             var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
-                .UseSqlServer(App.DefaultConnectionString, o => o.EnableRetryOnFailure()).Options;
+                .UseSqlServer(App.DefaultConnectionString, o => o.EnableRetryOnFailure())
+                .ConfigureWarnings(w => w.Throw(RelationalEventId.BoolWithDefaultWarning)).Options;
             Mixes.Clear();
             using (var db = new SPBSUMixerRaportsEntities(options))
             {

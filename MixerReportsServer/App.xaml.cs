@@ -29,8 +29,9 @@ namespace MixerReportsServer
         /// <param name="services">сервисы приложения</param>
         private static void InitializeServices(IServiceCollection services)
         {
-            //services.AddDbContext<SPBSUMixerRaportsEntities>(c => c.UseSqlServer(GetDefaultConnectionString(), o => o.EnableRetryOnFailure()));
-
+            //services.AddDbContext<SPBSUMixerRaportsEntities>(
+            //    c => c.UseSqlServer(GetDefaultConnectionString(), o => o.EnableRetryOnFailure()).ConfigureWarnings(w => w.Throw(RelationalEventId.BoolWithDefaultWarning)));
+            
             services.AddScoped<MainWindowViewModel>();
 
             //services.AddScoped<IRepository<Mix>, MixRepository>();

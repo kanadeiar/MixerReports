@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using MixerReports.lib.Data;
 using MixerReports.lib.Data.Base;
@@ -30,7 +31,9 @@ namespace MixerReportsEditor
         public static string DefaultConnectionString => __DefaultConnectionString ??= GetDefaultConnectionString();
         private static void InitializeServices(IServiceCollection services)
         {
-            services.AddDbContext<SPBSUMixerRaportsEntities>(c => c.UseSqlServer(GetDefaultConnectionString(), o => o.EnableRetryOnFailure()));
+            services.AddDbContext<SPBSUMixerRaportsEntities>(
+                c => c.UseSqlServer(GetDefaultConnectionString(), o => o.EnableRetryOnFailure())
+                    .ConfigureWarnings(w => w.Throw(RelationalEventId.BoolWithDefaultWarning)));
             
             services.AddScoped<MainWindowViewModel>();
 
