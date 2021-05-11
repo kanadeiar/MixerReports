@@ -5,6 +5,8 @@ using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
 using MixerReportsEditor.Commands;
@@ -234,10 +236,24 @@ namespace MixerReportsEditor.ViewModel
             set => Set(ref _Title, value);
         }
 
+        private bool _ConnectToDataBase;
+
+        /// <summary> Инфа про соединение с базой данных </summary>
+        public bool ConnectToDataBase
+        {
+            get => _ConnectToDataBase;
+            set
+            {
+                Set(ref _ConnectToDataBase, value);
+                OnPropertyChanged(nameof(ConnectToDataBaseStr));
+            }
+        }
+        public string ConnectToDataBaseStr => (ConnectToDataBase) ? "Соединение с базой данных установлено" : "Соединение с базой данных потеряно";
+
         #endregion
 
         #endregion
-        
+
         public MainWindowViewModel(IRepository<Mix> mixes)
         {
             _Mixes = mixes;
@@ -246,6 +262,9 @@ namespace MixerReportsEditor.ViewModel
             _timer.Elapsed += (s, a) => Application.Current.Dispatcher.Invoke(UpdateFirstData);
             _timer.Start();
         }
+
+        /// <summary> Текущее время </summary>
+        public DateTime CurrentDateTime => DateTime.Now;
 
         #region Commands
         
@@ -440,12 +459,41 @@ namespace MixerReportsEditor.ViewModel
         /// <summary> Загрузка данных из бд во вьюмодель </summary>
         private void LoadData()
         {
-            Mixes.Clear();
-            foreach (var mix in _Mixes.GetAll()
-                .Where(m => m.DateTime >= DateTime.Now.AddHours(- 2))
-                .OrderByDescending(m => m.DateTime))
+            try
             {
-                Mixes.Add(mix);
+                Mixes.Clear();
+                foreach (var mix in _Mixes.GetAll()
+                    .Where(m => m.DateTime >= DateTime.Now.AddHours(-2))
+                    .OrderByDescending(m => m.DateTime))
+                {
+                    Mixes.Add(mix);
+                }
+                ConnectToDataBase = true;
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show($"{DateTime.Now} Ошибка отсутствия аргумента при доступе к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}", "Ошибка связи с базой данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                ConnectToDataBase = false;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                MessageBox.Show($"{DateTime.Now} Ошибка конкурентного доступа к базе данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}", "Ошибка связи с базой данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                ConnectToDataBase = false;
+            }
+            catch (DbUpdateException ex)
+            {
+                MessageBox.Show($"{DateTime.Now} Ошибка обновления данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}", "Ошибка связи с базой данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                ConnectToDataBase = false;
+            }
+            catch (RetryLimitExceededException ex)
+            {
+                MessageBox.Show($"{DateTime.Now} Превышение лимита попыток подключения к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}", "Ошибка связи с базой данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                ConnectToDataBase = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{DateTime.Now} Неизвестная ошибка связи с базой данных {ex.Message}, Подробности: {ex?.InnerException?.Message}", "Ошибка связи с базой данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                ConnectToDataBase = false;
             }
         }
         /// <summary> Получение времени начала работы смены </summary>
@@ -458,12 +506,13 @@ namespace MixerReportsEditor.ViewModel
                 dateFrom = dateFrom.AddHours(12);
             return dateFrom;
         }
-        /// <summary> Обновление только самой передней части данных </summary>
+        /// <summary> Обновление только самой важной передней части данных </summary>
         private void UpdateFirstData()
         {
             OnPropertyChanged(nameof(TimeSpanCurrentShiftMixes));
             OnPropertyChanged(nameof(CountCurrentShiftMixes));
             OnPropertyChanged(nameof(CountNormalCurrentShiftMixes));
+            OnPropertyChanged(nameof(CurrentDateTime));
             LoadData();
         }
 

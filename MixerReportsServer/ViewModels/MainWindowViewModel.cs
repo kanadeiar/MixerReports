@@ -217,7 +217,7 @@ namespace MixerReportsServer.ViewModels
             }
             catch (Exception ex)
             {
-                AddToLog($"{DateTime.Now} Ошибка чтения контрллера заливки {ex.Message}");
+                AddToLog($"{DateTime.Now} Ошибка чтения контроллера заливки {ex.Message}");
                 ConnectToPLC = false;
             }
 

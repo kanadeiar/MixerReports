@@ -23,12 +23,24 @@
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
+            <StatusBar.Resources>
+                <Style TargetType="TextBlock" x:Key="StyleConnectDataBase">
+                    <Setter Property="Background" Value="#ffaaaa"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ConnectToDataBase}" Value="True">
+                            <Setter Property="Background" Value="Orange"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StatusBar.Resources>
             <StatusBarItem>
-                <TextBlock Text="Соединение с базой данных"/>
+                <TextBlock Text="{Binding ConnectToDataBaseStr}" Style="{StaticResource StyleConnectDataBase}"/>
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
-                <TextBlock Text="Информация"/>
+                <TextBlock>
+                    Текущее время: <TextBlock Text="{Binding CurrentDateTime, StringFormat=HH:mm:ss}"/>
+                </TextBlock>
             </StatusBarItem>
         </StatusBar>
         <TabControl>
