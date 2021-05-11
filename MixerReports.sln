@@ -13,11 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppMixerReports", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppTestDataBase", "ConsoleAppTestDataBase\ConsoleAppTestDataBase.csproj", "{02DEBF8A-609D-4F3F-86DB-D3D08EEE8C5C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MixerReportsCorrector", "MixerReportsCorrector\MixerReportsCorrector.csproj", "{FC0C85B5-69D2-4E73-BF78-100EFA63202E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MixerRaportsViewer", "MixerRaportsViewer\MixerRaportsViewer.csproj", "{29A4DE7A-48D0-4CFB-9518-7F84D5DA00A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MixerReportsEditor", "MixerReportsEditor\MixerReportsEditor.csproj", "{78EF9916-17CB-4B3F-A9CC-C75AD5FFFD3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MixerReportsEditor", "MixerReportsEditor\MixerReportsEditor.csproj", "{78EF9916-17CB-4B3F-A9CC-C75AD5FFFD3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +39,6 @@ Global
 		{02DEBF8A-609D-4F3F-86DB-D3D08EEE8C5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02DEBF8A-609D-4F3F-86DB-D3D08EEE8C5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02DEBF8A-609D-4F3F-86DB-D3D08EEE8C5C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FC0C85B5-69D2-4E73-BF78-100EFA63202E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC0C85B5-69D2-4E73-BF78-100EFA63202E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC0C85B5-69D2-4E73-BF78-100EFA63202E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC0C85B5-69D2-4E73-BF78-100EFA63202E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{29A4DE7A-48D0-4CFB-9518-7F84D5DA00A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{29A4DE7A-48D0-4CFB-9518-7F84D5DA00A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29A4DE7A-48D0-4CFB-9518-7F84D5DA00A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
