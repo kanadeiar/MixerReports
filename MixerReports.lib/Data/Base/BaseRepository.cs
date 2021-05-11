@@ -50,7 +50,7 @@ namespace MixerReports.lib.Data.Base
         }
         public T GetOne(int Id) => _table.Find(Id);
         public IEnumerable<T> GetAll() => _table;
-        public int Save(T entity)
+        public int Update(T entity)
         {
             _entities.Entry(entity).State = EntityState.Modified;
             return SaveChanges();

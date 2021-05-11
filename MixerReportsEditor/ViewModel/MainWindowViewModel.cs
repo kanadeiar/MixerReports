@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
 using MixerReportsEditor.Commands;
+using MixerReportsEditor.Windows;
 
 namespace MixerReportsEditor.ViewModel
 {
@@ -15,6 +17,7 @@ namespace MixerReportsEditor.ViewModel
         #region Data
 
         private readonly IRepository<Mix> _Mixes;
+        private readonly Timer _timer;
 
         #endregion
 
@@ -238,11 +241,15 @@ namespace MixerReportsEditor.ViewModel
         public MainWindowViewModel(IRepository<Mix> mixes)
         {
             _Mixes = mixes;
+            //автообновление 1 раз в минуту только самых передних данных
+            _timer = new Timer(60_000);
+            _timer.Elapsed += (s, a) => Application.Current.Dispatcher.Invoke(UpdateFirstData);
+            _timer.Start();
         }
-        
+
         #region Commands
         
-        #region Данные
+        #region Данные все
 
         private ICommand _LoadDataCommand;
 
@@ -273,8 +280,47 @@ namespace MixerReportsEditor.ViewModel
         {
             if (!(p is Mix mix))
                 return;
-
-            MessageBox.Show($"Дата: {mix.DateTime} номер: {mix.Number} форма: {mix.FormNumber}");
+            var formNumber = mix.FormNumber;
+            var recipeNumber = mix.RecipeNumber;
+            var normal = mix.Normal;
+            var undersized = mix.Undersized;
+            var overground = mix.Overground;
+            var boiled = mix.Boiled;
+            var isMud = mix.IsMud;
+            var isExperiment = mix.IsExperiment;
+            var other = mix.Other;
+            var comment = mix.Comment;
+            if (!MixCorrectWindow.Correct(
+                ref formNumber, 
+                ref recipeNumber,
+                ref normal,
+                ref undersized,
+                ref overground,
+                ref boiled,
+                ref isMud,
+                ref isExperiment,
+                ref other,
+                ref comment,
+                "Уточнение данных по заливке",
+                mix.Number,
+                mix.DateTime,
+                mix.MixerTemperature,
+                mix.SetSandMud,
+                mix.ActSandMud,
+                mix.SetRevertMud,
+                mix.ActRevertMud))
+                return;
+            mix.FormNumber = formNumber;
+            mix.RecipeNumber = recipeNumber;
+            mix.Normal = normal;
+            mix.Undersized = undersized;
+            mix.Overground = overground;
+            mix.Boiled = boiled;
+            mix.IsMud = isMud;
+            mix.IsExperiment = isExperiment;
+            mix.Other = other;
+            mix.Comment = comment;
+            _Mixes.Update(mix);
         }
 
         private ICommand _UpdateMixCommand;
@@ -389,7 +435,7 @@ namespace MixerReportsEditor.ViewModel
 
         #endregion
 
-        #region Methods
+        #region Support Methods
 
         /// <summary> Загрузка данных из бд во вьюмодель </summary>
         private void LoadData()
@@ -411,6 +457,14 @@ namespace MixerReportsEditor.ViewModel
             if (date.Hour >= 20)
                 dateFrom = dateFrom.AddHours(12);
             return dateFrom;
+        }
+        /// <summary> Обновление только самой передней части данных </summary>
+        private void UpdateFirstData()
+        {
+            OnPropertyChanged(nameof(TimeSpanCurrentShiftMixes));
+            OnPropertyChanged(nameof(CountCurrentShiftMixes));
+            OnPropertyChanged(nameof(CountNormalCurrentShiftMixes));
+            LoadData();
         }
 
         #endregion

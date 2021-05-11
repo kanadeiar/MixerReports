@@ -6,7 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:MixerReportsEditor"
         mc:Ignorable="d"
-        Height="500" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Background="LightGreen"
+        Height="700" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Background="LightGreen"
         
         Title="{Binding Title}"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}">
@@ -42,7 +42,7 @@
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Margin="5, 0">
                                 <TextBlock Text="Смена продолжается:"/>
-                                <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold" Width="180" 
                                          Text="{Binding TimeSpanCurrentShiftMixes, Mode=OneWay}"/>
                             </StackPanel>
                             <StackPanel Margin="5, 0">
@@ -59,12 +59,18 @@
                                     Command="{Binding UpdateMixCommand}"/>
                         </StackPanel>
                     </GroupBox>
-                    <GroupBox Grid.Row="1" Header="Ввод новых данных по заливкам (двойной клик или Enter)">
+                    <GroupBox Grid.Row="1" Header="Уточнение данных по заливкам (двойной клик или Enter)">
                         <ListBox Name="ListBoxMixes" SelectionMode="Single"
                             ItemsSource="{Binding Mixes}">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Normal}" Value="False">
+                                            <Setter Property="Foreground" Value="#dd0000"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
                                 </Style>
                             </ListBox.ItemContainerStyle>
                             <ListBox.InputBindings>
@@ -74,7 +80,18 @@
                             </ListBox.InputBindings>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Border BorderBrush="Gray" BorderThickness="1" Padding="5,0" CornerRadius="3">
+                                    <Border Padding="5,0" CornerRadius="3">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="BorderBrush" Value="LightGray"/>
+                                                <Setter Property="BorderThickness" Value="1"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Normal}" Value="False">
+                                                        <Setter Property="BorderBrush" Value="#dd0000"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
                                         <Grid>
                                             <Grid.InputBindings>
                                                 <MouseBinding Gesture="LeftDoubleClick" 
@@ -82,74 +99,94 @@
                                                               CommandParameter="{Binding}"/>
                                             </Grid.InputBindings>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="30"/>
                                                 <ColumnDefinition Width="60"/>
-                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="90"/>
                                                 <ColumnDefinition Width="80"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="120"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                            <StackPanel Grid.Column="0" VerticalAlignment="Center" ToolTip="Дата и время окончания этой заливки, когда смесь была залита в форму">
                                                 <TextBlock Text="Датавремя заливки:"/>
                                                 <TextBlock FontWeight="Bold"
-                                                           Text="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm}"/>
+                                                           Text="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
                                             </StackPanel>
                                             <TextBlock Grid.Column="1" Text="№:" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding Number}" FontSize="24" FontWeight="Bold" Margin="10, 0" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="2" FontSize="24" FontWeight="Bold" Margin="10, 0" VerticalAlignment="Center" ToolTip="Порядковый номер заливки начиная от начала смены"
+                                                       Text="{Binding Number}"/>
                                             <TextBlock Grid.Column="3" Text="Номер формы:" VerticalAlignment="Center"/>
-                                            <TextBlock Grid.Column="4" Text="{Binding FormNumber}" FontSize="24" FontWeight="Bold" Margin="10, 0" VerticalAlignment="Center"/>
-                                            <StackPanel Grid.Column="5" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <TextBlock Grid.Column="4" FontSize="24" FontWeight="Bold" Margin="10, 0" VerticalAlignment="Center" ToolTip="Номер формы, в которую была произведена заливка"
+                                                       Text="{Binding FormNumber}"/>
+                                            <StackPanel Grid.Column="5" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="Общая характеристика заливки - норма, она должна учитываться далее в отчетах как хорошая заливка без брака и сброса в шлам">
                                                 <CheckBox VerticalAlignment="Center" IsEnabled="False" IsChecked="{Binding Normal}">
                                                     <CheckBox.LayoutTransform>
                                                         <ScaleTransform ScaleX="1.8" ScaleY="1.8" />
                                                     </CheckBox.LayoutTransform>
                                                 </CheckBox>
-                                                <TextBlock  Text="{Binding NormalStr}" FontSize="18" FontWeight="Bold" Margin="10, 0" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding NormalStr}" FontSize="18" FontWeight="Bold" Margin="10, 0" VerticalAlignment="Center"/>
                                             </StackPanel>
                                             <StackPanel Grid.Column="6" VerticalAlignment="Center" Margin="0,0,0,0">
-                                                <CheckBox Content="Недоросток" IsChecked="{Binding Undersized}" IsEnabled="False">
-                                                    <CheckBox.LayoutTransform>
-                                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
-                                                    </CheckBox.LayoutTransform>
-                                                </CheckBox>
-                                                <CheckBox Content="Переросток" IsChecked="{Binding Overground}" IsEnabled="False">
-                                                    <CheckBox.LayoutTransform>
-                                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
-                                                    </CheckBox.LayoutTransform>
-                                                </CheckBox>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding Undersized}" IsEnabled="False">
+                                                        <CheckBox.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                        </CheckBox.LayoutTransform>
+                                                    </CheckBox>
+                                                    <TextBlock Text="Недоросток" Margin="5,0,0,0"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding Overground}" IsEnabled="False">
+                                                        <CheckBox.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                        </CheckBox.LayoutTransform>
+                                                    </CheckBox>
+                                                    <TextBlock Text="Переросток" Margin="5,0,0,0"/>
+                                                </StackPanel>
                                             </StackPanel>
                                             <StackPanel Grid.Column="7" VerticalAlignment="Center" Margin="5,0,0,0">
-                                                <CheckBox Content="Закипел" IsChecked="{Binding Boiled}" IsEnabled="False">
-                                                    <CheckBox.LayoutTransform>
-                                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
-                                                    </CheckBox.LayoutTransform>
-                                                </CheckBox>
-                                                <CheckBox Content="Другое" IsChecked="{Binding Other}" IsEnabled="False">
-                                                    <CheckBox.LayoutTransform>
-                                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
-                                                    </CheckBox.LayoutTransform>
-                                                </CheckBox>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding Boiled}" IsEnabled="False">
+                                                        <CheckBox.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                        </CheckBox.LayoutTransform>
+                                                    </CheckBox>
+                                                    <TextBlock Text="Закипел" Margin="5,0,0,0"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding Other}" IsEnabled="False">
+                                                        <CheckBox.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                        </CheckBox.LayoutTransform>
+                                                    </CheckBox>
+                                                    <TextBlock Text="Другое" Margin="5,0,0,0"/>
+                                                </StackPanel>
                                             </StackPanel>
                                             <StackPanel Grid.Column="8" VerticalAlignment="Center" Margin="5,0,0,0">
-                                                <CheckBox Content="Эксперимент" IsChecked="{Binding IsExperiment}" IsEnabled="False">
-                                                    <CheckBox.LayoutTransform>
-                                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
-                                                    </CheckBox.LayoutTransform>
-                                                </CheckBox>
-                                                <CheckBox Content="Сброс в шлам" IsChecked="{Binding IsMud}" IsEnabled="False">
-                                                    <CheckBox.LayoutTransform>
-                                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
-                                                    </CheckBox.LayoutTransform>
-                                                </CheckBox>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding IsExperiment}" IsEnabled="False">
+                                                        <CheckBox.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                        </CheckBox.LayoutTransform>
+                                                    </CheckBox>
+                                                    <TextBlock Text="Эксперимент" Margin="5,0,0,0"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding IsMud}" IsEnabled="False">
+                                                        <CheckBox.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                                        </CheckBox.LayoutTransform>
+                                                    </CheckBox>
+                                                    <TextBlock Text="Сброс в шлам" Margin="5,0,0,0"/>
+                                                </StackPanel>
                                             </StackPanel>
-                                            <StackPanel Grid.Column="9" Margin="5,0,0,0">
+                                            <StackPanel Grid.Column="9" Margin="5,0,0,0" ToolTip="Полезный комментарии к этой заливке, который сохранен в базе и в дальнейшем может пригодиться">
                                                 <TextBlock Text="Комментарий:"/>
-                                                <TextBlock Text="{Binding Comment}" FontSize="18"/>
+                                                <TextBlock Text="{Binding Comment}" FontWeight="Bold"/>
                                             </StackPanel>
                                         </Grid>
                                     </Border>
@@ -171,7 +208,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel Margin="5, 0">
                                         <TextBlock Text="Смена продолжается:"/>
-                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold" Width="180"
                                                  Text="{Binding TimeSpanCurrentShiftMixes, Mode=OneWay}"/>
                                     </StackPanel>
                                     <StackPanel Margin="5, 0">
@@ -192,6 +229,16 @@
                                 <DataGrid AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen"
                                           VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
                                           ItemsSource="{Binding CurrentShiftMixes}">
+                                    <DataGrid.ItemContainerStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Normal}" Value="False">
+                                                    <Setter Property="Foreground" Value="#dd0000"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.ItemContainerStyle>
                                     <DataGrid.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <VirtualizingStackPanel/>
@@ -204,10 +251,10 @@
                                         <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
                                         <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
-                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -224,7 +271,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel Margin="5, 0">
                                         <TextBlock Text="Начало этой смены:"/>
-                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold" Width="180"
                                                  Text="{Binding TimeBeginPreShiftMixes, Mode=OneWay}"/>
                                     </StackPanel>
                                     <StackPanel Margin="5, 0">
@@ -245,6 +292,16 @@
                                 <DataGrid AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen" EnableRowVirtualization="True"
                                           VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
                                           ItemsSource="{Binding PreShiftMixes}">
+                                    <DataGrid.ItemContainerStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Normal}" Value="False">
+                                                    <Setter Property="Foreground" Value="#dd0000"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.ItemContainerStyle>
                                     <DataGrid.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <VirtualizingStackPanel/>
@@ -257,10 +314,10 @@
                                         <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
                                         <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
-                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -302,6 +359,16 @@
                                 <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen"
                                           VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
                                           ItemsSource="{Binding ShiftDayMixes}">
+                                    <DataGrid.ItemContainerStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Normal}" Value="False">
+                                                    <Setter Property="Foreground" Value="#dd0000"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.ItemContainerStyle>
                                     <DataGrid.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <VirtualizingStackPanel/>
@@ -314,10 +381,10 @@
                                         <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
                                         <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
-                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -338,6 +405,16 @@
                                 <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen"
                                           VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
                                           ItemsSource="{Binding ShiftNightMixes}">
+                                    <DataGrid.ItemContainerStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Normal}" Value="False">
+                                                    <Setter Property="Foreground" Value="#dd0000"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.ItemContainerStyle>
                                     <DataGrid.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <VirtualizingStackPanel/>
@@ -350,10 +427,10 @@
                                         <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
                                         <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
-                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -394,6 +471,16 @@
                         <DataGrid AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen"
                                   VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
                                   ItemsSource="{Binding FilteredArchivesMixes}">
+                            <DataGrid.ItemContainerStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Normal}" Value="False">
+                                            <Setter Property="Foreground" Value="#dd0000"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.ItemContainerStyle>
                             <DataGrid.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <VirtualizingStackPanel/>
@@ -406,10 +493,10 @@
                                 <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                 <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
                                 <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
-                                <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
-                                <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                 <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
                                 <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
                                 <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                             </DataGrid.Columns>
                         </DataGrid>

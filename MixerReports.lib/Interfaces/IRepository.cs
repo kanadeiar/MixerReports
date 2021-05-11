@@ -9,7 +9,7 @@ namespace MixerReports.lib.Interfaces
         int AddRange(IEnumerable<T> entities);
         T GetOne(int id);
         IEnumerable<T> GetAll();
-        int Save(T entity);
+        int Update(T entity);
         int Delete(T entity);
         int Delete(int Id, byte[] Timestamp);
     }

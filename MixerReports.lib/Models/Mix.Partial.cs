@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MixerReports.lib.Models
 {
-    public partial class Mix
+    public partial class Mix : IDataErrorInfo
     {
         [NotMapped] public string NormalStr => (Normal) ? "Норма" : "Ошибка";
 
@@ -44,5 +43,39 @@ namespace MixerReports.lib.Models
                     return string.Empty;
             }
         }
+
+        #region Валидация
+
+        [NotMapped]
+        string IDataErrorInfo.Error => null;
+
+        [NotMapped]
+        public string this[string propertyName]
+        {
+            get
+            {
+                switch (propertyName)
+                {
+                    case nameof(FormNumber):
+                        var formNumber = FormNumber;
+                        if (formNumber < 0) return "Номер формы не может быть отрицательным числом";
+                        if (formNumber > 100) return "Номер формы не может быть больше 100";
+                        return null;
+                    case nameof(RecipeNumber):
+                        var recipeNumber = RecipeNumber;
+                        if (recipeNumber < 0) return "Номер рецепта не может быть отрицательным числом";
+                        if (recipeNumber > 100_000) return "Номер рецепта не может быть больше 100 тысяч";
+                        return null;
+                    case nameof(Comment):
+                        var comment = Comment;
+                        if (comment?.Length >= 250) return "Комментарий к заливке не может быть длиннее 250 символов";
+                        return null;
+                    default:
+                        return null;
+                }
+            }
+        }
+
+        #endregion
     }
 }
