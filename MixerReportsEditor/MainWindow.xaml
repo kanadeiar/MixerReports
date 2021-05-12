@@ -364,7 +364,7 @@
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                                     <TextBlock>
-                                        Количество нормальных заливок: <TextBlock Text="{Binding CountShiftDayMixes}" FontWeight="Bold"/> шт.,
+                                        Количество нормальных заливок: <TextBlock Text="{Binding CountNormalShiftDayMixes}" FontWeight="Bold"/> шт.,
                                         всего заливок: <TextBlock Text="{Binding CountShiftDayMixes}" FontWeight="Bold"/> шт.
                                     </TextBlock>
                                 </StackPanel>
@@ -410,7 +410,7 @@
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                                     <TextBlock>
-                                        Количество нормальных заливок: <TextBlock Text="{Binding CountShiftNightMixes}" FontWeight="Bold"/> шт.,
+                                        Количество нормальных заливок: <TextBlock Text="{Binding CountNormalShiftNightMixes}" FontWeight="Bold"/> шт.,
                                         всего заливок: <TextBlock Text="{Binding CountShiftNightMixes}" FontWeight="Bold"/> шт.
                                     </TextBlock>
                                 </StackPanel>

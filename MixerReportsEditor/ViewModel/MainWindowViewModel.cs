@@ -251,6 +251,9 @@ namespace MixerReportsEditor.ViewModel
         }
         public string ConnectToDataBaseStr => (ConnectToDataBase) ? "Соединение с базой данных установлено" : "Соединение с базой данных потеряно";
 
+        /// <summary> Текущее время </summary>
+        public DateTime CurrentDateTime => DateTime.Now;
+
         #endregion
 
         #endregion
@@ -263,9 +266,6 @@ namespace MixerReportsEditor.ViewModel
             _timer.Elapsed += (s, a) => Application.Current.Dispatcher.Invoke(UpdateFirstData);
             _timer.Start();
         }
-
-        /// <summary> Текущее время </summary>
-        public DateTime CurrentDateTime => DateTime.Now;
 
         #region Commands
         
