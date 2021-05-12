@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using MixerRaportsViewer.Commands;
+using MixerRaportsViewer.Raports;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
 
@@ -792,6 +793,23 @@ namespace MixerRaportsViewer.ViewModels
         private void OnCloseApplicationCommandExecuted(object p)
         {
             Application.Current.Shutdown();
+        }
+
+        private ICommand _TestCommand;
+
+        /// <summary> Test </summary>
+        public ICommand TestCommand => _TestCommand ??=
+            new LambdaCommand(OnTestCommandExecuted, CanTestCommandExecute);
+
+        private bool CanTestCommandExecute(object p) => true;
+
+        private void OnTestCommandExecuted(object p)
+        {
+            MixRaport raport = new MixRaport();
+            
+            raport.CreatePackage("test.xlsx");
+
+            MessageBox.Show("Файл создан!");
         }
 
         #endregion

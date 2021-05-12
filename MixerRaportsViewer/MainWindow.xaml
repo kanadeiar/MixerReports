@@ -234,6 +234,7 @@
                             </GroupBox>
                             <Button Content="Обновить" Padding="5" VerticalAlignment="Center" Height="40"
                                     Command="{Binding UpdateShiftMixesCommand}"/>
+                            <Button Content="Test" Command="{Binding TestCommand}"/>
                         </StackPanel>
                     </GroupBox>
                     <TabControl Grid.Row="1">

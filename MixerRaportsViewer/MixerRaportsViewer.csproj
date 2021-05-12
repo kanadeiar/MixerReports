@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MixerReports.lib\MixerReports.lib.csproj" />
+    <ProjectReference Include="..\MixerReports.Raports\MixerReports.Raports.csproj" />
   </ItemGroup>
 
 </Project>
