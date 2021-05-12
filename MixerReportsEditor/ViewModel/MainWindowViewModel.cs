@@ -45,11 +45,23 @@ namespace MixerReportsEditor.ViewModel
             }
         }
 
+        private int _CountCurrentShiftMixes;
+
         /// <summary> Количество заливок текущей смены </summary>
-        public int CountCurrentShiftMixes => CurrentShiftMixes.Count;
+        public int CountCurrentShiftMixes
+        {
+            get => _CountCurrentShiftMixes;
+            set => Set(ref _CountCurrentShiftMixes, value);
+        }
+
+        private int _CountNormalCurrentShiftMixes;
 
         /// <summary> Количество нормальных заливок текущей смены </summary>
-        public int CountNormalCurrentShiftMixes => CurrentShiftMixes.Count(m => m.Normal);
+        public int CountNormalCurrentShiftMixes
+        {
+            get => _CountNormalCurrentShiftMixes;
+            set => Set(ref _CountNormalCurrentShiftMixes, value);
+        }
 
         /// <summary> Данные по заливкам текущей смены </summary>
         public ICollection<Mix> CurrentShiftMixes
@@ -60,6 +72,8 @@ namespace MixerReportsEditor.ViewModel
                 var mixs = _Mixes.GetAll()
                     .Where(m => m.DateTime >= date)
                     .OrderByDescending(m => m.DateTime).ToList();
+                CountCurrentShiftMixes = mixs.Count;
+                CountNormalCurrentShiftMixes = mixs.Count(m => m.Normal);
                 return mixs;
             }
         }
@@ -74,11 +88,23 @@ namespace MixerReportsEditor.ViewModel
             }
         }
 
+        private int _CountPreShiftMixes;
+
         /// <summary> Количество заливок предидущей смены </summary>
-        public int CountPreShiftMixes => PreShiftMixes.Count;
+        public int CountPreShiftMixes
+        {
+            get => _CountPreShiftMixes;
+            set => Set(ref _CountPreShiftMixes, value);
+        }
+
+        private int _CountNormalPreShiftMixes;
 
         /// <summary> Количество нормальных заливок предидущей смены </summary>
-        public int CountNormalPreShiftMixes => PreShiftMixes.Count(m => m.Normal);
+        public int CountNormalPreShiftMixes
+        {
+            get => _CountNormalPreShiftMixes;
+            set => Set(ref _CountNormalPreShiftMixes, value);
+        }
 
         /// <summary> Данные по заливкам предидущей смены </summary>
         public ICollection<Mix> PreShiftMixes
@@ -89,6 +115,8 @@ namespace MixerReportsEditor.ViewModel
                 var mixs = _Mixes.GetAll()
                     .Where(m => m.DateTime >= date && m.DateTime < date.AddHours(12))
                     .OrderByDescending(m => m.DateTime).ToList();
+                CountPreShiftMixes = mixs.Count;
+                CountNormalPreShiftMixes = mixs.Count(m => m.Normal);
                 return mixs;
             }
         }
@@ -115,25 +143,20 @@ namespace MixerReportsEditor.ViewModel
             }
         }
 
+        private int _CountShiftDayMixes;
         /// <summary> Количество заливок дневной смены </summary>
         public int CountShiftDayMixes
         {
-            get
-            {
-                var date = ShiftSelectDateTime.Date.AddHours(8);
-                return _Mixes.GetAll()
-                    .Count(m => m.DateTime >= date && m.DateTime < date.AddHours(12));
-            }
+            get => _CountShiftDayMixes;
+            set => Set(ref _CountShiftDayMixes, value);
         }
+
+        private int _CountNormalShiftDayMixes;
         /// <summary> Количество нормальных заливок </summary>
         public int CountNormalShiftDayMixes
         {
-            get
-            {
-                var date = ShiftSelectDateTime.Date.AddHours(8);
-                return _Mixes.GetAll()
-                    .Count(m => m.DateTime >= date && m.DateTime < date.AddHours(12) && m.Normal);
-            }
+            get => _CountNormalShiftDayMixes;
+            set => Set(ref _CountNormalShiftDayMixes, value);
         }
 
         /// <summary> Данные дневной смены за выбранную дату </summary>
@@ -145,30 +168,28 @@ namespace MixerReportsEditor.ViewModel
                 var mixs = _Mixes.GetAll()
                     .Where(m => m.DateTime >= date && m.DateTime < date.AddHours(12))
                     .OrderBy(m => m.DateTime).ToList();
+                CountShiftDayMixes = mixs.Count;
+                CountNormalShiftDayMixes = mixs.Count(m => m.Normal);
                 return mixs;
             }
         }
 
+        private int _CountShiftNightMixes;
         /// <summary> Количество заливок ночной смены </summary>
         public int CountShiftNightMixes
         {
-            get
-            {
-                var date = ShiftSelectDateTime.Date.AddHours(8);
-                return _Mixes.GetAll()
-                    .Count(m => m.DateTime >= date.AddHours(12) && m.DateTime < date.AddHours(24));
-            }
+            get => _CountShiftNightMixes;
+            set => Set(ref _CountShiftNightMixes, value);
         }
+
+        private int _CountNormalShiftNightMixes;
         /// <summary> Количество нормальных заливок </summary>
         public int CountNormalShiftNightMixes
         {
-            get
-            {
-                var date = ShiftSelectDateTime.Date.AddHours(8);
-                return _Mixes.GetAll()
-                    .Count(m => m.DateTime >= date.AddHours(12) && m.DateTime < date.AddHours(24) && m.Normal);
-            }
+            get => _CountNormalShiftNightMixes;
+            set => Set(ref _CountNormalShiftNightMixes, value);
         }
+
         /// <summary> Данные ночной смены за выбранную дату </summary>
         public ICollection<Mix> ShiftNightMixes
         {
@@ -178,6 +199,8 @@ namespace MixerReportsEditor.ViewModel
                 var mixs = _Mixes.GetAll()
                     .Where(m => m.DateTime >= date.AddHours(12) && m.DateTime < date.AddHours(24))
                     .OrderBy(m => m.DateTime).ToList();
+                CountShiftNightMixes = mixs.Count;
+                CountNormalShiftNightMixes = mixs.Count(m => m.Normal);
                 return mixs;
             }
         }
@@ -354,8 +377,7 @@ namespace MixerReportsEditor.ViewModel
         private void OnUpdateMixCommandExecuted(object p)
         {
             OnPropertyChanged(nameof(TimeSpanCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountNormalCurrentShiftMixes));
+            OnPropertyChanged(nameof(CurrentShiftMixes));
             LoadData();
         }
 
@@ -374,8 +396,6 @@ namespace MixerReportsEditor.ViewModel
         private void OnUpdateCurrentShiftMixesCommandExecuted(object p)
         {
             OnPropertyChanged(nameof(TimeSpanCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountNormalCurrentShiftMixes));
             OnPropertyChanged(nameof(CurrentShiftMixes));
         }
 
@@ -390,8 +410,6 @@ namespace MixerReportsEditor.ViewModel
         private void OnUpdatePreShiftMixesCommandExecuted(object p)
         {
             OnPropertyChanged(nameof(TimeBeginPreShiftMixes));
-            OnPropertyChanged(nameof(CountPreShiftMixes));
-            OnPropertyChanged(nameof(CountNormalPreShiftMixes));
             OnPropertyChanged(nameof(PreShiftMixes));
         }
 
@@ -411,10 +429,6 @@ namespace MixerReportsEditor.ViewModel
         {
             OnPropertyChanged(nameof(ShiftDayMixes));
             OnPropertyChanged(nameof(ShiftNightMixes));
-            OnPropertyChanged(nameof(CountShiftDayMixes));
-            OnPropertyChanged(nameof(CountShiftNightMixes));
-            OnPropertyChanged(nameof(CountNormalShiftDayMixes));
-            OnPropertyChanged(nameof(CountNormalShiftNightMixes));
         }
 
         #endregion
@@ -511,9 +525,8 @@ namespace MixerReportsEditor.ViewModel
         private void UpdateFirstData()
         {
             OnPropertyChanged(nameof(TimeSpanCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountNormalCurrentShiftMixes));
             OnPropertyChanged(nameof(CurrentDateTime));
+            OnPropertyChanged(nameof(CurrentShiftMixes));
             LoadData();
         }
 
