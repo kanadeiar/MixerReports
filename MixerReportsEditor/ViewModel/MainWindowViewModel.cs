@@ -33,7 +33,7 @@ namespace MixerReportsEditor.ViewModel
 
         #endregion
 
-        #region Данные по заливкам за смену
+        #region Данные по заливкам за последние смены
 
         /// <summary> Время сколько длиться эта смена </summary>
         public string TimeSpanCurrentShiftMixes
@@ -218,7 +218,7 @@ namespace MixerReportsEditor.ViewModel
             get
             {
                 var mixs = _Mixes.GetAll()
-                    .Where(m => m.DateTime >= FilterArchivesBeginDateTime && m.DateTime < FilterArchivesEndDateTime.AddHours(24))
+                    .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8))
                     .OrderBy(m => m.DateTime).ToList();
                 return mixs;
             }

@@ -44,9 +44,174 @@
             </StatusBarItem>
         </StatusBar>
         <TabControl>
-            <TabItem Header="Данные текущей смены" Height="40">
+            <TabItem Header="Самые последние заливки">
                 <TabControl>
-
+                    <TabItem Header="Текущая смена" Height="30">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <GroupBox Grid.Row="0" Header="Оперативные данные">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Margin="5, 0">
+                                        <TextBlock Text="Смена продолжается:"/>
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold" Width="180"
+                                                 Text="{Binding TimeSpanCurrentShiftMixes, Mode=OneWay}"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="5, 0">
+                                        <TextBlock Text="Нормальных заливок:"/>
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                                 Text="{Binding CountCurrentNormalShiftMixes, Mode=OneWay}"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="5, 0">
+                                        <TextBlock Text="Всего заливок:"/>
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                                 Text="{Binding CountCurrentShiftMixes, Mode=OneWay}"/>
+                                    </StackPanel>
+                                    <Button Content="Обновить" Padding="5" VerticalAlignment="Center" Height="40"
+                                            Command="{Binding UpdateCurrentShiftMixesCommand}"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Grid.Row="1" Header="Данные по заливкам за текущую рабочу смену">
+                                <DataGrid AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen"
+                                          VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                          ItemsSource="{Binding CurrentShiftMixes}">
+                                    <DataGrid.ItemContainerStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Normal}" Value="False">
+                                                    <Setter Property="Foreground" Value="#dd0000"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.ItemContainerStyle>
+                                    <DataGrid.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel/>
+                                        </ItemsPanelTemplate>
+                                    </DataGrid.ItemsPanel>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
+                                        <DataGridTextColumn Header="Датавремя" Binding="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
+                                        <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
+                                        <DataGridTextColumn Header="Рецепт" Binding="{Binding RecipeNumber}"/>
+                                        <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
+                                        <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
+                                        <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. песч. шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт песч. шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. обрат. шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обрат. шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. холод. вода" Binding="{Binding SetColdWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт холод. вода" Binding="{Binding ActColdWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. горяч. вода" Binding="{Binding SetHotWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт горяч. вода" Binding="{Binding ActHotWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. ИПВ1" Binding="{Binding SetMixture1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт ИПВ1" Binding="{Binding ActMixture1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. ИПВ2" Binding="{Binding SetMixture2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт ИПВ2" Binding="{Binding ActMixture2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. цемент1" Binding="{Binding SetCement1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт цемент1" Binding="{Binding ActCement1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. цемент2" Binding="{Binding SetCement2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт цемент2" Binding="{Binding ActCement2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. алюминий1" Binding="{Binding SetAluminium1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт алюминий1" Binding="{Binding ActAluminium1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. алюминий2" Binding="{Binding SetAluminium2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт алюминий2" Binding="{Binding ActAluminium2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Плотн. песч. шлама" Binding="{Binding DensitySandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Плотн. обрат. шлама" Binding="{Binding DensityRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </GroupBox>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Прошлая смена" Height="30">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <GroupBox Grid.Row="0" Header="Оперативные данные">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Margin="5, 0">
+                                        <TextBlock Text="Начало этой смены:"/>
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold" Width="180"
+                                                 Text="{Binding TimeBeginPreShiftMixes, Mode=OneWay}"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="5, 0">
+                                        <TextBlock Text="Нормальных заливок:"/>
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                                 Text="{Binding CountPreNormalShiftMixes, Mode=OneWay}"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="5, 0">
+                                        <TextBlock Text="Всего заливок:"/>
+                                        <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
+                                                 Text="{Binding CountPreShiftMixes, Mode=OneWay}"/>
+                                    </StackPanel>
+                                    <Button Content="Обновить" Padding="5" VerticalAlignment="Center" Height="40"
+                                            Command="{Binding UpdatePreShiftMixesCommand}"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Grid.Row="1" Header="Данные по заливкам за прошедшую смену">
+                                <DataGrid AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen" EnableRowVirtualization="True"
+                                          VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                          ItemsSource="{Binding PreShiftMixes}">
+                                    <DataGrid.ItemContainerStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Normal}" Value="False">
+                                                    <Setter Property="Foreground" Value="#dd0000"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.ItemContainerStyle>
+                                    <DataGrid.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel/>
+                                        </ItemsPanelTemplate>
+                                    </DataGrid.ItemsPanel>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
+                                        <DataGridTextColumn Header="Датавремя" Binding="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
+                                        <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
+                                        <DataGridTextColumn Header="Рецепт" Binding="{Binding RecipeNumber}"/>
+                                        <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
+                                        <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
+                                        <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. песч. шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт песч. шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. обрат. шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обрат. шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. холод. вода" Binding="{Binding SetColdWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт холод. вода" Binding="{Binding ActColdWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. горяч. вода" Binding="{Binding SetHotWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт горяч. вода" Binding="{Binding ActHotWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. ИПВ1" Binding="{Binding SetMixture1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт ИПВ1" Binding="{Binding ActMixture1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. ИПВ2" Binding="{Binding SetMixture2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт ИПВ2" Binding="{Binding ActMixture2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. цемент1" Binding="{Binding SetCement1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт цемент1" Binding="{Binding ActCement1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. цемент2" Binding="{Binding SetCement2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт цемент2" Binding="{Binding ActCement2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. алюминий1" Binding="{Binding SetAluminium1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт алюминий1" Binding="{Binding ActAluminium1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. алюминий2" Binding="{Binding SetAluminium2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт алюминий2" Binding="{Binding ActAluminium2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Плотн. песч. шлама" Binding="{Binding DensitySandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Плотн. обрат. шлама" Binding="{Binding DensityRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </GroupBox>
+                        </Grid>
+                    </TabItem>
                 </TabControl>
             </TabItem>
             <TabItem Header="Данные заливок по сменам">
@@ -64,7 +229,7 @@
                             </StackPanel>
                             <GroupBox Header="Фильтр характеристик" Margin="3,0">
                                 <StackPanel>
-                                    <CheckBox Content="Только ошибочные заливки" IsChecked="{Binding SetOnlyBadShiftsMixes}"/>
+                                    <CheckBox Content="Только плохие заливки" IsChecked="{Binding SetOnlyBadShiftsMixes}"/>
                                 </StackPanel>
                             </GroupBox>
                             <Button Content="Обновить" Padding="5" VerticalAlignment="Center" Height="40"
@@ -77,6 +242,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                                     <TextBlock>
@@ -136,6 +302,82 @@
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
+                                <GroupBox Grid.Row="2" Header="Статистические данные">
+                                    <WrapPanel>
+                                        <Button Content="Обновить статистику" Padding="10,0"
+                                            Command="{Binding UpdateCurrentSumDatasCommand}"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Средняя температура: "/>
+                                            <TextBlock Text="{Binding CurrAverageTemperature, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="град. цельсия. Количество плохих заливок: "/>
+                                            <TextBlock Text="{Binding CurrCountBadMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="шт., из них: недоростков: "/>
+                                            <TextBlock Text="{Binding CurrCountUndersizedMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="шт., переростков: "/>
+                                            <TextBlock Text="{Binding CurrCountOvergroundMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="шт., закипевших: "/>
+                                            <TextBlock Text="{Binding CurrCountBoiledMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="шт., сброшенных в шлам: "/>
+                                            <TextBlock Text="{Binding CurrCountMudMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="шт.   "/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Сумма задано песчаный шлам: "/>
+                                            <TextBlock Text="{Binding CurrSumSetSandMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт песчаный шлам:"/>
+                                            <TextBlock Text="{Binding CurrSumActSandMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма задано обратный шлам: "/>
+                                            <TextBlock Text="{Binding CurrSumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт обратный шлам: "/>
+                                            <TextBlock Text="{Binding CurrSumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг.   "/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Сумма задано холодная вода: "/>
+                                            <TextBlock Text="{Binding CurrSumSetColdWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт холодная вода: "/>
+                                            <TextBlock Text="{Binding CurrSumActColdWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма задано горячая вода: "/>
+                                            <TextBlock Text="{Binding CurrSumSetHotWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт горячая вода: "/>
+                                            <TextBlock Text="{Binding CurrSumActHotWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг.   "/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Сумма задано ИПВ1: "/>
+                                            <TextBlock Text="{Binding CurrSumSetMixture1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт ИПВ1: "/>
+                                            <TextBlock Text="{Binding CurrSumActMixture1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма задано ИПВ2: "/>
+                                            <TextBlock Text="{Binding CurrSumSetMixture2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт ИПВ2: "/>
+                                            <TextBlock Text="{Binding CurrSumActMixture2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг."/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Сумма задано цемент1: "/>
+                                            <TextBlock Text="{Binding CurrSumSetCement1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт цемент1: "/>
+                                            <TextBlock Text="{Binding CurrSumActCement1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма задано цемент2: "/>
+                                            <TextBlock Text="{Binding CurrSumSetCement2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт цемент2: "/>
+                                            <TextBlock Text="{Binding CurrSumActCement2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг.  "/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Сумма задано алюминий1: "/>
+                                            <TextBlock Text="{Binding CurrSumSetAluminium1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт алюминий1: "/>
+                                            <TextBlock Text="{Binding CurrSumActAluminium1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма задано алюминий2: "/>
+                                            <TextBlock Text="{Binding CurrSumSetAluminium2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт алюминий2: "/>
+                                            <TextBlock Text="{Binding CurrSumActAluminium2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг."/>
+                                        </StackPanel>
+                                    </WrapPanel>
+                                </GroupBox>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Ночь - с 20 до 8 часов" Height="30">
@@ -143,6 +385,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                                     <TextBlock>
@@ -202,6 +445,82 @@
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
+                                <GroupBox Grid.Row="2" Header="Статистические данные">
+                                    <WrapPanel>
+                                        <Button Content="Обновить статистику" Padding="10,0"
+                                            Command="{Binding UpdatePreSumDatasCommand}"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Средняя температура: "/>
+                                            <TextBlock Text="{Binding PreAverageTemperature, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="град. цельсия. Количество плохих заливок: "/>
+                                            <TextBlock Text="{Binding PreCountBadMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="шт., из них: недоростков: "/>
+                                            <TextBlock Text="{Binding PreCountUndersizedMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="шт., переростков: "/>
+                                            <TextBlock Text="{Binding PreCountOvergroundMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="шт., закипевших: "/>
+                                            <TextBlock Text="{Binding PreCountBoiledMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="шт., сброшенных в шлам: "/>
+                                            <TextBlock Text="{Binding PreCountMudMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="шт.   "/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Сумма задано песчаный шлам: "/>
+                                            <TextBlock Text="{Binding PreSumSetSandMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт песчаный шлам:"/>
+                                            <TextBlock Text="{Binding PreSumActSandMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма задано обратный шлам: "/>
+                                            <TextBlock Text="{Binding PreSumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт обратный шлам: "/>
+                                            <TextBlock Text="{Binding PreSumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг.   "/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Сумма задано холодная вода: "/>
+                                            <TextBlock Text="{Binding PreSumSetColdWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт холодная вода: "/>
+                                            <TextBlock Text="{Binding PreSumActColdWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма задано горячая вода: "/>
+                                            <TextBlock Text="{Binding PreSumSetHotWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт горячая вода: "/>
+                                            <TextBlock Text="{Binding PreSumActHotWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг.   "/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Сумма задано ИПВ1: "/>
+                                            <TextBlock Text="{Binding PreSumSetMixture1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт ИПВ1: "/>
+                                            <TextBlock Text="{Binding PreSumActMixture1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма задано ИПВ2: "/>
+                                            <TextBlock Text="{Binding PreSumSetMixture2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт ИПВ2: "/>
+                                            <TextBlock Text="{Binding PreSumActMixture2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг."/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Сумма задано цемент1: "/>
+                                            <TextBlock Text="{Binding PreSumSetCement1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт цемент1: "/>
+                                            <TextBlock Text="{Binding PreSumActCement1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма задано цемент2: "/>
+                                            <TextBlock Text="{Binding PreSumSetCement2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт цемент2: "/>
+                                            <TextBlock Text="{Binding PreSumActCement2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг.  "/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Сумма задано алюминий1: "/>
+                                            <TextBlock Text="{Binding PreSumSetAluminium1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт алюминий1: "/>
+                                            <TextBlock Text="{Binding PreSumActAluminium1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма задано алюминий2: "/>
+                                            <TextBlock Text="{Binding PreSumSetAluminium2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг. Сумма факт алюминий2: "/>
+                                            <TextBlock Text="{Binding PreSumActAluminium2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="кг."/>
+                                        </StackPanel>
+                                    </WrapPanel>
+                                </GroupBox>
                             </Grid>
                         </TabItem>
                     </TabControl>
@@ -233,7 +552,7 @@
                             </Grid>
                             <GroupBox Header="Фильтр характеристик" Margin="3,0">
                                 <StackPanel>
-                                    <CheckBox Content="Только ошибочные заливки" IsChecked="{Binding SetOnlyBadArchivesMixes}"/>
+                                    <CheckBox Content="Только плохие заливки" IsChecked="{Binding SetOnlyBadArchivesMixes}"/>
                                 </StackPanel>
                             </GroupBox>
                             <Button Content="Обновить" Padding="5" Height="40" VerticalAlignment="Center"
@@ -245,6 +564,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0">
                                 Количество нормальных заливок: <TextBlock Text="{Binding CountNormalArchivesMixes}" FontWeight="Bold"/> шт.,
@@ -302,6 +622,83 @@
                                     <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
+                            <GroupBox Grid.Row="2" Header="Статистические данные">
+                                <WrapPanel>
+                                    <Button Content="Обновить статистику" Padding="10,0"
+                                            Command="{Binding UpdateArchivesSumDatasCommand}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Средняя температура: "/>
+                                        <TextBlock Text="{Binding ArchAverageTemperature, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="град. цельсия. Количество плохих заливок: "/>
+                                        <TextBlock Text="{Binding ArchCountBadMixes}" FontWeight="Bold"/>
+                                        <TextBlock Text="шт., из них: недоростков: "/>
+                                        <TextBlock Text="{Binding ArchCountUndersizedMixes}" FontWeight="Bold"/>
+                                        <TextBlock Text="шт., переростков: "/>
+                                        <TextBlock Text="{Binding ArchCountOvergroundMixes}" FontWeight="Bold"/>
+                                        <TextBlock Text="шт., закипевших: "/>
+                                        <TextBlock Text="{Binding ArchCountBoiledMixes}" FontWeight="Bold"/>
+                                        <TextBlock Text="шт., сброшенных в шлам: "/>
+                                        <TextBlock Text="{Binding ArchCountMudMixes}" FontWeight="Bold"/>
+                                        <TextBlock Text="шт.   "/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Сумма задано песчаный шлам: "/>
+                                        <TextBlock Text="{Binding ArchSumSetSandMud, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма факт песчаный шлам:"/>
+                                        <TextBlock Text="{Binding ArchSumActSandMud, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма задано обратный шлам: "/>
+                                        <TextBlock Text="{Binding ArchSumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма факт обратный шлам: "/>
+                                        <TextBlock Text="{Binding ArchSumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг.   "/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Сумма задано холодная вода: "/>
+                                        <TextBlock Text="{Binding ArchSumSetColdWater, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма факт холодная вода: "/>
+                                        <TextBlock Text="{Binding ArchSumActColdWater, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма задано горячая вода: "/>
+                                        <TextBlock Text="{Binding ArchSumSetHotWater, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма факт горячая вода: "/>
+                                        <TextBlock Text="{Binding ArchSumActHotWater, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг.   "/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Сумма задано ИПВ1: "/>
+                                        <TextBlock Text="{Binding ArchSumSetMixture1, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма факт ИПВ1: "/>
+                                        <TextBlock Text="{Binding ArchSumActMixture1, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма задано ИПВ2: "/>
+                                        <TextBlock Text="{Binding ArchSumSetMixture2, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма факт ИПВ2: "/>
+                                        <TextBlock Text="{Binding ArchSumActMixture2, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг."/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Сумма задано цемент1: "/>
+                                        <TextBlock Text="{Binding ArchSumSetCement1, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма факт цемент1: "/>
+                                        <TextBlock Text="{Binding ArchSumActCement1, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма задано цемент2: "/>
+                                        <TextBlock Text="{Binding ArchSumSetCement2, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма факт цемент2: "/>
+                                        <TextBlock Text="{Binding ArchSumActCement2, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг.  "/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Сумма задано алюминий1: "/>
+                                        <TextBlock Text="{Binding ArchSumSetAluminium1, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма факт алюминий1: "/>
+                                        <TextBlock Text="{Binding ArchSumActAluminium1, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма задано алюминий2: "/>
+                                        <TextBlock Text="{Binding ArchSumSetAluminium2, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг. Сумма факт алюминий2: "/>
+                                        <TextBlock Text="{Binding ArchSumActAluminium2, StringFormat=f2}" FontWeight="Bold"/>
+                                        <TextBlock Text="кг."/>
+                                    </StackPanel>
+                                </WrapPanel>
+                            </GroupBox>
+
                         </Grid>
                     </GroupBox>
                 </Grid>

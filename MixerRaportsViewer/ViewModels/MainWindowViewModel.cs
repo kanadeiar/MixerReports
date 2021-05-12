@@ -28,7 +28,43 @@ namespace MixerRaportsViewer.ViewModels
         #region Данные по заливкам текущей смены
 
         /// <summary> Заливки текущей смены </summary>
-        public ObservableCollection<Mix> Mixes { get; } = new();
+        public ObservableCollection<Mix> CurrentShiftMixes { get; } = new();
+
+        /// <summary> Время сколько длиться эта смена </summary>
+        public string TimeSpanCurrentShiftMixes
+        {
+            get
+            {
+                var span = DateTime.Now - GetDateTimesFrom(DateTime.Now);
+                return $"{span.Hours} час. {span.Minutes} мин. {span.Seconds} сек.";
+            }
+        }
+        
+        /// <summary> Количество всех заливок </summary>
+        public int CountCurrentShiftMixes => CurrentShiftMixes.Count;
+        
+        /// <summary> Количество нормальных заливок </summary>
+        public int CountCurrentNormalShiftMixes => CurrentShiftMixes.Count(m => m.Normal);
+        
+        /// <summary> Заливки предидущей смены </summary>
+        public ObservableCollection<Mix> PreShiftMixes { get; } = new ();
+        
+        /// <summary> Время и дата начала предидущей смены </summary>
+        public string TimeBeginPreShiftMixes
+        {
+            get
+            {
+                var date = GetDateTimesFrom(DateTime.Now).AddHours(-12);
+                return $"{date:HH:mm:ss dd.MM.yyyy}";
+            }
+        }
+
+        /// <summary> Количество всех заливок предидущей смены </summary>
+        public int CountPreShiftMixes => PreShiftMixes.Count;
+
+        /// <summary> Количество нормальных заливок предидущей смены </summary>
+        public int CountPreNormalShiftMixes => PreShiftMixes.Count(m => m.Normal);
+
 
         #endregion
 
@@ -141,6 +177,171 @@ namespace MixerRaportsViewer.ViewModels
             }
         }
 
+        #region Статистические данные по сменам выбранной даты
+
+        /// <summary> Средняя температура </summary>
+        public float CurrAverageTemperature => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Average(m => m.MixerTemperature);
+        /// <summary> Сумма заданий песчаный шлам </summary>
+        public float CurrSumSetSandMud => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.SetSandMud);
+        /// <summary> Сумма факт песчаный шлам </summary>
+        public float CurrSumActSandMud => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.ActSandMud);
+        /// <summary> Сумма заданий обратный шлам </summary>
+        public float CurrSumSetRevertMud => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.SetRevertMud);
+        /// <summary> Сумма факт обратный шлам </summary>
+        public float CurrSumActRevertMud => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.ActRevertMud);
+        /// <summary> Сумма заданий холодная вода </summary>
+        public float CurrSumSetColdWater => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.SetColdWater);
+        /// <summary> Сумма факт холодная вода </summary>
+        public float CurrSumActColdWater => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.ActColdWater);
+        /// <summary> Сумма заданий горячая вода </summary>
+        public float CurrSumSetHotWater => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.SetHotWater);
+        /// <summary> Сумма факт горячая вода </summary>
+        public float CurrSumActHotWater => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.ActHotWater);
+        /// <summary> Сумма заданий ИПВ1 </summary>
+        public float CurrSumSetMixture1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.SetMixture1);
+        /// <summary> Сумма факт ИПВ1 </summary>
+        public float CurrSumActMixture1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.ActMixture1);
+        /// <summary> Сумма заданий ИПВ2 </summary>
+        public float CurrSumSetMixture2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.SetMixture2);
+        /// <summary> Сумма факт ИПВ2 </summary>
+        public float CurrSumActMixture2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.ActMixture2);
+        /// <summary> Сумма заданий цемент1 </summary>
+        public float CurrSumSetCement1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.SetCement1);
+        /// <summary> Сумма факт цемент1 </summary>
+        public float CurrSumActCement1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.ActCement1);
+        /// <summary> Сумма заданий цемент2 </summary>
+        public float CurrSumSetCement2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.SetCement2);
+        /// <summary> Сумма факт цемент2 </summary>
+        public float CurrSumActCement2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.ActCement2);
+        /// <summary> Сумма заданий алюминий1 </summary>
+        public float CurrSumSetAluminium1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.SetAluminium1);
+        /// <summary> Сумма факт алюминий1 </summary>
+        public float CurrSumActAluminium1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.ActAluminium1);
+        /// <summary> Сумма заданий алюминий2 </summary>
+        public float CurrSumSetAluminium2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.SetAluminium2);
+        /// <summary> Сумма факт алюминий2 </summary>
+        public float CurrSumActAluminium2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12)).Sum(m => m.ActAluminium2);
+        /// <summary> Количество плохих заливок </summary>
+        public int CurrCountBadMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.Normal == false);
+        /// <summary> Количество недоростков </summary>
+        public int CurrCountUndersizedMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.Undersized);
+        /// <summary> Количество переростков </summary>
+        public int CurrCountOvergroundMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.Overground);
+        /// <summary> Количество закипевших массивов </summary>
+        public int CurrCountBoiledMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.Boiled);
+        /// <summary> Количество скинутых в шлам массивов </summary>
+        public int CurrCountMudMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.IsMud);
+
+
+        /// <summary> Средняя температура </summary>
+        public float PreAverageTemperature => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Average(m => m.MixerTemperature);
+        /// <summary> Сумма заданий песчаный шлам </summary>
+        public float PreSumSetSandMud => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.SetSandMud);
+        /// <summary> Сумма факт песчаный шлам </summary>
+        public float PreSumActSandMud => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.ActSandMud);
+        /// <summary> Сумма заданий обратный шлам </summary>
+        public float PreSumSetRevertMud => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.SetRevertMud);
+        /// <summary> Сумма факт обратный шлам </summary>
+        public float PreSumActRevertMud => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.ActRevertMud);
+        /// <summary> Сумма заданий холодная вода </summary>
+        public float PreSumSetColdWater => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.SetColdWater);
+        /// <summary> Сумма факт холодная вода </summary>
+        public float PreSumActColdWater => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.ActColdWater);
+        /// <summary> Сумма заданий горячая вода </summary>
+        public float PreSumSetHotWater => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.SetHotWater);
+        /// <summary> Сумма факт горячая вода </summary>
+        public float PreSumActHotWater => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.ActHotWater);
+        /// <summary> Сумма заданий ИПВ1 </summary>
+        public float PreSumSetMixture1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.SetMixture1);
+        /// <summary> Сумма факт ИПВ1 </summary>
+        public float PreSumActMixture1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.ActMixture1);
+        /// <summary> Сумма заданий ИПВ2 </summary>
+        public float PreSumSetMixture2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.SetMixture2);
+        /// <summary> Сумма факт ИПВ2 </summary>
+        public float PreSumActMixture2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.ActMixture2);
+        /// <summary> Сумма заданий цемент1 </summary>
+        public float PreSumSetCement1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.SetCement1);
+        /// <summary> Сумма факт цемент1 </summary>
+        public float PreSumActCement1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.ActCement1);
+        /// <summary> Сумма заданий цемент2 </summary>
+        public float PreSumSetCement2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.SetCement2);
+        /// <summary> Сумма факт цемент2 </summary>
+        public float PreSumActCement2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.ActCement2);
+        /// <summary> Сумма заданий алюминий1 </summary>
+        public float PreSumSetAluminium1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.SetAluminium1);
+        /// <summary> Сумма факт алюминий1 </summary>
+        public float PreSumActAluminium1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.ActAluminium1);
+        /// <summary> Сумма заданий алюминий2 </summary>
+        public float PreSumSetAluminium2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.SetAluminium2);
+        /// <summary> Сумма факт алюминий2 </summary>
+        public float PreSumActAluminium2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24)).Sum(m => m.ActAluminium2);
+        /// <summary> Количество плохих заливок </summary>
+        public int PreCountBadMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24) && m.Normal == false);
+        /// <summary> Количество недоростков </summary>
+        public int PreCountUndersizedMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24) && m.Undersized);
+        /// <summary> Количество переростков </summary>
+        public int PreCountOvergroundMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24) && m.Overground);
+        /// <summary> Количество закипевших массивов </summary>
+        public int PreCountBoiledMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24) && m.Boiled);
+        /// <summary> Количество скинутых в шлам массивов </summary>
+        public int PreCountMudMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= ShiftSelectDateTime.Date.AddHours(8).AddHours(12) && m.DateTime < ShiftSelectDateTime.Date.AddHours(8).AddHours(24) && m.IsMud);
+
+        #endregion
+
+
+
         #endregion
 
         #region Архивные данные за выбранный диапазон дат
@@ -196,7 +397,7 @@ namespace MixerRaportsViewer.ViewModels
             get
             {
                 return _Mixes.GetAll()
-                    .Count(m => m.DateTime >= FilterArchivesBeginDateTime && m.DateTime < FilterArchivesEndDateTime.AddHours(24));
+                    .Count(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8));
             }
         }
         /// <summary> Количество нормальных заливок </summary>
@@ -205,7 +406,7 @@ namespace MixerRaportsViewer.ViewModels
             get
             {
                 return _Mixes.GetAll()
-                    .Count(m => m.DateTime >= FilterArchivesBeginDateTime && m.DateTime < FilterArchivesEndDateTime.AddHours(24));
+                    .Count(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8) && m.Normal);
             }
         }
 
@@ -215,13 +416,101 @@ namespace MixerRaportsViewer.ViewModels
             get
             {
                 var mixs = _Mixes.GetAll()
-                    .Where(m => m.DateTime >= FilterArchivesBeginDateTime && m.DateTime < FilterArchivesEndDateTime.AddHours(24))
+                    .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8))
                     .OrderBy(m => m.DateTime).ToList();
                 if (SetOnlyBadArchivesMixes)
                     mixs = mixs.Where(m => m.Normal == false).ToList();
                 return mixs;
             }
         }
+
+        #region Статистические данные по архивным фильтрованным заливкам
+
+        /// <summary> Средняя температура </summary>
+        public float ArchAverageTemperature => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Average(m => m.MixerTemperature);
+        /// <summary> Сумма заданий песчаный шлам </summary>
+        public float ArchSumSetSandMud => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.SetSandMud);
+        /// <summary> Сумма факт песчаный шлам </summary>
+        public float ArchSumActSandMud => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.ActSandMud);
+        /// <summary> Сумма заданий обратный шлам </summary>
+        public float ArchSumSetRevertMud => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.SetRevertMud);
+        /// <summary> Сумма факт обратный шлам </summary>
+        public float ArchSumActRevertMud => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.ActRevertMud);
+        /// <summary> Сумма заданий холодная вода </summary>
+        public float ArchSumSetColdWater => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.SetColdWater);
+        /// <summary> Сумма факт холодная вода </summary>
+        public float ArchSumActColdWater => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.ActColdWater);
+        /// <summary> Сумма заданий горячая вода </summary>
+        public float ArchSumSetHotWater => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.SetHotWater);
+        /// <summary> Сумма факт горячая вода </summary>
+        public float ArchSumActHotWater => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.ActHotWater);
+        /// <summary> Сумма заданий ИПВ1 </summary>
+        public float ArchSumSetMixture1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.SetMixture1);
+        /// <summary> Сумма факт ИПВ1 </summary>
+        public float ArchSumActMixture1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.ActMixture1);
+        /// <summary> Сумма заданий ИПВ2 </summary>
+        public float ArchSumSetMixture2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.SetMixture2);
+        /// <summary> Сумма факт ИПВ2 </summary>
+        public float ArchSumActMixture2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.ActMixture2);
+        /// <summary> Сумма заданий цемент1 </summary>
+        public float ArchSumSetCement1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.SetCement1);
+        /// <summary> Сумма факт цемент1 </summary>
+        public float ArchSumActCement1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.ActCement1);
+        /// <summary> Сумма заданий цемент2 </summary>
+        public float ArchSumSetCement2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.SetCement2);
+        /// <summary> Сумма факт цемент2 </summary>
+        public float ArchSumActCement2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.ActCement2);
+        /// <summary> Сумма заданий алюминий1 </summary>
+        public float ArchSumSetAluminium1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.SetAluminium1);
+        /// <summary> Сумма факт алюминий1 </summary>
+        public float ArchSumActAluminium1 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.ActAluminium1);
+        /// <summary> Сумма заданий алюминий2 </summary>
+        public float ArchSumSetAluminium2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.SetAluminium2);
+        /// <summary> Сумма факт алюминий2 </summary>
+        public float ArchSumActAluminium2 => _Mixes.GetAll()
+            .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8)).Sum(m => m.ActAluminium2);
+        /// <summary> Количество плохих заливок </summary>
+        public int ArchCountBadMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) &&
+                        m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8) && m.Normal == false);
+        /// <summary> Количество недоростков </summary>
+        public int ArchCountUndersizedMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) &&
+                        m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8) && m.Undersized);
+        /// <summary> Количество переростков </summary>
+        public int ArchCountOvergroundMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) &&
+                        m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8) && m.Overground);
+        /// <summary> Количество закипевших массивов </summary>
+        public int ArchCountBoiledMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) &&
+                        m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8) && m.Boiled);
+        /// <summary> Количество скинутых в шлам массивов </summary>
+        public int ArchCountMudMixes => _Mixes.GetAll()
+            .Count(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) &&
+                        m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8) && m.IsMud);
+
+        #endregion
 
         #endregion
 
@@ -281,6 +570,48 @@ namespace MixerRaportsViewer.ViewModels
         private void OnLoadDataCommandExecuted(object p)
         {
             LoadData();
+            OnPropertyChanged(nameof(TimeSpanCurrentShiftMixes));
+            OnPropertyChanged(nameof(CountCurrentShiftMixes));
+            OnPropertyChanged(nameof(CountCurrentNormalShiftMixes));
+            OnPropertyChanged(nameof(TimeBeginPreShiftMixes));
+            OnPropertyChanged(nameof(CountPreShiftMixes));
+            OnPropertyChanged(nameof(CountPreNormalShiftMixes));
+        }
+
+        #endregion
+
+        #region Данные по заливкам текущей смены
+
+        private ICommand _UpdateCurrentShiftMixesCommand;
+
+        /// <summary> Обновить данные текущей смены </summary>
+        public ICommand UpdateCurrentShiftMixesCommand => _UpdateCurrentShiftMixesCommand ??=
+            new LambdaCommand(OnUpdateCurrentShiftMixesCommandExecuted, CanUpdateCurrentShiftMixesCommandExecute);
+
+        private bool CanUpdateCurrentShiftMixesCommandExecute(object p) => true;
+
+        private void OnUpdateCurrentShiftMixesCommandExecuted(object p)
+        {
+            LoadData();
+            OnPropertyChanged(nameof(TimeSpanCurrentShiftMixes));
+            OnPropertyChanged(nameof(CountCurrentShiftMixes));
+            OnPropertyChanged(nameof(CountCurrentNormalShiftMixes));
+        }
+
+        private ICommand _UpdatePreShiftMixesCommand;
+
+        /// <summary> Обновить данные предидущей смены </summary>
+        public ICommand UpdatePreShiftMixesCommand => _UpdatePreShiftMixesCommand ??=
+            new LambdaCommand(OnUpdatePreShiftMixesCommandExecuted, CanUpdatePreShiftMixesCommandExecute);
+
+        private bool CanUpdatePreShiftMixesCommandExecute(object p) => true;
+
+        private void OnUpdatePreShiftMixesCommandExecuted(object p)
+        {
+            LoadData();
+            OnPropertyChanged(nameof(TimeBeginPreShiftMixes));
+            OnPropertyChanged(nameof(CountPreShiftMixes));
+            OnPropertyChanged(nameof(CountPreNormalShiftMixes));
         }
 
         #endregion
@@ -305,6 +636,86 @@ namespace MixerRaportsViewer.ViewModels
             OnPropertyChanged(nameof(CountNormalShiftNightMixes));
         }
 
+        #region Статистические данные по сменам выбранной даты
+
+        private ICommand _UpdateCurrentSumDatasCommand;
+
+        /// <summary> Обновление данных дневной смены выбранной даты </summary>
+        public ICommand UpdateCurrentSumDatasCommand => _UpdateCurrentSumDatasCommand ??=
+            new LambdaCommand(OnUpdateCurrentSumDatasCommandExecuted, CanUpdateCurrentSumDatasCommandExecute);
+
+        private bool CanUpdateCurrentSumDatasCommandExecute(object p) => true;
+
+        private void OnUpdateCurrentSumDatasCommandExecuted(object p)
+        {
+            OnPropertyChanged(nameof(CurrAverageTemperature));
+            OnPropertyChanged(nameof(CurrSumSetSandMud));
+            OnPropertyChanged(nameof(CurrSumActSandMud));
+            OnPropertyChanged(nameof(CurrSumSetRevertMud));
+            OnPropertyChanged(nameof(CurrSumActRevertMud));
+            OnPropertyChanged(nameof(CurrSumSetColdWater));
+            OnPropertyChanged(nameof(CurrSumActColdWater));
+            OnPropertyChanged(nameof(CurrSumSetHotWater));
+            OnPropertyChanged(nameof(CurrSumActHotWater));
+            OnPropertyChanged(nameof(CurrSumSetMixture1));
+            OnPropertyChanged(nameof(CurrSumActMixture1));
+            OnPropertyChanged(nameof(CurrSumSetMixture2));
+            OnPropertyChanged(nameof(CurrSumActMixture2));
+            OnPropertyChanged(nameof(CurrSumSetCement1));
+            OnPropertyChanged(nameof(CurrSumActCement1));
+            OnPropertyChanged(nameof(CurrSumSetCement2));
+            OnPropertyChanged(nameof(CurrSumActCement2));
+            OnPropertyChanged(nameof(CurrSumSetAluminium1));
+            OnPropertyChanged(nameof(CurrSumActAluminium1));
+            OnPropertyChanged(nameof(CurrSumSetAluminium2));
+            OnPropertyChanged(nameof(CurrSumActAluminium2));
+            OnPropertyChanged(nameof(CurrCountBadMixes));
+            OnPropertyChanged(nameof(CurrCountUndersizedMixes));
+            OnPropertyChanged(nameof(CurrCountOvergroundMixes));
+            OnPropertyChanged(nameof(CurrCountBoiledMixes));
+            OnPropertyChanged(nameof(CurrCountMudMixes));
+        }
+
+        private ICommand _UpdatePreSumDatasCommand;
+
+        /// <summary> Обновление данных ночной смены выбранной даты </summary>
+        public ICommand UpdatePreSumDatasCommand => _UpdatePreSumDatasCommand ??=
+            new LambdaCommand(OnUpdatePreSumDatasCommandExecuted, CanUpdatePreSumDatasCommandExecute);
+
+        private bool CanUpdatePreSumDatasCommandExecute(object p) => true;
+
+        private void OnUpdatePreSumDatasCommandExecuted(object p)
+        {
+            OnPropertyChanged(nameof(PreAverageTemperature));
+            OnPropertyChanged(nameof(PreSumSetSandMud));
+            OnPropertyChanged(nameof(PreSumActSandMud));
+            OnPropertyChanged(nameof(PreSumSetRevertMud));
+            OnPropertyChanged(nameof(PreSumActRevertMud));
+            OnPropertyChanged(nameof(PreSumSetColdWater));
+            OnPropertyChanged(nameof(PreSumActColdWater));
+            OnPropertyChanged(nameof(PreSumSetHotWater));
+            OnPropertyChanged(nameof(PreSumActHotWater));
+            OnPropertyChanged(nameof(PreSumSetMixture1));
+            OnPropertyChanged(nameof(PreSumActMixture1));
+            OnPropertyChanged(nameof(PreSumSetMixture2));
+            OnPropertyChanged(nameof(PreSumActMixture2));
+            OnPropertyChanged(nameof(PreSumSetCement1));
+            OnPropertyChanged(nameof(PreSumActCement1));
+            OnPropertyChanged(nameof(PreSumSetCement2));
+            OnPropertyChanged(nameof(PreSumActCement2));
+            OnPropertyChanged(nameof(PreSumSetAluminium1));
+            OnPropertyChanged(nameof(PreSumActAluminium1));
+            OnPropertyChanged(nameof(PreSumSetAluminium2));
+            OnPropertyChanged(nameof(PreSumActAluminium2));
+            OnPropertyChanged(nameof(PreCountBadMixes));
+            OnPropertyChanged(nameof(PreCountUndersizedMixes));
+            OnPropertyChanged(nameof(PreCountOvergroundMixes));
+            OnPropertyChanged(nameof(PreCountBoiledMixes));
+            OnPropertyChanged(nameof(PreCountMudMixes));
+        }
+
+        #endregion
+
         #endregion
 
         #region Архивные данные за выбранный диапазон дат
@@ -323,6 +734,48 @@ namespace MixerRaportsViewer.ViewModels
             OnPropertyChanged(nameof(CountArchivesMixes));
             OnPropertyChanged(nameof(CountNormalArchivesMixes));
         }
+
+        #region Статистические данные по архивным отфильтрованным данным
+
+        private ICommand _UpdateArchivesSumDatasCommand;
+
+        /// <summary> Обновление статистических данных отфильтрованных заливок </summary>
+        public ICommand UpdateArchivesSumDatasCommand => _UpdateArchivesSumDatasCommand ??=
+            new LambdaCommand(OnUpdateArchivesSumDatasCommandExecuted, CanUpdateArchivesSumDatasCommandExecute);
+
+        private bool CanUpdateArchivesSumDatasCommandExecute(object p) => true;
+
+        private void OnUpdateArchivesSumDatasCommandExecuted(object p)
+        {
+            OnPropertyChanged(nameof(ArchAverageTemperature));
+            OnPropertyChanged(nameof(ArchSumSetSandMud));
+            OnPropertyChanged(nameof(ArchSumActSandMud));
+            OnPropertyChanged(nameof(ArchSumSetRevertMud));
+            OnPropertyChanged(nameof(ArchSumActRevertMud));
+            OnPropertyChanged(nameof(ArchSumSetColdWater));
+            OnPropertyChanged(nameof(ArchSumActColdWater));
+            OnPropertyChanged(nameof(ArchSumSetHotWater));
+            OnPropertyChanged(nameof(ArchSumActHotWater));
+            OnPropertyChanged(nameof(ArchSumSetMixture1));
+            OnPropertyChanged(nameof(ArchSumActMixture1));
+            OnPropertyChanged(nameof(ArchSumSetMixture2));
+            OnPropertyChanged(nameof(ArchSumActMixture2));
+            OnPropertyChanged(nameof(ArchSumSetCement1));
+            OnPropertyChanged(nameof(ArchSumActCement1));
+            OnPropertyChanged(nameof(ArchSumSetCement2));
+            OnPropertyChanged(nameof(ArchSumActCement2));
+            OnPropertyChanged(nameof(ArchSumSetAluminium1));
+            OnPropertyChanged(nameof(ArchSumActAluminium1));
+            OnPropertyChanged(nameof(ArchSumSetAluminium2));
+            OnPropertyChanged(nameof(ArchSumActAluminium2));
+            OnPropertyChanged(nameof(ArchCountBadMixes));
+            OnPropertyChanged(nameof(ArchCountUndersizedMixes));
+            OnPropertyChanged(nameof(ArchCountOvergroundMixes));
+            OnPropertyChanged(nameof(ArchCountBoiledMixes));
+            OnPropertyChanged(nameof(ArchCountMudMixes));
+        }
+
+        #endregion
 
         #endregion
 
@@ -353,12 +806,19 @@ namespace MixerRaportsViewer.ViewModels
             try
             {
                 var date = GetDateTimesFrom(DateTime.Now);
-                Mixes.Clear();
+                CurrentShiftMixes.Clear();
                 foreach (var mix in _Mixes.GetAll()
                     .Where(m => m.DateTime >= date)
                     .OrderByDescending(m => m.DateTime))
                 {
-                    Mixes.Add(mix);
+                    CurrentShiftMixes.Add(mix);
+                }
+                PreShiftMixes.Clear();
+                foreach (var mix in _Mixes.GetAll()
+                    .Where(m => m.DateTime >= date.AddHours(-12) && m.DateTime < date)
+                    .OrderByDescending(m => m.DateTime))
+                {
+                    PreShiftMixes.Add(mix);
                 }
                 ConnectToDataBase = true;
             }

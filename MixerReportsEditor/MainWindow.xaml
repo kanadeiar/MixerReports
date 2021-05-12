@@ -208,7 +208,7 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Самые новые заливки">
+            <TabItem Header="Самые последние заливки">
                 <TabControl>
                     <TabItem Header="Текущая смена" Height="30">
                         <Grid>
