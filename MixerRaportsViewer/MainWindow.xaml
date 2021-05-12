@@ -5,8 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MixerRaportsViewer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Height="700" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Background="LightGreen"
+        
+        Title="{Binding Title}"
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}">
 
-    </Grid>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Главное меню">
+                <MenuItem Header="Выход" 
+                          Command="{Binding CloseApplicationCommand}"/>
+            </MenuItem>
+        </Menu>
+
+    </DockPanel>
 </Window>

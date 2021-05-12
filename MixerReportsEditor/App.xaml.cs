@@ -25,14 +25,11 @@ namespace MixerReportsEditor
         }
         /// <summary> Сервисы </summary>
         public static IServiceProvider Services => __Services ??= GetServices().BuildServiceProvider();
-
-        private static string __DefaultConnectionString;
-        /// <summary> Строка подключения к базе данных </summary>
-        public static string DefaultConnectionString => __DefaultConnectionString ??= GetDefaultConnectionString();
+        
         private static void InitializeServices(IServiceCollection services)
         {
             services.AddDbContext<SPBSUMixerRaportsEntities>(
-                c => c.UseSqlServer(GetDefaultConnectionString(), o => o.EnableRetryOnFailure())
+                c => c.UseSqlServer(DefaultConnectionString, o => o.EnableRetryOnFailure())
                     .ConfigureWarnings(w => w.Throw(RelationalEventId.BoolWithDefaultWarning)));
             
             services.AddScoped<MainWindowViewModel>();
@@ -40,6 +37,11 @@ namespace MixerReportsEditor
             services.AddScoped<IRepository<Mix>, MixRepository>();
 
         }
+
+        private static string __DefaultConnectionString;
+        /// <summary> Строка подключения к базе данных </summary>
+        public static string DefaultConnectionString => __DefaultConnectionString ??= GetDefaultConnectionString();
+
         private static string GetDefaultConnectionString()
         {
             AppSettingsReader ar = new AppSettingsReader();

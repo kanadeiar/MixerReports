@@ -19,6 +19,7 @@ namespace MixerReportsEditor.ViewModel
         #region Data
 
         private readonly IRepository<Mix> _Mixes;
+
         private readonly Timer _timer;
 
         #endregion
