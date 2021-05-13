@@ -8,7 +8,7 @@ namespace MixerReports.lib.Models
 {
     public partial class Mix : IDataErrorInfo
     {
-        [NotMapped] public string NormalStr => (Normal) ? "Норма" : "Ошибка";
+        [NotMapped] public string NormalStr => (Normal) ? "Норма" : "Плохо";
 
         [NotMapped] public string UndersizedStr => (Undersized) ? "Недоросток" : String.Empty;
 

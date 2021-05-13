@@ -5,6 +5,8 @@ using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
 using MixerReportsEditor.Commands;
@@ -17,6 +19,7 @@ namespace MixerReportsEditor.ViewModel
         #region Data
 
         private readonly IRepository<Mix> _Mixes;
+
         private readonly Timer _timer;
 
         #endregion
@@ -30,7 +33,7 @@ namespace MixerReportsEditor.ViewModel
 
         #endregion
 
-        #region Данные по заливкам за смену
+        #region Данные по заливкам за последние смены
 
         /// <summary> Время сколько длиться эта смена </summary>
         public string TimeSpanCurrentShiftMixes
@@ -42,11 +45,23 @@ namespace MixerReportsEditor.ViewModel
             }
         }
 
+        private int _CountCurrentShiftMixes;
+
         /// <summary> Количество заливок текущей смены </summary>
-        public int CountCurrentShiftMixes => CurrentShiftMixes.Count;
+        public int CountCurrentShiftMixes
+        {
+            get => _CountCurrentShiftMixes;
+            set => Set(ref _CountCurrentShiftMixes, value);
+        }
+
+        private int _CountNormalCurrentShiftMixes;
 
         /// <summary> Количество нормальных заливок текущей смены </summary>
-        public int CountNormalCurrentShiftMixes => CurrentShiftMixes.Count(m => m.Normal);
+        public int CountNormalCurrentShiftMixes
+        {
+            get => _CountNormalCurrentShiftMixes;
+            set => Set(ref _CountNormalCurrentShiftMixes, value);
+        }
 
         /// <summary> Данные по заливкам текущей смены </summary>
         public ICollection<Mix> CurrentShiftMixes
@@ -57,6 +72,8 @@ namespace MixerReportsEditor.ViewModel
                 var mixs = _Mixes.GetAll()
                     .Where(m => m.DateTime >= date)
                     .OrderByDescending(m => m.DateTime).ToList();
+                CountCurrentShiftMixes = mixs.Count;
+                CountNormalCurrentShiftMixes = mixs.Count(m => m.Normal);
                 return mixs;
             }
         }
@@ -71,11 +88,23 @@ namespace MixerReportsEditor.ViewModel
             }
         }
 
+        private int _CountPreShiftMixes;
+
         /// <summary> Количество заливок предидущей смены </summary>
-        public int CountPreShiftMixes => PreShiftMixes.Count;
+        public int CountPreShiftMixes
+        {
+            get => _CountPreShiftMixes;
+            set => Set(ref _CountPreShiftMixes, value);
+        }
+
+        private int _CountNormalPreShiftMixes;
 
         /// <summary> Количество нормальных заливок предидущей смены </summary>
-        public int CountNormalPreShiftMixes => PreShiftMixes.Count(m => m.Normal);
+        public int CountNormalPreShiftMixes
+        {
+            get => _CountNormalPreShiftMixes;
+            set => Set(ref _CountNormalPreShiftMixes, value);
+        }
 
         /// <summary> Данные по заливкам предидущей смены </summary>
         public ICollection<Mix> PreShiftMixes
@@ -86,6 +115,8 @@ namespace MixerReportsEditor.ViewModel
                 var mixs = _Mixes.GetAll()
                     .Where(m => m.DateTime >= date && m.DateTime < date.AddHours(12))
                     .OrderByDescending(m => m.DateTime).ToList();
+                CountPreShiftMixes = mixs.Count;
+                CountNormalPreShiftMixes = mixs.Count(m => m.Normal);
                 return mixs;
             }
         }
@@ -112,25 +143,20 @@ namespace MixerReportsEditor.ViewModel
             }
         }
 
+        private int _CountShiftDayMixes;
         /// <summary> Количество заливок дневной смены </summary>
         public int CountShiftDayMixes
         {
-            get
-            {
-                var date = ShiftSelectDateTime.Date.AddHours(8);
-                return _Mixes.GetAll()
-                    .Count(m => m.DateTime >= date && m.DateTime < date.AddHours(12));
-            }
+            get => _CountShiftDayMixes;
+            set => Set(ref _CountShiftDayMixes, value);
         }
+
+        private int _CountNormalShiftDayMixes;
         /// <summary> Количество нормальных заливок </summary>
         public int CountNormalShiftDayMixes
         {
-            get
-            {
-                var date = ShiftSelectDateTime.Date.AddHours(8);
-                return _Mixes.GetAll()
-                    .Count(m => m.DateTime >= date && m.DateTime < date.AddHours(12) && m.Normal);
-            }
+            get => _CountNormalShiftDayMixes;
+            set => Set(ref _CountNormalShiftDayMixes, value);
         }
 
         /// <summary> Данные дневной смены за выбранную дату </summary>
@@ -142,30 +168,28 @@ namespace MixerReportsEditor.ViewModel
                 var mixs = _Mixes.GetAll()
                     .Where(m => m.DateTime >= date && m.DateTime < date.AddHours(12))
                     .OrderBy(m => m.DateTime).ToList();
+                CountShiftDayMixes = mixs.Count;
+                CountNormalShiftDayMixes = mixs.Count(m => m.Normal);
                 return mixs;
             }
         }
 
+        private int _CountShiftNightMixes;
         /// <summary> Количество заливок ночной смены </summary>
         public int CountShiftNightMixes
         {
-            get
-            {
-                var date = ShiftSelectDateTime.Date.AddHours(8);
-                return _Mixes.GetAll()
-                    .Count(m => m.DateTime >= date.AddHours(12) && m.DateTime < date.AddHours(24));
-            }
+            get => _CountShiftNightMixes;
+            set => Set(ref _CountShiftNightMixes, value);
         }
+
+        private int _CountNormalShiftNightMixes;
         /// <summary> Количество нормальных заливок </summary>
         public int CountNormalShiftNightMixes
         {
-            get
-            {
-                var date = ShiftSelectDateTime.Date.AddHours(8);
-                return _Mixes.GetAll()
-                    .Count(m => m.DateTime >= date.AddHours(12) && m.DateTime < date.AddHours(24) && m.Normal);
-            }
+            get => _CountNormalShiftNightMixes;
+            set => Set(ref _CountNormalShiftNightMixes, value);
         }
+
         /// <summary> Данные ночной смены за выбранную дату </summary>
         public ICollection<Mix> ShiftNightMixes
         {
@@ -175,6 +199,8 @@ namespace MixerReportsEditor.ViewModel
                 var mixs = _Mixes.GetAll()
                     .Where(m => m.DateTime >= date.AddHours(12) && m.DateTime < date.AddHours(24))
                     .OrderBy(m => m.DateTime).ToList();
+                CountShiftNightMixes = mixs.Count;
+                CountNormalShiftNightMixes = mixs.Count(m => m.Normal);
                 return mixs;
             }
         }
@@ -215,7 +241,7 @@ namespace MixerReportsEditor.ViewModel
             get
             {
                 var mixs = _Mixes.GetAll()
-                    .Where(m => m.DateTime >= FilterArchivesBeginDateTime && m.DateTime < FilterArchivesEndDateTime.AddHours(24))
+                    .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8))
                     .OrderBy(m => m.DateTime).ToList();
                 return mixs;
             }
@@ -234,10 +260,27 @@ namespace MixerReportsEditor.ViewModel
             set => Set(ref _Title, value);
         }
 
+        private bool _ConnectToDataBase;
+
+        /// <summary> Инфа про соединение с базой данных </summary>
+        public bool ConnectToDataBase
+        {
+            get => _ConnectToDataBase;
+            set
+            {
+                Set(ref _ConnectToDataBase, value);
+                OnPropertyChanged(nameof(ConnectToDataBaseStr));
+            }
+        }
+        public string ConnectToDataBaseStr => (ConnectToDataBase) ? "Соединение с базой данных установлено" : "Соединение с базой данных потеряно";
+
+        /// <summary> Текущее время </summary>
+        public DateTime CurrentDateTime => DateTime.Now;
+
         #endregion
 
         #endregion
-        
+
         public MainWindowViewModel(IRepository<Mix> mixes)
         {
             _Mixes = mixes;
@@ -334,8 +377,7 @@ namespace MixerReportsEditor.ViewModel
         private void OnUpdateMixCommandExecuted(object p)
         {
             OnPropertyChanged(nameof(TimeSpanCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountNormalCurrentShiftMixes));
+            OnPropertyChanged(nameof(CurrentShiftMixes));
             LoadData();
         }
 
@@ -354,8 +396,6 @@ namespace MixerReportsEditor.ViewModel
         private void OnUpdateCurrentShiftMixesCommandExecuted(object p)
         {
             OnPropertyChanged(nameof(TimeSpanCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountNormalCurrentShiftMixes));
             OnPropertyChanged(nameof(CurrentShiftMixes));
         }
 
@@ -370,8 +410,6 @@ namespace MixerReportsEditor.ViewModel
         private void OnUpdatePreShiftMixesCommandExecuted(object p)
         {
             OnPropertyChanged(nameof(TimeBeginPreShiftMixes));
-            OnPropertyChanged(nameof(CountPreShiftMixes));
-            OnPropertyChanged(nameof(CountNormalPreShiftMixes));
             OnPropertyChanged(nameof(PreShiftMixes));
         }
 
@@ -391,10 +429,6 @@ namespace MixerReportsEditor.ViewModel
         {
             OnPropertyChanged(nameof(ShiftDayMixes));
             OnPropertyChanged(nameof(ShiftNightMixes));
-            OnPropertyChanged(nameof(CountShiftDayMixes));
-            OnPropertyChanged(nameof(CountShiftNightMixes));
-            OnPropertyChanged(nameof(CountNormalShiftDayMixes));
-            OnPropertyChanged(nameof(CountNormalShiftNightMixes));
         }
 
         #endregion
@@ -440,12 +474,41 @@ namespace MixerReportsEditor.ViewModel
         /// <summary> Загрузка данных из бд во вьюмодель </summary>
         private void LoadData()
         {
-            Mixes.Clear();
-            foreach (var mix in _Mixes.GetAll()
-                .Where(m => m.DateTime >= DateTime.Now.AddHours(- 2))
-                .OrderByDescending(m => m.DateTime))
+            try
             {
-                Mixes.Add(mix);
+                Mixes.Clear();
+                foreach (var mix in _Mixes.GetAll()
+                    .Where(m => m.DateTime >= DateTime.Now.AddHours(-2))
+                    .OrderByDescending(m => m.DateTime))
+                {
+                    Mixes.Add(mix);
+                }
+                ConnectToDataBase = true;
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show($"{DateTime.Now} Ошибка отсутствия аргумента при доступе к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}", "Ошибка связи с базой данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                ConnectToDataBase = false;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                MessageBox.Show($"{DateTime.Now} Ошибка конкурентного доступа к базе данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}", "Ошибка связи с базой данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                ConnectToDataBase = false;
+            }
+            catch (DbUpdateException ex)
+            {
+                MessageBox.Show($"{DateTime.Now} Ошибка обновления данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}", "Ошибка связи с базой данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                ConnectToDataBase = false;
+            }
+            catch (RetryLimitExceededException ex)
+            {
+                MessageBox.Show($"{DateTime.Now} Превышение лимита попыток подключения к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}", "Ошибка связи с базой данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                ConnectToDataBase = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{DateTime.Now} Неизвестная ошибка связи с базой данных {ex.Message}, Подробности: {ex?.InnerException?.Message}", "Ошибка связи с базой данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                ConnectToDataBase = false;
             }
         }
         /// <summary> Получение времени начала работы смены </summary>
@@ -458,12 +521,12 @@ namespace MixerReportsEditor.ViewModel
                 dateFrom = dateFrom.AddHours(12);
             return dateFrom;
         }
-        /// <summary> Обновление только самой передней части данных </summary>
+        /// <summary> Обновление только самой важной передней части данных </summary>
         private void UpdateFirstData()
         {
             OnPropertyChanged(nameof(TimeSpanCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountNormalCurrentShiftMixes));
+            OnPropertyChanged(nameof(CurrentDateTime));
+            OnPropertyChanged(nameof(CurrentShiftMixes));
             LoadData();
         }
 

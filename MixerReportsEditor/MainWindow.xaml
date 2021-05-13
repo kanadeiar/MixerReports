@@ -23,12 +23,24 @@
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
+            <StatusBar.Resources>
+                <Style TargetType="TextBlock" x:Key="StyleConnectDataBase">
+                    <Setter Property="Background" Value="#ffaaaa"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ConnectToDataBase}" Value="True">
+                            <Setter Property="Background" Value="Orange"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StatusBar.Resources>
             <StatusBarItem>
-                <TextBlock Text="Соединение с базой данных"/>
+                <TextBlock Text="{Binding ConnectToDataBaseStr}" Style="{StaticResource StyleConnectDataBase}"/>
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
-                <TextBlock Text="Информация"/>
+                <TextBlock>
+                    Текущее время: <TextBlock Text="{Binding CurrentDateTime, StringFormat=HH:mm:ss}"/>
+                </TextBlock>
             </StatusBarItem>
         </StatusBar>
         <TabControl>
@@ -101,7 +113,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="120"/>
                                                 <ColumnDefinition Width="30"/>
-                                                <ColumnDefinition Width="60"/>
+                                                <ColumnDefinition Width="80"/>
                                                 <ColumnDefinition Width="90"/>
                                                 <ColumnDefinition Width="80"/>
                                                 <ColumnDefinition Width="120"/>
@@ -196,7 +208,7 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Заливки за смену">
+            <TabItem Header="Самые последние заливки">
                 <TabControl>
                     <TabItem Header="Текущая смена" Height="30">
                         <Grid>
@@ -352,7 +364,7 @@
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                                     <TextBlock>
-                                        Количество нормальных заливок: <TextBlock Text="{Binding CountShiftDayMixes}" FontWeight="Bold"/> шт.,
+                                        Количество нормальных заливок: <TextBlock Text="{Binding CountNormalShiftDayMixes}" FontWeight="Bold"/> шт.,
                                         всего заливок: <TextBlock Text="{Binding CountShiftDayMixes}" FontWeight="Bold"/> шт.
                                     </TextBlock>
                                 </StackPanel>
@@ -398,7 +410,7 @@
                                 </Grid.RowDefinitions>
                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                                     <TextBlock>
-                                        Количество нормальных заливок: <TextBlock Text="{Binding CountShiftNightMixes}" FontWeight="Bold"/> шт.,
+                                        Количество нормальных заливок: <TextBlock Text="{Binding CountNormalShiftNightMixes}" FontWeight="Bold"/> шт.,
                                         всего заливок: <TextBlock Text="{Binding CountShiftNightMixes}" FontWeight="Bold"/> шт.
                                     </TextBlock>
                                 </StackPanel>
