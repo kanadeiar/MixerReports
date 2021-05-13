@@ -305,76 +305,74 @@
                                 </DataGrid>
                                 <GroupBox Grid.Row="2" Header="Статистические данные">
                                     <WrapPanel>
-                                        <Button Content="Обновить статистику" Padding="10,0"
-                                            Command="{Binding UpdateCurrentSumDatasCommand}"/>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Средняя температура: "/>
-                                            <TextBlock Text="{Binding CurrAverageTemperature, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DayAverageTemperature, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="град. цельсия. Количество плохих заливок: "/>
-                                            <TextBlock Text="{Binding CurrCountBadMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DayCountBadMixes}" FontWeight="Bold"/>
                                             <TextBlock Text="шт., из них: недоростков: "/>
-                                            <TextBlock Text="{Binding CurrCountUndersizedMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DayCountUndersizedMixes}" FontWeight="Bold"/>
                                             <TextBlock Text="шт., переростков: "/>
-                                            <TextBlock Text="{Binding CurrCountOvergroundMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DayCountOvergroundMixes}" FontWeight="Bold"/>
                                             <TextBlock Text="шт., закипевших: "/>
-                                            <TextBlock Text="{Binding CurrCountBoiledMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DayCountBoiledMixes}" FontWeight="Bold"/>
                                             <TextBlock Text="шт., сброшенных в шлам: "/>
-                                            <TextBlock Text="{Binding CurrCountMudMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DayCountMudMixes}" FontWeight="Bold"/>
                                             <TextBlock Text="шт.   "/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Сумма задано песчаный шлам: "/>
-                                            <TextBlock Text="{Binding CurrSumSetSandMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumSetSandMud, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт песчаный шлам:"/>
-                                            <TextBlock Text="{Binding CurrSumActSandMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumActSandMud, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма задано обратный шлам: "/>
-                                            <TextBlock Text="{Binding CurrSumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт обратный шлам: "/>
-                                            <TextBlock Text="{Binding CurrSumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг.   "/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Сумма задано холодная вода: "/>
-                                            <TextBlock Text="{Binding CurrSumSetColdWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumSetColdWater, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт холодная вода: "/>
-                                            <TextBlock Text="{Binding CurrSumActColdWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumActColdWater, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма задано горячая вода: "/>
-                                            <TextBlock Text="{Binding CurrSumSetHotWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumSetHotWater, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт горячая вода: "/>
-                                            <TextBlock Text="{Binding CurrSumActHotWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumActHotWater, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг.   "/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Сумма задано ИПВ1: "/>
-                                            <TextBlock Text="{Binding CurrSumSetMixture1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumSetMixture1, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт ИПВ1: "/>
-                                            <TextBlock Text="{Binding CurrSumActMixture1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumActMixture1, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма задано ИПВ2: "/>
-                                            <TextBlock Text="{Binding CurrSumSetMixture2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumSetMixture2, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт ИПВ2: "/>
-                                            <TextBlock Text="{Binding CurrSumActMixture2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumActMixture2, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг."/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Сумма задано цемент1: "/>
-                                            <TextBlock Text="{Binding CurrSumSetCement1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumSetCement1, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт цемент1: "/>
-                                            <TextBlock Text="{Binding CurrSumActCement1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumActCement1, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма задано цемент2: "/>
-                                            <TextBlock Text="{Binding CurrSumSetCement2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumSetCement2, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт цемент2: "/>
-                                            <TextBlock Text="{Binding CurrSumActCement2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumActCement2, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг.  "/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Сумма задано алюминий1: "/>
-                                            <TextBlock Text="{Binding CurrSumSetAluminium1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumSetAluminium1, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт алюминий1: "/>
-                                            <TextBlock Text="{Binding CurrSumActAluminium1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumActAluminium1, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма задано алюминий2: "/>
-                                            <TextBlock Text="{Binding CurrSumSetAluminium2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumSetAluminium2, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт алюминий2: "/>
-                                            <TextBlock Text="{Binding CurrSumActAluminium2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding DaySumActAluminium2, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг."/>
                                         </StackPanel>
                                     </WrapPanel>
@@ -448,76 +446,74 @@
                                 </DataGrid>
                                 <GroupBox Grid.Row="2" Header="Статистические данные">
                                     <WrapPanel>
-                                        <Button Content="Обновить статистику" Padding="10,0"
-                                            Command="{Binding UpdatePreSumDatasCommand}"/>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Средняя температура: "/>
-                                            <TextBlock Text="{Binding PreAverageTemperature, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightAverageTemperature, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="град. цельсия. Количество плохих заливок: "/>
-                                            <TextBlock Text="{Binding PreCountBadMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightCountBadMixes}" FontWeight="Bold"/>
                                             <TextBlock Text="шт., из них: недоростков: "/>
-                                            <TextBlock Text="{Binding PreCountUndersizedMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightCountUndersizedMixes}" FontWeight="Bold"/>
                                             <TextBlock Text="шт., переростков: "/>
-                                            <TextBlock Text="{Binding PreCountOvergroundMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightCountOvergroundMixes}" FontWeight="Bold"/>
                                             <TextBlock Text="шт., закипевших: "/>
-                                            <TextBlock Text="{Binding PreCountBoiledMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightCountBoiledMixes}" FontWeight="Bold"/>
                                             <TextBlock Text="шт., сброшенных в шлам: "/>
-                                            <TextBlock Text="{Binding PreCountMudMixes}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightCountMudMixes}" FontWeight="Bold"/>
                                             <TextBlock Text="шт.   "/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Сумма задано песчаный шлам: "/>
-                                            <TextBlock Text="{Binding PreSumSetSandMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumSetSandMud, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт песчаный шлам:"/>
-                                            <TextBlock Text="{Binding PreSumActSandMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumActSandMud, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма задано обратный шлам: "/>
-                                            <TextBlock Text="{Binding PreSumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт обратный шлам: "/>
-                                            <TextBlock Text="{Binding PreSumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumSetRevertMud, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг.   "/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Сумма задано холодная вода: "/>
-                                            <TextBlock Text="{Binding PreSumSetColdWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumSetColdWater, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт холодная вода: "/>
-                                            <TextBlock Text="{Binding PreSumActColdWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumActColdWater, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма задано горячая вода: "/>
-                                            <TextBlock Text="{Binding PreSumSetHotWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumSetHotWater, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт горячая вода: "/>
-                                            <TextBlock Text="{Binding PreSumActHotWater, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumActHotWater, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг.   "/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Сумма задано ИПВ1: "/>
-                                            <TextBlock Text="{Binding PreSumSetMixture1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumSetMixture1, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт ИПВ1: "/>
-                                            <TextBlock Text="{Binding PreSumActMixture1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumActMixture1, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма задано ИПВ2: "/>
-                                            <TextBlock Text="{Binding PreSumSetMixture2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumSetMixture2, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт ИПВ2: "/>
-                                            <TextBlock Text="{Binding PreSumActMixture2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumActMixture2, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг."/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Сумма задано цемент1: "/>
-                                            <TextBlock Text="{Binding PreSumSetCement1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumSetCement1, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт цемент1: "/>
-                                            <TextBlock Text="{Binding PreSumActCement1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumActCement1, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма задано цемент2: "/>
-                                            <TextBlock Text="{Binding PreSumSetCement2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumSetCement2, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт цемент2: "/>
-                                            <TextBlock Text="{Binding PreSumActCement2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumActCement2, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг.  "/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Сумма задано алюминий1: "/>
-                                            <TextBlock Text="{Binding PreSumSetAluminium1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumSetAluminium1, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт алюминий1: "/>
-                                            <TextBlock Text="{Binding PreSumActAluminium1, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumActAluminium1, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма задано алюминий2: "/>
-                                            <TextBlock Text="{Binding PreSumSetAluminium2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumSetAluminium2, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг. Сумма факт алюминий2: "/>
-                                            <TextBlock Text="{Binding PreSumActAluminium2, StringFormat=f2}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding NightSumActAluminium2, StringFormat=f2}" FontWeight="Bold"/>
                                             <TextBlock Text="кг."/>
                                         </StackPanel>
                                     </WrapPanel>
@@ -527,7 +523,7 @@
                     </TabControl>
                 </Grid>
             </TabItem>
-            <TabItem Header="Архивные данные">
+            <TabItem Header="Архивные данные" Height="40">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -625,8 +621,6 @@
                             </DataGrid>
                             <GroupBox Grid.Row="2" Header="Статистические данные">
                                 <WrapPanel>
-                                    <Button Content="Обновить статистику" Padding="10,0"
-                                            Command="{Binding UpdateArchivesSumDatasCommand}"/>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Средняя температура: "/>
                                         <TextBlock Text="{Binding ArchAverageTemperature, StringFormat=f2}" FontWeight="Bold"/>
