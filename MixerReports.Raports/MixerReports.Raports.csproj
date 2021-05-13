@@ -8,4 +8,8 @@
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.12.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MixerReports.lib\MixerReports.lib.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Win32;
 using MixerRaportsViewer.Commands;
 using MixerRaportsViewer.Raports;
 using MixerReports.lib.Interfaces;
@@ -1014,7 +1016,48 @@ namespace MixerRaportsViewer.ViewModels
             OnPropertyChanged(nameof(ShiftDayMixes));
             OnPropertyChanged(nameof(ShiftNightMixes));
         }
-        
+
+        private ICommand _GenerateRaportMixesCommand;
+
+        /// <summary> Генерация отчета по заливкам </summary>
+        public ICommand GenerateRaportMixesCommand => _GenerateRaportMixesCommand ??=
+            new LambdaCommand(OnGenerateRaportMixesCommandExecuted, CanGenerateRaportMixesCommandExecute);
+
+        private bool CanGenerateRaportMixesCommandExecute(object p) => true;
+
+        private void OnGenerateRaportMixesCommandExecuted(object p)
+        {
+            var dialog = new SaveFileDialog
+            {
+                Title = "Сохранение отчета по заливкам в формате Excel",
+                Filter = "Файлы Excel (*.xlsx)|*.xlsx|Все файлы (*.*)|*.*",
+                FileName = $"Отчет БСУ {ShiftSelectDateTime:dd.MM.yyyy}",
+                OverwritePrompt = true,
+                InitialDirectory = Environment.CurrentDirectory,
+            };
+            if (dialog.ShowDialog() == false)
+                return;
+            MixRaport raport = new MixRaport();
+            raport.DayMixes = ShiftDayMixes;
+            raport.NightMixes = ShiftNightMixes;
+            var fileName = dialog.FileName;
+            try
+            {
+                raport.CreatePackage(fileName);
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show($"Ошибка ввода-вывода при сохранении данных в файл {fileName}, ошибка: \n{e.Message}","Ошибка сохранения файла", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Не удалось сохранить данные в файл {fileName}, ошибка: \n{e.Message}", "Ошибка сохранения файла", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            MessageBox.Show($"Отчет по заливкам успешно создан: \n{fileName}\n");
+        }
+
         #endregion
 
         #region Архивные данные за выбранный диапазон дат
@@ -1047,23 +1090,6 @@ namespace MixerRaportsViewer.ViewModels
         private void OnCloseApplicationCommandExecuted(object p)
         {
             Application.Current.Shutdown();
-        }
-
-        private ICommand _TestCommand;
-
-        /// <summary> Test </summary>
-        public ICommand TestCommand => _TestCommand ??=
-            new LambdaCommand(OnTestCommandExecuted, CanTestCommandExecute);
-
-        private bool CanTestCommandExecute(object p) => true;
-
-        private void OnTestCommandExecuted(object p)
-        {
-            MixRaport raport = new MixRaport();
-            
-            raport.CreatePackage("test.xlsx");
-
-            MessageBox.Show("Файл создан!");
         }
 
         #endregion
