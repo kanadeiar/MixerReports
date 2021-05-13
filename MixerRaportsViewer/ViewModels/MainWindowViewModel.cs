@@ -30,7 +30,6 @@ namespace MixerRaportsViewer.ViewModels
 
         /// <summary> Заливки текущей смены </summary>
         public ObservableCollection<Mix> CurrentShiftMixes { get; } = new();
-
         /// <summary> Время сколько длиться эта смена </summary>
         public string TimeSpanCurrentShiftMixes
         {
@@ -40,16 +39,23 @@ namespace MixerRaportsViewer.ViewModels
                 return $"{span.Hours} час. {span.Minutes} мин. {span.Seconds} сек.";
             }
         }
-        
+        private int _CountCurrentShiftMixes;
         /// <summary> Количество всех заливок </summary>
-        public int CountCurrentShiftMixes => CurrentShiftMixes.Count;
-        
+        public int CountCurrentShiftMixes
+        {
+            get => _CountCurrentShiftMixes;
+            set => Set(ref _CountCurrentShiftMixes, value);
+        }
+        private int _CountCurrentNormalShiftMixes;
         /// <summary> Количество нормальных заливок </summary>
-        public int CountCurrentNormalShiftMixes => CurrentShiftMixes.Count(m => m.Normal);
-        
+        public int CountCurrentNormalShiftMixes
+        {
+            get => _CountCurrentNormalShiftMixes;
+            set => Set(ref _CountCurrentNormalShiftMixes, value);
+        }
+
         /// <summary> Заливки предидущей смены </summary>
         public ObservableCollection<Mix> PreShiftMixes { get; } = new ();
-        
         /// <summary> Время и дата начала предидущей смены </summary>
         public string TimeBeginPreShiftMixes
         {
@@ -59,13 +65,20 @@ namespace MixerRaportsViewer.ViewModels
                 return $"{date:HH:mm:ss dd.MM.yyyy}";
             }
         }
-
+        private int _CountPreShiftMixes;
         /// <summary> Количество всех заливок предидущей смены </summary>
-        public int CountPreShiftMixes => PreShiftMixes.Count;
-
+        public int CountPreShiftMixes
+        {
+            get => _CountPreShiftMixes;
+            set => Set(ref _CountPreShiftMixes, value);
+        }
+        private int _CountPreNormalShiftMixes;
         /// <summary> Количество нормальных заливок предидущей смены </summary>
-        public int CountPreNormalShiftMixes => PreShiftMixes.Count(m => m.Normal);
-
+        public int CountPreNormalShiftMixes
+        {
+            get => _CountPreNormalShiftMixes;
+            set => Set(ref _CountPreNormalShiftMixes, value);
+        }
 
         #endregion
 
@@ -595,8 +608,6 @@ namespace MixerRaportsViewer.ViewModels
         {
             LoadData();
             OnPropertyChanged(nameof(TimeSpanCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountCurrentShiftMixes));
-            OnPropertyChanged(nameof(CountCurrentNormalShiftMixes));
         }
 
         private ICommand _UpdatePreShiftMixesCommand;
@@ -611,8 +622,6 @@ namespace MixerRaportsViewer.ViewModels
         {
             LoadData();
             OnPropertyChanged(nameof(TimeBeginPreShiftMixes));
-            OnPropertyChanged(nameof(CountPreShiftMixes));
-            OnPropertyChanged(nameof(CountPreNormalShiftMixes));
         }
 
         #endregion
@@ -831,6 +840,9 @@ namespace MixerRaportsViewer.ViewModels
                 {
                     CurrentShiftMixes.Add(mix);
                 }
+                CountCurrentShiftMixes = CurrentShiftMixes.Count;
+                CountCurrentNormalShiftMixes = CurrentShiftMixes.Count(m => m.Normal);
+
                 PreShiftMixes.Clear();
                 foreach (var mix in _Mixes.GetAll()
                     .Where(m => m.DateTime >= date.AddHours(-12) && m.DateTime < date)
@@ -838,6 +850,10 @@ namespace MixerRaportsViewer.ViewModels
                 {
                     PreShiftMixes.Add(mix);
                 }
+
+                CountPreShiftMixes = PreShiftMixes.Count;
+                CountPreNormalShiftMixes = PreShiftMixes.Count(m => m.Normal);
+
                 ConnectToDataBase = true;
             }
             catch (ArgumentNullException ex)
