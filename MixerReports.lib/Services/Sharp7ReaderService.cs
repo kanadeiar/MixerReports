@@ -25,6 +25,8 @@ namespace MixerReports.lib.Services
         public Sharp7ReaderService()
         {
             _S7Client = new S7Client();
+            _S7Client.ConnTimeout = 10_000; //ожидание соединения
+            _S7Client.RecvTimeout = 10_000; //ожидание данных
         }
 
         /// <summary> Тест соединения с контроллером </summary>
@@ -63,8 +65,11 @@ namespace MixerReports.lib.Services
                 if (secondsBegin > SetSecondsToRead && _nowMixRunning) //заливка окончена по времени
                 {
                     mix = GetGoodMix(_S7Client, SecondsCorrect);
-                    _nowMixRunning = false;
-                    outResult = true;
+                    if (mix.MixerTemperature > 1.0f || mix.SetSandMud > 1.0f || mix.SetRevertMud > 1.0f) //должны быть получены корректные данные, иначе - продолжать опрос
+                    {
+                        _nowMixRunning = false;
+                        outResult = true;
+                    }
                 }
                 if (!mixRunning && _nowMixRunning) //заливка ошибочно закончена
                 {

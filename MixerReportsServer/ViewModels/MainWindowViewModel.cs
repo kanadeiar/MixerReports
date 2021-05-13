@@ -22,7 +22,7 @@ namespace MixerReportsServer.ViewModels
     class MainWindowViewModel : ViewModel
     {
         //private readonly IRepository<Mix> _Mixes;
-        private readonly Timer _timer = new Timer(3_000);
+        private readonly Timer _timer;
         private readonly ISharp7ReaderService _sharp7ReaderService;
 
         #region Свойства
@@ -130,7 +130,7 @@ namespace MixerReportsServer.ViewModels
                 Settings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText("data.json"));
             else
                 Settings = new Settings();
-
+            _timer = new Timer(3_000); //опрос каждые 3 секунды
             _timer.Elapsed += TimerOnElapsed;
             _timer.Start();
         }
