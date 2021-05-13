@@ -1,4 +1,8 @@
-﻿using DocumentFormat.OpenXml.Packaging;
+﻿using System;
+using System.Globalization;
+using System.IO;
+using System.Xml;
+using DocumentFormat.OpenXml.Packaging;
 using Ap = DocumentFormat.OpenXml.ExtendedProperties;
 using Vt = DocumentFormat.OpenXml.VariantTypes;
 using DocumentFormat.OpenXml;
@@ -21,6 +25,8 @@ namespace MixerRaportsViewer.Raports
                 CreateParts(package);
             }
         }
+
+        #region Генерация остальной части файла
 
         // Adds child parts and generates content of the specified part.
         private void CreateParts(SpreadsheetDocument document)
@@ -705,9 +711,13 @@ namespace MixerRaportsViewer.Raports
             themePart1.Theme = theme1;
         }
 
+        #endregion
+
         // Generates content of worksheetPart1.
         private void GenerateWorksheetPart1Content(WorksheetPart worksheetPart1)
         {
+            #region Данные страницы и колонки
+
             Worksheet worksheet1 = new Worksheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
             worksheet1.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
             worksheet1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
@@ -743,7 +753,11 @@ namespace MixerRaportsViewer.Raports
             columns1.Append(column9);
             columns1.Append(column10);
 
+            #endregion
+
             SheetData sheetData1 = new SheetData();
+
+            #region Названия столбцов
 
             Row row1 = new Row() { RowIndex = (UInt32Value)1U, Spans = new ListValue<StringValue>() { InnerText = "1:26" }, Height = 75D, DyDescent = 0.25D };
 
@@ -930,6 +944,12 @@ namespace MixerRaportsViewer.Raports
             row1.Append(cell25);
             row1.Append(cell26);
 
+            #endregion
+            
+            sheetData1.Append(row1);
+
+            #region Строка данных
+
             Row row2 = new Row() { RowIndex = (UInt32Value)2U, Spans = new ListValue<StringValue>() { InnerText = "1:26" }, DyDescent = 0.25D };
 
             Cell cell27 = new Cell() { CellReference = "A2", StyleIndex = (UInt32Value)1U };
@@ -940,7 +960,7 @@ namespace MixerRaportsViewer.Raports
 
             Cell cell28 = new Cell() { CellReference = "B2", StyleIndex = (UInt32Value)2U };
             CellValue cellValue28 = new CellValue();
-            cellValue28.Text = "10.05.2021 8:02:55";
+            cellValue28.Text = DateTime.Parse("10.05.2021 20:02:55").ToOADate().ToString(CultureInfo.InvariantCulture);
 
             cell28.Append(cellValue28);
 
@@ -1115,190 +1135,11 @@ namespace MixerRaportsViewer.Raports
             row2.Append(cell51);
             row2.Append(cell52);
 
-            Row row3 = new Row() { RowIndex = (UInt32Value)3U, Spans = new ListValue<StringValue>() { InnerText = "1:26" }, DyDescent = 0.25D };
+            #endregion
 
-            Cell cell53 = new Cell() { CellReference = "A3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue53 = new CellValue();
-            cellValue53.Text = "105";
+            sheetData1.Append(row2);
 
-            cell53.Append(cellValue53);
-
-            Cell cell54 = new Cell() { CellReference = "B3", StyleIndex = (UInt32Value)2U };
-            CellValue cellValue54 = new CellValue();
-            cellValue54.Text = "10.05.2021 19:50:55";
-
-            cell54.Append(cellValue54);
-
-            Cell cell55 = new Cell() { CellReference = "C3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue55 = new CellValue();
-            cellValue55.Text = "17";
-
-            cell55.Append(cellValue55);
-
-            Cell cell56 = new Cell() { CellReference = "D3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue56 = new CellValue();
-            cellValue56.Text = "2001";
-
-            cell56.Append(cellValue56);
-
-            Cell cell57 = new Cell() { CellReference = "E3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue57 = new CellValue();
-            cellValue57.Text = "43.2";
-
-            cell57.Append(cellValue57);
-
-            Cell cell58 = new Cell() { CellReference = "F3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue58 = new CellValue();
-            cellValue58.Text = "1161.71";
-
-            cell58.Append(cellValue58);
-
-            Cell cell59 = new Cell() { CellReference = "G3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue59 = new CellValue();
-            cellValue59.Text = "1147";
-
-            cell59.Append(cellValue59);
-
-            Cell cell60 = new Cell() { CellReference = "H3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue60 = new CellValue();
-            cellValue60.Text = "2193.34";
-
-            cell60.Append(cellValue60);
-
-            Cell cell61 = new Cell() { CellReference = "I3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue61 = new CellValue();
-            cellValue61.Text = "2193.1999999999998";
-
-            cell61.Append(cellValue61);
-
-            Cell cell62 = new Cell() { CellReference = "J3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue62 = new CellValue();
-            cellValue62.Text = "280.77999999999997";
-
-            cell62.Append(cellValue62);
-
-            Cell cell63 = new Cell() { CellReference = "K3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue63 = new CellValue();
-            cellValue63.Text = "275.8";
-
-            cell63.Append(cellValue63);
-
-            Cell cell64 = new Cell() { CellReference = "L3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue64 = new CellValue();
-            cellValue64.Text = "23.31";
-
-            cell64.Append(cellValue64);
-
-            Cell cell65 = new Cell() { CellReference = "M3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue65 = new CellValue();
-            cellValue65.Text = "23.6";
-
-            cell65.Append(cellValue65);
-
-            Cell cell66 = new Cell() { CellReference = "N3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue66 = new CellValue();
-            cellValue66.Text = "0";
-
-            cell66.Append(cellValue66);
-
-            Cell cell67 = new Cell() { CellReference = "O3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue67 = new CellValue();
-            cellValue67.Text = "0";
-
-            cell67.Append(cellValue67);
-
-            Cell cell68 = new Cell() { CellReference = "P3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue68 = new CellValue();
-            cellValue68.Text = "687.82";
-
-            cell68.Append(cellValue68);
-
-            Cell cell69 = new Cell() { CellReference = "Q3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue69 = new CellValue();
-            cellValue69.Text = "682.9";
-
-            cell69.Append(cellValue69);
-
-            Cell cell70 = new Cell() { CellReference = "R3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue70 = new CellValue();
-            cellValue70.Text = "0";
-
-            cell70.Append(cellValue70);
-
-            Cell cell71 = new Cell() { CellReference = "S3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue71 = new CellValue();
-            cellValue71.Text = "0";
-
-            cell71.Append(cellValue71);
-
-            Cell cell72 = new Cell() { CellReference = "T3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue72 = new CellValue();
-            cellValue72.Text = "554.23";
-
-            cell72.Append(cellValue72);
-
-            Cell cell73 = new Cell() { CellReference = "U3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue73 = new CellValue();
-            cellValue73.Text = "550.5";
-
-            cell73.Append(cellValue73);
-
-            Cell cell74 = new Cell() { CellReference = "V3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue74 = new CellValue();
-            cellValue74.Text = "0";
-
-            cell74.Append(cellValue74);
-
-            Cell cell75 = new Cell() { CellReference = "W3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue75 = new CellValue();
-            cellValue75.Text = "0";
-
-            cell75.Append(cellValue75);
-
-            Cell cell76 = new Cell() { CellReference = "X3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue76 = new CellValue();
-            cellValue76.Text = "2.75";
-
-            cell76.Append(cellValue76);
-
-            Cell cell77 = new Cell() { CellReference = "Y3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue77 = new CellValue();
-            cellValue77.Text = "2.714";
-
-            cell77.Append(cellValue77);
-
-            Cell cell78 = new Cell() { CellReference = "Z3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue78 = new CellValue();
-            cellValue78.Text = "1443.12";
-
-            cell78.Append(cellValue78);
-
-            row3.Append(cell53);
-            row3.Append(cell54);
-            row3.Append(cell55);
-            row3.Append(cell56);
-            row3.Append(cell57);
-            row3.Append(cell58);
-            row3.Append(cell59);
-            row3.Append(cell60);
-            row3.Append(cell61);
-            row3.Append(cell62);
-            row3.Append(cell63);
-            row3.Append(cell64);
-            row3.Append(cell65);
-            row3.Append(cell66);
-            row3.Append(cell67);
-            row3.Append(cell68);
-            row3.Append(cell69);
-            row3.Append(cell70);
-            row3.Append(cell71);
-            row3.Append(cell72);
-            row3.Append(cell73);
-            row3.Append(cell74);
-            row3.Append(cell75);
-            row3.Append(cell76);
-            row3.Append(cell77);
-            row3.Append(cell78);
+            #region Итоги
 
             Row row4 = new Row() { RowIndex = (UInt32Value)4U, Spans = new ListValue<StringValue>() { InnerText = "1:26" }, DyDescent = 0.25D };
 
@@ -1319,187 +1160,107 @@ namespace MixerRaportsViewer.Raports
             cellValue80.Text = "2334.5100000000002";
 
             cell84.Append(cellFormula1);
-            cell84.Append(cellValue80);
+            //cell84.Append(cellValue80);
 
             Cell cell85 = new Cell() { CellReference = "G4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula2 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula2.Text = "";
-            CellValue cellValue81 = new CellValue();
-            cellValue81.Text = "2305.4";
-
             cell85.Append(cellFormula2);
-            cell85.Append(cellValue81);
 
             Cell cell86 = new Cell() { CellReference = "H4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula3 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula3.Text = "";
-            CellValue cellValue82 = new CellValue();
-            cellValue82.Text = "4375.91";
-
             cell86.Append(cellFormula3);
-            cell86.Append(cellValue82);
 
             Cell cell87 = new Cell() { CellReference = "I4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula4 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula4.Text = "";
-            CellValue cellValue83 = new CellValue();
-            cellValue83.Text = "4375.3999999999996";
-
             cell87.Append(cellFormula4);
-            cell87.Append(cellValue83);
 
             Cell cell88 = new Cell() { CellReference = "J4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula5 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula5.Text = "";
-            CellValue cellValue84 = new CellValue();
-            cellValue84.Text = "487.96999999999997";
-
             cell88.Append(cellFormula5);
-            cell88.Append(cellValue84);
 
             Cell cell89 = new Cell() { CellReference = "K4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula6 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula6.Text = "";
-            CellValue cellValue85 = new CellValue();
-            cellValue85.Text = "478.20000000000005";
-
             cell89.Append(cellFormula6);
-            cell89.Append(cellValue85);
 
             Cell cell90 = new Cell() { CellReference = "L4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula7 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula7.Text = "";
-            CellValue cellValue86 = new CellValue();
-            cellValue86.Text = "116.52";
-
             cell90.Append(cellFormula7);
-            cell90.Append(cellValue86);
 
             Cell cell91 = new Cell() { CellReference = "M4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula8 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula8.Text = "";
-            CellValue cellValue87 = new CellValue();
-            cellValue87.Text = "116.80000000000001";
-
             cell91.Append(cellFormula8);
-            cell91.Append(cellValue87);
 
             Cell cell92 = new Cell() { CellReference = "N4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula9 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula9.Text = "";
-            CellValue cellValue88 = new CellValue();
-            cellValue88.Text = "687.82";
-
             cell92.Append(cellFormula9);
-            cell92.Append(cellValue88);
 
             Cell cell93 = new Cell() { CellReference = "O4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula10 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula10.Text = "";
-            CellValue cellValue89 = new CellValue();
-            cellValue89.Text = "683.3";
-
             cell93.Append(cellFormula10);
-            cell93.Append(cellValue89);
 
             Cell cell94 = new Cell() { CellReference = "P4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula11 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula11.Text = "";
-            CellValue cellValue90 = new CellValue();
-            cellValue90.Text = "687.82";
-
             cell94.Append(cellFormula11);
-            cell94.Append(cellValue90);
 
             Cell cell95 = new Cell() { CellReference = "Q4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula12 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula12.Text = "";
-            CellValue cellValue91 = new CellValue();
-            cellValue91.Text = "682.9";
-
             cell95.Append(cellFormula12);
-            cell95.Append(cellValue91);
 
             Cell cell96 = new Cell() { CellReference = "R4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula13 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula13.Text = "";
-            CellValue cellValue92 = new CellValue();
-            cellValue92.Text = "0";
-
             cell96.Append(cellFormula13);
-            cell96.Append(cellValue92);
 
             Cell cell97 = new Cell() { CellReference = "S4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula14 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula14.Text = "";
-            CellValue cellValue93 = new CellValue();
-            cellValue93.Text = "0";
-
             cell97.Append(cellFormula14);
-            cell97.Append(cellValue93);
 
             Cell cell98 = new Cell() { CellReference = "T4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula15 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula15.Text = "";
-            CellValue cellValue94 = new CellValue();
-            cellValue94.Text = "1111.8400000000001";
-
             cell98.Append(cellFormula15);
-            cell98.Append(cellValue94);
 
             Cell cell99 = new Cell() { CellReference = "U4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula16 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula16.Text = "";
-            CellValue cellValue95 = new CellValue();
-            cellValue95.Text = "1104.2";
-
             cell99.Append(cellFormula16);
-            cell99.Append(cellValue95);
 
             Cell cell100 = new Cell() { CellReference = "V4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula17 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula17.Text = "";
-            CellValue cellValue96 = new CellValue();
-            cellValue96.Text = "2.75";
-
             cell100.Append(cellFormula17);
-            cell100.Append(cellValue96);
 
             Cell cell101 = new Cell() { CellReference = "W4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula18 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula18.Text = "";
-            CellValue cellValue97 = new CellValue();
-            cellValue97.Text = "2.758";
-
             cell101.Append(cellFormula18);
-            cell101.Append(cellValue97);
 
             Cell cell102 = new Cell() { CellReference = "X4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula19 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula19.Text = "";
-            CellValue cellValue98 = new CellValue();
-            cellValue98.Text = "2.75";
-
             cell102.Append(cellFormula19);
-            cell102.Append(cellValue98);
 
             Cell cell103 = new Cell() { CellReference = "Y4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula20 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula20.Text = "";
-            CellValue cellValue99 = new CellValue();
-            cellValue99.Text = "2.714";
-
             cell103.Append(cellFormula20);
-            cell103.Append(cellValue99);
 
             Cell cell104 = new Cell() { CellReference = "Z4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula21 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula21.Text = "";
-            CellValue cellValue100 = new CellValue();
-            cellValue100.Text = "2882.71";
-
             cell104.Append(cellFormula21);
-            cell104.Append(cellValue100);
 
             row4.Append(cell79);
             row4.Append(cell80);
@@ -1528,10 +1289,10 @@ namespace MixerRaportsViewer.Raports
             row4.Append(cell103);
             row4.Append(cell104);
 
-            sheetData1.Append(row1);
-            sheetData1.Append(row2);
-            sheetData1.Append(row3);
+            #endregion
+
             sheetData1.Append(row4);
+
             PageMargins pageMargins1 = new PageMargins() { Left = 0.7D, Right = 0.7D, Top = 0.75D, Bottom = 0.75D, Header = 0.3D, Footer = 0.3D };
 
             worksheet1.Append(sheetDimension1);
@@ -1547,6 +1308,8 @@ namespace MixerRaportsViewer.Raports
         // Generates content of worksheetPart2.
         private void GenerateWorksheetPart2Content(WorksheetPart worksheetPart2)
         {
+            #region Данные страницы и колонки
+
             Worksheet worksheet2 = new Worksheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
             worksheet2.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
             worksheet2.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
@@ -1582,7 +1345,11 @@ namespace MixerRaportsViewer.Raports
             columns2.Append(column19);
             columns2.Append(column20);
 
+            #endregion
+
             SheetData sheetData2 = new SheetData();
+
+            #region Названия столбцов
 
             Row row5 = new Row() { RowIndex = (UInt32Value)1U, Spans = new ListValue<StringValue>() { InnerText = "1:26" }, Height = 75D, DyDescent = 0.25D };
 
@@ -1769,6 +1536,12 @@ namespace MixerRaportsViewer.Raports
             row5.Append(cell129);
             row5.Append(cell130);
 
+            #endregion
+
+            sheetData2.Append(row5);
+
+            #region Строка данных
+
             Row row6 = new Row() { RowIndex = (UInt32Value)2U, Spans = new ListValue<StringValue>() { InnerText = "1:26" }, DyDescent = 0.25D };
 
             Cell cell131 = new Cell() { CellReference = "A2", StyleIndex = (UInt32Value)1U };
@@ -1779,7 +1552,7 @@ namespace MixerRaportsViewer.Raports
 
             Cell cell132 = new Cell() { CellReference = "B2", StyleIndex = (UInt32Value)2U };
             CellValue cellValue128 = new CellValue();
-            cellValue128.Text = "44326.335358796299";
+            cellValue128.Text = DateTime.Parse("10.05.2021 20:02:55").ToOADate().ToString(CultureInfo.InvariantCulture);
 
             cell132.Append(cellValue128);
 
@@ -1954,190 +1727,11 @@ namespace MixerRaportsViewer.Raports
             row6.Append(cell155);
             row6.Append(cell156);
 
-            Row row7 = new Row() { RowIndex = (UInt32Value)3U, Spans = new ListValue<StringValue>() { InnerText = "1:26" }, DyDescent = 0.25D };
+            #endregion
 
-            Cell cell157 = new Cell() { CellReference = "A3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue153 = new CellValue();
-            cellValue153.Text = "105";
-
-            cell157.Append(cellValue153);
-
-            Cell cell158 = new Cell() { CellReference = "B3", StyleIndex = (UInt32Value)2U };
-            CellValue cellValue154 = new CellValue();
-            cellValue154.Text = "44326.831828703704";
-
-            cell158.Append(cellValue154);
-
-            Cell cell159 = new Cell() { CellReference = "C3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue155 = new CellValue();
-            cellValue155.Text = "17";
-
-            cell159.Append(cellValue155);
-
-            Cell cell160 = new Cell() { CellReference = "D3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue156 = new CellValue();
-            cellValue156.Text = "2001";
-
-            cell160.Append(cellValue156);
-
-            Cell cell161 = new Cell() { CellReference = "E3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue157 = new CellValue();
-            cellValue157.Text = "43.2";
-
-            cell161.Append(cellValue157);
-
-            Cell cell162 = new Cell() { CellReference = "F3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue158 = new CellValue();
-            cellValue158.Text = "1161.71";
-
-            cell162.Append(cellValue158);
-
-            Cell cell163 = new Cell() { CellReference = "G3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue159 = new CellValue();
-            cellValue159.Text = "1147";
-
-            cell163.Append(cellValue159);
-
-            Cell cell164 = new Cell() { CellReference = "H3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue160 = new CellValue();
-            cellValue160.Text = "2193.34";
-
-            cell164.Append(cellValue160);
-
-            Cell cell165 = new Cell() { CellReference = "I3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue161 = new CellValue();
-            cellValue161.Text = "2193.1999999999998";
-
-            cell165.Append(cellValue161);
-
-            Cell cell166 = new Cell() { CellReference = "J3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue162 = new CellValue();
-            cellValue162.Text = "280.77999999999997";
-
-            cell166.Append(cellValue162);
-
-            Cell cell167 = new Cell() { CellReference = "K3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue163 = new CellValue();
-            cellValue163.Text = "275.8";
-
-            cell167.Append(cellValue163);
-
-            Cell cell168 = new Cell() { CellReference = "L3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue164 = new CellValue();
-            cellValue164.Text = "23.31";
-
-            cell168.Append(cellValue164);
-
-            Cell cell169 = new Cell() { CellReference = "M3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue165 = new CellValue();
-            cellValue165.Text = "23.6";
-
-            cell169.Append(cellValue165);
-
-            Cell cell170 = new Cell() { CellReference = "N3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue166 = new CellValue();
-            cellValue166.Text = "0";
-
-            cell170.Append(cellValue166);
-
-            Cell cell171 = new Cell() { CellReference = "O3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue167 = new CellValue();
-            cellValue167.Text = "0";
-
-            cell171.Append(cellValue167);
-
-            Cell cell172 = new Cell() { CellReference = "P3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue168 = new CellValue();
-            cellValue168.Text = "687.82";
-
-            cell172.Append(cellValue168);
-
-            Cell cell173 = new Cell() { CellReference = "Q3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue169 = new CellValue();
-            cellValue169.Text = "682.9";
-
-            cell173.Append(cellValue169);
-
-            Cell cell174 = new Cell() { CellReference = "R3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue170 = new CellValue();
-            cellValue170.Text = "0";
-
-            cell174.Append(cellValue170);
-
-            Cell cell175 = new Cell() { CellReference = "S3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue171 = new CellValue();
-            cellValue171.Text = "0";
-
-            cell175.Append(cellValue171);
-
-            Cell cell176 = new Cell() { CellReference = "T3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue172 = new CellValue();
-            cellValue172.Text = "554.23";
-
-            cell176.Append(cellValue172);
-
-            Cell cell177 = new Cell() { CellReference = "U3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue173 = new CellValue();
-            cellValue173.Text = "550.5";
-
-            cell177.Append(cellValue173);
-
-            Cell cell178 = new Cell() { CellReference = "V3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue174 = new CellValue();
-            cellValue174.Text = "0";
-
-            cell178.Append(cellValue174);
-
-            Cell cell179 = new Cell() { CellReference = "W3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue175 = new CellValue();
-            cellValue175.Text = "0";
-
-            cell179.Append(cellValue175);
-
-            Cell cell180 = new Cell() { CellReference = "X3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue176 = new CellValue();
-            cellValue176.Text = "2.75";
-
-            cell180.Append(cellValue176);
-
-            Cell cell181 = new Cell() { CellReference = "Y3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue177 = new CellValue();
-            cellValue177.Text = "2.714";
-
-            cell181.Append(cellValue177);
-
-            Cell cell182 = new Cell() { CellReference = "Z3", StyleIndex = (UInt32Value)1U };
-            CellValue cellValue178 = new CellValue();
-            cellValue178.Text = "1443.12";
-
-            cell182.Append(cellValue178);
-
-            row7.Append(cell157);
-            row7.Append(cell158);
-            row7.Append(cell159);
-            row7.Append(cell160);
-            row7.Append(cell161);
-            row7.Append(cell162);
-            row7.Append(cell163);
-            row7.Append(cell164);
-            row7.Append(cell165);
-            row7.Append(cell166);
-            row7.Append(cell167);
-            row7.Append(cell168);
-            row7.Append(cell169);
-            row7.Append(cell170);
-            row7.Append(cell171);
-            row7.Append(cell172);
-            row7.Append(cell173);
-            row7.Append(cell174);
-            row7.Append(cell175);
-            row7.Append(cell176);
-            row7.Append(cell177);
-            row7.Append(cell178);
-            row7.Append(cell179);
-            row7.Append(cell180);
-            row7.Append(cell181);
-            row7.Append(cell182);
+            sheetData2.Append(row6);
+            
+            #region Итоги
 
             Row row8 = new Row() { RowIndex = (UInt32Value)4U, Spans = new ListValue<StringValue>() { InnerText = "1:26" }, DyDescent = 0.25D };
 
@@ -2154,191 +1748,108 @@ namespace MixerRaportsViewer.Raports
             Cell cell188 = new Cell() { CellReference = "F4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula22 = new CellFormula() { FormulaType = CellFormulaValues.Shared, Reference = "F4:Z4", SharedIndex = (UInt32Value)0U };
             cellFormula22.Text = "SUM(F2:F3)";
-            CellValue cellValue180 = new CellValue();
-            cellValue180.Text = "2334.5100000000002";
-
             cell188.Append(cellFormula22);
-            cell188.Append(cellValue180);
 
             Cell cell189 = new Cell() { CellReference = "G4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula23 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula23.Text = "";
-            CellValue cellValue181 = new CellValue();
-            cellValue181.Text = "2305.4";
-
             cell189.Append(cellFormula23);
-            cell189.Append(cellValue181);
 
             Cell cell190 = new Cell() { CellReference = "H4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula24 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula24.Text = "";
-            CellValue cellValue182 = new CellValue();
-            cellValue182.Text = "4375.91";
-
             cell190.Append(cellFormula24);
-            cell190.Append(cellValue182);
 
             Cell cell191 = new Cell() { CellReference = "I4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula25 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula25.Text = "";
-            CellValue cellValue183 = new CellValue();
-            cellValue183.Text = "4375.3999999999996";
-
             cell191.Append(cellFormula25);
-            cell191.Append(cellValue183);
 
             Cell cell192 = new Cell() { CellReference = "J4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula26 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula26.Text = "";
-            CellValue cellValue184 = new CellValue();
-            cellValue184.Text = "487.96999999999997";
-
             cell192.Append(cellFormula26);
-            cell192.Append(cellValue184);
 
             Cell cell193 = new Cell() { CellReference = "K4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula27 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula27.Text = "";
-            CellValue cellValue185 = new CellValue();
-            cellValue185.Text = "478.20000000000005";
-
             cell193.Append(cellFormula27);
-            cell193.Append(cellValue185);
 
             Cell cell194 = new Cell() { CellReference = "L4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula28 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula28.Text = "";
-            CellValue cellValue186 = new CellValue();
-            cellValue186.Text = "116.52";
-
             cell194.Append(cellFormula28);
-            cell194.Append(cellValue186);
 
             Cell cell195 = new Cell() { CellReference = "M4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula29 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula29.Text = "";
-            CellValue cellValue187 = new CellValue();
-            cellValue187.Text = "116.80000000000001";
-
             cell195.Append(cellFormula29);
-            cell195.Append(cellValue187);
 
             Cell cell196 = new Cell() { CellReference = "N4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula30 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula30.Text = "";
-            CellValue cellValue188 = new CellValue();
-            cellValue188.Text = "687.82";
-
             cell196.Append(cellFormula30);
-            cell196.Append(cellValue188);
 
             Cell cell197 = new Cell() { CellReference = "O4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula31 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula31.Text = "";
-            CellValue cellValue189 = new CellValue();
-            cellValue189.Text = "683.3";
-
             cell197.Append(cellFormula31);
-            cell197.Append(cellValue189);
 
             Cell cell198 = new Cell() { CellReference = "P4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula32 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula32.Text = "";
-            CellValue cellValue190 = new CellValue();
-            cellValue190.Text = "687.82";
-
             cell198.Append(cellFormula32);
-            cell198.Append(cellValue190);
 
             Cell cell199 = new Cell() { CellReference = "Q4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula33 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula33.Text = "";
-            CellValue cellValue191 = new CellValue();
-            cellValue191.Text = "682.9";
-
             cell199.Append(cellFormula33);
-            cell199.Append(cellValue191);
 
             Cell cell200 = new Cell() { CellReference = "R4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula34 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula34.Text = "";
-            CellValue cellValue192 = new CellValue();
-            cellValue192.Text = "0";
-
             cell200.Append(cellFormula34);
-            cell200.Append(cellValue192);
 
             Cell cell201 = new Cell() { CellReference = "S4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula35 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula35.Text = "";
-            CellValue cellValue193 = new CellValue();
-            cellValue193.Text = "0";
-
             cell201.Append(cellFormula35);
-            cell201.Append(cellValue193);
 
             Cell cell202 = new Cell() { CellReference = "T4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula36 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula36.Text = "";
-            CellValue cellValue194 = new CellValue();
-            cellValue194.Text = "1111.8400000000001";
-
             cell202.Append(cellFormula36);
-            cell202.Append(cellValue194);
 
             Cell cell203 = new Cell() { CellReference = "U4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula37 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula37.Text = "";
-            CellValue cellValue195 = new CellValue();
-            cellValue195.Text = "1104.2";
-
             cell203.Append(cellFormula37);
-            cell203.Append(cellValue195);
 
             Cell cell204 = new Cell() { CellReference = "V4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula38 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula38.Text = "";
-            CellValue cellValue196 = new CellValue();
-            cellValue196.Text = "2.75";
-
             cell204.Append(cellFormula38);
-            cell204.Append(cellValue196);
 
             Cell cell205 = new Cell() { CellReference = "W4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula39 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula39.Text = "";
-            CellValue cellValue197 = new CellValue();
-            cellValue197.Text = "2.758";
-
             cell205.Append(cellFormula39);
-            cell205.Append(cellValue197);
 
             Cell cell206 = new Cell() { CellReference = "X4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula40 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula40.Text = "";
-            CellValue cellValue198 = new CellValue();
-            cellValue198.Text = "2.75";
-
             cell206.Append(cellFormula40);
-            cell206.Append(cellValue198);
 
             Cell cell207 = new Cell() { CellReference = "Y4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula41 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula41.Text = "";
-            CellValue cellValue199 = new CellValue();
-            cellValue199.Text = "2.714";
-
             cell207.Append(cellFormula41);
-            cell207.Append(cellValue199);
 
             Cell cell208 = new Cell() { CellReference = "Z4", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula42 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula42.Text = "";
-            CellValue cellValue200 = new CellValue();
-            cellValue200.Text = "2882.71";
-
             cell208.Append(cellFormula42);
-            cell208.Append(cellValue200);
+
 
             row8.Append(cell183);
             row8.Append(cell184);
@@ -2367,12 +1878,11 @@ namespace MixerRaportsViewer.Raports
             row8.Append(cell207);
             row8.Append(cell208);
 
-            sheetData2.Append(row5);
-            sheetData2.Append(row6);
-            sheetData2.Append(row7);
+            #endregion
+            
             sheetData2.Append(row8);
+
             PageMargins pageMargins2 = new PageMargins() { Left = 0.7D, Right = 0.7D, Top = 0.75D, Bottom = 0.75D, Header = 0.3D, Footer = 0.3D };
-            PageSetup pageSetup1 = new PageSetup() { PaperSize = (UInt32Value)9U, Orientation = OrientationValues.Portrait, Id = "rId1" };
 
             worksheet2.Append(sheetDimension2);
             worksheet2.Append(sheetViews2);
@@ -2380,15 +1890,16 @@ namespace MixerRaportsViewer.Raports
             worksheet2.Append(columns2);
             worksheet2.Append(sheetData2);
             worksheet2.Append(pageMargins2);
-            worksheet2.Append(pageSetup1);
 
             worksheetPart2.Worksheet = worksheet2;
         }
 
+        #region Генерация остальной части файла
+
         // Generates content of spreadsheetPrinterSettingsPart1.
         private void GenerateSpreadsheetPrinterSettingsPart1Content(SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart1)
         {
-            System.IO.Stream data = GetBinaryDataStream(spreadsheetPrinterSettingsPart1Data);
+            Stream data = GetBinaryDataStream(spreadsheetPrinterSettingsPart1Data);
             spreadsheetPrinterSettingsPart1.FeedData(data);
             data.Close();
         }
@@ -2860,18 +2371,20 @@ namespace MixerRaportsViewer.Raports
         private void SetPackageProperties(OpenXmlPackage document)
         {
             document.PackageProperties.Creator = "HSE";
-            document.PackageProperties.Created = System.Xml.XmlConvert.ToDateTime("2021-05-11T04:12:15Z", System.Xml.XmlDateTimeSerializationMode.RoundtripKind);
-            document.PackageProperties.Modified = System.Xml.XmlConvert.ToDateTime("2021-05-12T11:52:32Z", System.Xml.XmlDateTimeSerializationMode.RoundtripKind);
+            document.PackageProperties.Created = XmlConvert.ToDateTime("2021-05-11T04:12:15Z", XmlDateTimeSerializationMode.RoundtripKind);
+            document.PackageProperties.Modified = XmlConvert.ToDateTime("2021-05-12T11:52:32Z", XmlDateTimeSerializationMode.RoundtripKind);
             document.PackageProperties.LastModifiedBy = "ИнженерКИПиА";
         }
 
         #region Binary Data
         private string spreadsheetPrinterSettingsPart1Data = "UwBhAG0AcwB1AG4AZwAgAE0ATAAtADEAOAA2ADAAIABTAGUAcgBpAGUAcwAgACgAVQBTAEIAMAAwADEAAAAAAAEEAATcACQnD9eBAwEACQCaCzQIZAABAAcAWAIAAAEAAAADAAEAQQA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFNFQ0QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHgALQAAAEEAcgBpAGEAbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAICAgAAAAJABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABVAG4AdABpAHQAbABlAGQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwADoAMAA6ADAAOgAwADoAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAABkAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUAAABYAgAAMgAyADIAMgAyADIAMgAyADIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBADQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAAAAAAAAAAABZABkAAEAZAAAZAAAZAAAZAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAABAAAAAAAAAAABAQABAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQEAAAAAAAAAAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAAAkAAAcAAAAJAAAHAAAACQAAAAAHADQImgs0CJoLAAAAAABAAEAAAAAFBgQANAiaCwEAAgAAADQImgv8J3FQAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQByAGkAYQBsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQgAjIyMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
 
-        private System.IO.Stream GetBinaryDataStream(string base64String)
+        private Stream GetBinaryDataStream(string base64String)
         {
-            return new System.IO.MemoryStream(System.Convert.FromBase64String(base64String));
+            return new MemoryStream(Convert.FromBase64String(base64String));
         }
+
+        #endregion
 
         #endregion
 
