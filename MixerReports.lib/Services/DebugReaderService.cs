@@ -10,10 +10,11 @@ namespace MixerReports.lib.Services
         private bool _edgeMixRunning = false; //звонок новой заливки
         private Random _random = new Random();
 
-        public int SetSecondsToRead { get; set; } = 220;
+        public int SetSecondsToRead { get; set; } = 100;
         public int AluminiumProp { get; set; } = 20;
         public string Address { get; set; } = "10.0.57.10";
         public int SecondsCorrect { get; set; } = - 10;
+        public int SetSecondsToCorrect { get; set; } = 220;
 
         public bool TestConnection(out int error)
         {
@@ -22,7 +23,7 @@ namespace MixerReports.lib.Services
         }
 
         private int _seconds = 0;
-        public bool GetMixOnTime(out int secondsBegin, out int error, out Mix mix)
+        public bool GetMixOnTime(out int secondsBegin, out int error, ref Mix mix)
         {
             var outResult = false;
             error = 0;

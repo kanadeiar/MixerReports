@@ -16,6 +16,9 @@ namespace MixerReports.lib.Interfaces
         /// <summary> Корректировка временная каждой заливки </summary>
         int SecondsCorrect { get; set; }
 
+        /// <summary> Уставка срабатывания корректирования данных заливки </summary>
+        int SetSecondsToCorrect { get; set; }
+
         /// <summary> Тест соединения с контроллером </summary>
         bool TestConnection(out int error);
 
@@ -24,6 +27,6 @@ namespace MixerReports.lib.Interfaces
         /// <param name="error">ошибка</param>
         /// <param name="mix">заливка</param>
         /// <returns>получены новые данные заливки</returns>
-        bool GetMixOnTime(out int secondsBegin, out int error, out Mix mix);
+        bool GetMixOnTime(out int secondsBegin, out int error, ref Mix mix);
     }
 }

@@ -35,11 +35,11 @@ namespace MixerReportsServer
             services.AddScoped<MainWindowViewModel>();
 
             //services.AddScoped<IRepository<Mix>, MixRepository>();
-#if DEBUG
-            services.AddScoped<ISharp7ReaderService, DebugReaderService>();
-#else
+//#if DEBUG
+//            services.AddScoped<ISharp7ReaderService, DebugReaderService>();
+//#else
             services.AddScoped<ISharp7ReaderService, Sharp7ReaderService>();
-#endif
+//#endif
         }
 
         private static string GetDefaultConnectionString()

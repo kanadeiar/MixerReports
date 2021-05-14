@@ -10,17 +10,24 @@ namespace MixerReports.lib.Services
     {
         private S7Client _S7Client;
 
-        private bool _nowMixRunning = false; //идет заливка
+        private bool _nowMixRunning = false; //пошла новая заливка
+
+        private bool _goToCorrecting = false; //корректирование данных
+
         private bool _edgeMixRunning = false; //звонок новой заливки
 
         /// <summary> Адрес контроллера </summary>
         public string Address { get; set; } = "10.0.57.10";
         /// <summary> Уставка срабатывания чтения новой заливки </summary>
-        public int SetSecondsToRead { get; set; } = 220;
+        public int SetSecondsToRead { get; set; } = 100;
+        /// <summary> Уставка срабатывания корректирования времени и температуры данных заливки </summary>
+        public int SetSecondsToCorrect { get; set; } = 220;
         /// <summary> Пропорция алюминий к воде </summary>
         public int AluminiumProp { get; set; } = 20;
         /// <summary> Корректировка временная каждой заливки </summary>
         public int SecondsCorrect { get; set; } = - 10;
+        /// <summary> Включение корректирования данных температуры и времени заливки </summary>
+        public bool EnableCorrecting { get; set; } = true;
 
         public Sharp7ReaderService()
         {
@@ -48,11 +55,10 @@ namespace MixerReports.lib.Services
         /// <param name="error">ошибка</param>
         /// <param name="mix">заливка</param>
         /// <returns>получены новые данные заливки</returns>
-        public bool GetMixOnTime(out int secondsBegin, out int error, out Mix mix)
+        public bool GetMixOnTime(out int secondsBegin, out int error, ref Mix mix)
         {
             secondsBegin = 0;
             error = 0;
-            mix = null;
             var outResult = false;
             int result = _S7Client.ConnectTo(Address, 0, 2);
             if (result == 0)
@@ -62,15 +68,37 @@ namespace MixerReports.lib.Services
                 var mixRunning = (buffer[0] & 0b1) != 0; //идет заливка
                 _S7Client.DBRead(314, 100, 4, buffer);
                 secondsBegin = buffer.GetDIntAt(0); //прошло секунд заливки
-                if (secondsBegin > SetSecondsToRead && _nowMixRunning) //заливка окончена по времени
+                if (EnableCorrecting) //включено корректирование данных
                 {
-                    mix = GetGoodMix(_S7Client, SecondsCorrect);
-                    if (mix.MixerTemperature > 1.0f || mix.SetSandMud > 1.0f || mix.SetRevertMud > 1.0f) //должны быть получены корректные данные, иначе - продолжать опрос
+                    if (secondsBegin > SetSecondsToRead && _nowMixRunning && !_goToCorrecting) //заливка предварительно окончена - получение данных весовых
                     {
+                        mix = GetGoodMix(_S7Client, SecondsCorrect);
+                        if (mix.MixerTemperature > 1.0f || mix.SetSandMud > 1.0f || mix.SetRevertMud > 1.0f) //должны быть получены корректные данные, иначе - повторно получать данные
+                        {
+                            _goToCorrecting = true;
+                        }
+                    }
+                    if (secondsBegin > SetSecondsToCorrect && _nowMixRunning && _goToCorrecting) //заливка еще раз окончена - корректирование данных температуры и времени
+                    {
+                        GetCorrectedMix(_S7Client, ref mix, SecondsCorrect);
+                        _goToCorrecting = false;
                         _nowMixRunning = false;
                         outResult = true;
                     }
                 }
+                else
+                {
+                    if (secondsBegin > SetSecondsToRead && _nowMixRunning) //заливка окончена по времени получение данных весовых
+                    {
+                        mix = GetGoodMix(_S7Client, SecondsCorrect);
+                        if (mix.MixerTemperature > 1.0f || mix.SetSandMud > 1.0f || mix.SetRevertMud > 1.0f) //должны быть получены корректные данные, иначе - повторно получать данные
+                        {
+                            _nowMixRunning = false;
+                            outResult = true;
+                        }
+                    }
+                }
+
                 if (!mixRunning && _nowMixRunning) //заливка ошибочно закончена
                 {
                     mix = GetBadMix(_S7Client, SecondsCorrect);
@@ -90,7 +118,7 @@ namespace MixerReports.lib.Services
         }
 
         #region Вспомогательные методы
-
+        /// <summary> Получение данных по заливке из контроллера </summary>
         private Mix GetGoodMix(S7Client client, int seconds = 0)
         {
             byte[] bufferDb = new byte[300];
@@ -101,7 +129,7 @@ namespace MixerReports.lib.Services
             var densSand = bufferDb.GetIntAt(284);
             var sandInMud = 0.0f;
             if (densSand >= 900 && densSand <= 2000)
-                sandInMud = (actSandMud / densSand) * 1150.0f;
+                sandInMud = (actSandMud / densSand) * 1110.0f;
             var mix = new Mix
             {
                 Number = 1,
@@ -109,6 +137,7 @@ namespace MixerReports.lib.Services
                 FormNumber = bufferDb.GetIntAt(0),
                 RecipeNumber = 0,
                 MixerTemperature = bufferDb.GetIntAt(6) / 10.0f,
+                #region Получение инфы по компонентам в смесителе
                 //SetRevertMud = bufferDb.GetDIntAt(8) / 100.0f,
                 //ActRevertMud = bufferDb.GetDIntAt(12) / 100.0f,
                 //SetSandMud = bufferDb.GetDIntAt(16) / 100.0f,
@@ -132,6 +161,8 @@ namespace MixerReports.lib.Services
                 //SandInMud = sandInMud,
                 //DensitySandMud = densSand / 1000.0f,
                 //DensityRevertMud = bufferDb.GetIntAt(120) / 1000.0f,
+
+                #endregion
                 SetRevertMud = bufferDb.GetDIntAt(170) / 100.0f,
                 ActRevertMud = bufferDb.GetDIntAt(174) / 100.0f,
                 SetSandMud = bufferDb.GetDIntAt(178) / 100.0f,
@@ -159,6 +190,14 @@ namespace MixerReports.lib.Services
             };
             return mix;
         }
+        /// <summary> Уточнение данных заливки по контроллеру </summary>
+        private void GetCorrectedMix(S7Client client, ref Mix mix, int seconds = 0)
+        {
+            byte[] bufferDb = new byte[300];
+            client.DBRead(401, 0, 300, bufferDb);
+            mix.DateTime = DateTime.Now.AddSeconds(seconds);
+            mix.MixerTemperature = bufferDb.GetIntAt(6) / 10.0f;
+        }
         private Mix GetBadMix(S7Client client, int seconds = 0)
         {
             byte[] bufferDb = new byte[300];
@@ -177,6 +216,7 @@ namespace MixerReports.lib.Services
                 FormNumber = bufferDb.GetIntAt(0),
                 RecipeNumber = 0,
                 MixerTemperature = bufferDb.GetIntAt(6) / 10.0f,
+                #region Опрос инфы по компонентам в смесителе
                 //SetRevertMud = bufferDb.GetDIntAt(8) / 100.0f,
                 //ActRevertMud = bufferDb.GetDIntAt(12) / 100.0f,
                 //SetSandMud = bufferDb.GetDIntAt(16) / 100.0f,
@@ -200,6 +240,7 @@ namespace MixerReports.lib.Services
                 //SandInMud = sandInMud,
                 //DensitySandMud = densSand / 1000.0f,
                 //DensityRevertMud = bufferDb.GetIntAt(120) / 1000.0f,
+                #endregion
                 SetRevertMud = bufferDb.GetDIntAt(170) / 100.0f,
                 ActRevertMud = bufferDb.GetDIntAt(174) / 100.0f,
                 SetSandMud = bufferDb.GetDIntAt(178) / 100.0f,
