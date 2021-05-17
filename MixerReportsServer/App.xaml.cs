@@ -38,8 +38,10 @@ namespace MixerReportsServer
 //#if DEBUG
 //            services.AddScoped<ISharp7ReaderService, DebugReaderService>();
 //#else
-            services.AddScoped<ISharp7ReaderService, Sharp7ReaderService>();
+//            services.AddScoped<ISharp7ReaderService, Sharp7ReaderService>();
 //#endif
+            services.AddScoped<ISharp7MixReaderService>(s => 
+                new Sharp7MixReaderService("10.0.57.10", 20, -10));
         }
 
         private static string GetDefaultConnectionString()

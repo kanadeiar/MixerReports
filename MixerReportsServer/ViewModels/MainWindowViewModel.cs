@@ -24,7 +24,8 @@ namespace MixerReportsServer.ViewModels
         //private readonly IRepository<Mix> _Mixes;
         private readonly Timer _timer;
 
-        private readonly ISharp7ReaderService _sharp7ReaderService;
+        //private readonly ISharp7ReaderService _sharp7ReaderService;
+        private readonly ISharp7MixReaderService _sharp7MixReaderService;
 
         private Mix _mix;
 
@@ -125,9 +126,10 @@ namespace MixerReportsServer.ViewModels
 
         #endregion
 
-        public MainWindowViewModel(ISharp7ReaderService sharp7ReaderService)
+        public MainWindowViewModel(ISharp7MixReaderService sharp7MixReaderService)
         {
-            _sharp7ReaderService = sharp7ReaderService;
+            //_sharp7ReaderService = sharp7ReaderService;
+            _sharp7MixReaderService = sharp7MixReaderService;
             if (File.Exists("data.json"))
                 Settings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText("data.json"));
             else
@@ -196,14 +198,15 @@ namespace MixerReportsServer.ViewModels
             {
                 if (Settings.Changed)
                 {
-                    _sharp7ReaderService.SetSecondsToRead = Settings.SetSecondsToRead;
-                    _sharp7ReaderService.Address = Settings.Address;
-                    _sharp7ReaderService.AluminiumProp = Settings.AluminiumProp;
-                    _sharp7ReaderService.SecondsCorrect = Settings.SecondsCorrect;
-                    _sharp7ReaderService.SetSecondsToCorrect = Settings.SetSecondsToCorrect;
+                    //_sharp7ReaderService.SetSecondsToRead = Settings.SetSecondsToRead;
+                    //_sharp7ReaderService.Address = Settings.Address;
+                    //_sharp7ReaderService.AluminiumProp = Settings.AluminiumProp;
+                    //_sharp7ReaderService.SecondsCorrect = Settings.SecondsCorrect;
+                    //_sharp7ReaderService.SetSecondsToCorrect = Settings.SetSecondsToCorrect;
                     Settings.Changed = false;
                 }
-                mixGetted = _sharp7ReaderService.GetMixOnTime(out seconds, out error, ref _mix);
+                mixGetted = _sharp7MixReaderService.TryNewMixTick(out seconds, out error, out _mix);
+                //mixGetted = _sharp7ReaderService.GetMixOnTime(out seconds, out error, ref _mix);
                 if (mixGetted)
                 {
                     ConnectToPLC = true;
@@ -215,7 +218,8 @@ namespace MixerReportsServer.ViewModels
                 }
                 else
                 {
-                    MixInfo = $"Прошло {seconds} из {_sharp7ReaderService.SetSecondsToRead} секунд заливки";
+                    //MixInfo = $"Прошло {seconds} из {_sharp7ReaderService.SetSecondsToRead} секунд заливки";
+                    MixInfo = $"Прошло {seconds} секунд заливки";
                     ConnectToPLC = true;
                 }
             }
