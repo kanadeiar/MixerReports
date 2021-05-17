@@ -23,7 +23,11 @@ namespace MixerReportsServer.ViewModels
     {
         //private readonly IRepository<Mix> _Mixes;
         private readonly Timer _timer;
-        private readonly ISharp7ReaderService _sharp7ReaderService;
+
+        //private readonly ISharp7ReaderService _sharp7ReaderService;
+        private readonly ISharp7MixReaderService _sharp7MixReaderService;
+
+        private Mix _mix;
 
         #region Свойства
 
@@ -94,14 +98,14 @@ namespace MixerReportsServer.ViewModels
 
         #region Настройки
 
-        private Settings _Settings;
+        //private Settings _Settings;
 
-        /// <summary> Настройки </summary>
-        public Settings Settings
-        {
-            get => _Settings;
-            set => Set(ref _Settings, value);
-        }
+        ///// <summary> Настройки </summary>
+        //public Settings Settings
+        //{
+        //    get => _Settings;
+        //    set => Set(ref _Settings, value);
+        //}
 
 
 
@@ -122,14 +126,14 @@ namespace MixerReportsServer.ViewModels
 
         #endregion
 
-        public MainWindowViewModel(ISharp7ReaderService sharp7ReaderService)
+        public MainWindowViewModel(ISharp7MixReaderService sharp7MixReaderService)
         {
-            //_Mixes = mixes;
-            _sharp7ReaderService = sharp7ReaderService;
-            if (File.Exists("data.json"))
-                Settings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText("data.json"));
-            else
-                Settings = new Settings();
+            //_sharp7ReaderService = sharp7ReaderService;
+            _sharp7MixReaderService = sharp7MixReaderService;
+            //if (File.Exists("data.json"))
+            //    Settings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText("data.json"));
+            //else
+            //    Settings = new Settings();
             _timer = new Timer(3_000); //опрос каждые 3 секунды
             _timer.Elapsed += TimerOnElapsed;
             _timer.Start();
@@ -160,7 +164,7 @@ namespace MixerReportsServer.ViewModels
 
         private void OnClosedCommandExecuted(object p)
         {
-            System.IO.File.WriteAllText("data.json", JsonConvert.SerializeObject(Settings));
+            //System.IO.File.WriteAllText("data.json", JsonConvert.SerializeObject(Settings));
         }
 
         #region Вспомогательные команды
@@ -189,18 +193,21 @@ namespace MixerReportsServer.ViewModels
             _timer.Enabled = false;
             int seconds = 0;
             int error = -1;
-            Mix mix = null;
+            var mixGetted = false;
             try
             {
-                if (Settings.Changed)
-                {
-                    _sharp7ReaderService.SetSecondsToRead = Settings.SetSecondsToRead;
-                    _sharp7ReaderService.Address = Settings.Address;
-                    _sharp7ReaderService.AluminiumProp = Settings.AluminiumProp;
-                    _sharp7ReaderService.SecondsCorrect = Settings.SecondsCorrect;
-                    Settings.Changed = false;
-                }
-                if (_sharp7ReaderService.GetMixOnTime(out seconds, out error, out mix))
+                //if (Settings.Changed)
+                //{
+                //    //_sharp7ReaderService.SetSecondsToRead = Settings.SetSecondsToRead;
+                //    //_sharp7ReaderService.Address = Settings.Address;
+                //    //_sharp7ReaderService.AluminiumProp = Settings.AluminiumProp;
+                //    //_sharp7ReaderService.SecondsCorrect = Settings.SecondsCorrect;
+                //    //_sharp7ReaderService.SetSecondsToCorrect = Settings.SetSecondsToCorrect;
+                //    Settings.Changed = false;
+                //}
+                mixGetted = _sharp7MixReaderService.TryNewMixTick(out seconds, out error, out _mix);
+                //mixGetted = _sharp7ReaderService.GetMixOnTime(out seconds, out error, ref _mix);
+                if (mixGetted)
                 {
                     ConnectToPLC = true;
                 }
@@ -211,7 +218,8 @@ namespace MixerReportsServer.ViewModels
                 }
                 else
                 {
-                    MixInfo = $"Прошло {seconds} из {_sharp7ReaderService.SetSecondsToRead} секунд заливки";
+                    //MixInfo = $"Прошло {seconds} из {_sharp7ReaderService.SetSecondsToRead} секунд заливки";
+                    MixInfo = $"Прошло {seconds} секунд заливки";
                     ConnectToPLC = true;
                 }
             }
@@ -220,12 +228,11 @@ namespace MixerReportsServer.ViewModels
                 AddToLog($"{DateTime.Now} Ошибка чтения контроллера заливки {ex.Message}");
                 ConnectToPLC = false;
             }
-
-            if (mix != null)
+            if (mixGetted && _mix != null)
             {
                 try
                 {
-                    mix.Number = NowShiftMixes
+                    _mix.Number = NowShiftMixes
                         .OrderByDescending(r => r.Number)
                         .FirstOrDefault()?.Number + 1 ?? 1;
                     var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
@@ -233,44 +240,43 @@ namespace MixerReportsServer.ViewModels
                         .ConfigureWarnings(w => w.Throw(RelationalEventId.BoolWithDefaultWarning)).Options;
                     using (var db = new SPBSUMixerRaportsEntities(options))
                     {
-                        db.Mixes.Add(mix);
+                        db.Mixes.Add(_mix);
                         db.SaveChanges();
                     }
-
-                    Mixes.Add(mix);
+                    Mixes.Add(_mix);
                     OnPropertyChanged(nameof(LastMixes));
                     OnPropertyChanged(nameof(NowShiftMixes));
                     AddToLog(
-                        $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}, Заливка: {mix.DateTime:dd.MM.yyyy HH:mm:ss}, номер заливки: {mix.Number}, номер формы: {mix.FormNumber}, температура: {mix.MixerTemperature}, норма: {mix.NormalStr} ");
+                        $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}, Заливка: {_mix.DateTime:dd.MM.yyyy HH:mm:ss}, номер заливки: {_mix.Number}, номер формы: {_mix.FormNumber}, температура: {_mix.MixerTemperature}, норма: {_mix.NormalStr} ");
                     ConnectToDataBase = true;
                 }
                 catch (ArgumentNullException ex)
                 {
                     AddToLog(
-                        $"{DateTime.Now} Ошибка отсутствия аргумента при доступе к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
+                        $"{DateTime.Now} Ошибка отсутствия аргумента при доступе к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(_mix)}");
                     ConnectToDataBase = false;
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
                     AddToLog(
-                        $"{DateTime.Now} Ошибка конкурентного доступа к базе данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
+                        $"{DateTime.Now} Ошибка конкурентного доступа к базе данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(_mix)}");
                     ConnectToDataBase = false;
                 }
                 catch (DbUpdateException ex)
                 {
                     AddToLog(
-                        $"{DateTime.Now} Ошибка обновления данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
+                        $"{DateTime.Now} Ошибка обновления данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(_mix)}");
                     ConnectToDataBase = false;
                 }
                 catch (RetryLimitExceededException ex)
                 {
                     AddToLog(
-                        $"{DateTime.Now} Превышение лимита попыток подключения к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
+                        $"{DateTime.Now} Превышение лимита попыток подключения к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(_mix)}");
                     ConnectToDataBase = false;
                 }
                 catch (Exception ex)
                 {
-                    AddToLog($"{DateTime.Now} Ошибка связи с базой данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(mix)}");
+                    AddToLog($"{DateTime.Now} Ошибка связи с базой данных {ex.Message}, Подробности: {ex?.InnerException?.Message}, Данные: {PrintDatas(_mix)}");
                     ConnectToDataBase = false;
                 }
             }

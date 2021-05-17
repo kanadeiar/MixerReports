@@ -10,15 +10,17 @@ namespace ConsoleAppMixerReports
     class Program
     {
         private static Timer _timer;
-        private static ISharp7ReaderService _sharp7ReaderService;
+        //private static ISharp7ReaderService _sharp7ReaderService;
+        private static ISharp7MixReaderService _service;
         static void Main(string[] args)
         {
             RussianConsole();
             Console.WriteLine("Тестирование контроллерой части сервиса отчетов по заливкам");
 
             //_sharp7ReaderService = new Sharp7ReaderService();
-            _sharp7ReaderService = new DebugReaderService();
-            Console.WriteLine(_sharp7ReaderService.TestConnection(out int error)
+            //_sharp7ReaderService = new DebugReaderService();
+            _service = new Sharp7MixReaderService();
+            Console.WriteLine(_service.TestConnection(out int error)
                 ? "Соединение с контроллером успешно установлено"
                 : $"Ошибка установки соединения с контроллером: {error}");
 
@@ -39,15 +41,21 @@ namespace ConsoleAppMixerReports
                               $"холодная вода: {row.SetColdWater} {row.ActColdWater} горячая вода {row.SetHotWater} {row.ActHotWater} " +
                               $"ипв1: {row.SetMixture1} {row.ActMixture1} ипв2: {row.SetMixture2} {row.ActMixture2} \n" +
                               $"цемент1: {row.SetCement1} {row.ActCement1} цемент2: {row.SetCement2} {row.ActCement2} " +
-                              $"алюминий1: {row.SetAluminium1} {row.ActAluminium1} алюминий2: {row.SetAluminium2} {row.ActAluminium2} песок в шламе: {row.SandInMud}");
+                              $"алюминий1: {row.SetAluminium1} {row.ActAluminium1} алюминий2: {row.SetAluminium2} {row.ActAluminium2} песок в шламе: {row.SandInMud}\n" +
+                              $"норма: {row.Normal} комментарий: {row.Comment}");
         }
         private static void TimerOnElapsed(object sender, ElapsedEventArgs e)
         {
             _timer.Enabled = false;
             try
             {
-                if (_sharp7ReaderService.GetMixOnTime(out int seconds, out int error, out Mix mix)) PrintDatas(mix);
+                if (_service.TryNewMixTick(out int seconds, out int error, out Mix mix))
+                {
+                    PrintDatas(mix);
+                }
                 Console.Title = $"Заливка - {seconds} секунд, ошибка - {error}";
+
+                //if (_sharp7ReaderService.GetMixOnTime(out int seconds, out int error, out Mix mix)) PrintDatas(mix);
             }
             catch (Exception ex)
             {

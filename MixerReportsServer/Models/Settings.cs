@@ -6,9 +6,8 @@ namespace MixerReportsServer.Models
     {
         public bool Changed { get; set; } //изменение настроек
 
-        private int _SetSecondsToRead = 220;
-
-        /// <summary> Уставка секунд прошедших заливки для акта записи значений </summary>
+        private int _SetSecondsToRead = 100;
+        /// <summary> Уставка секунд прошедших заливки для чтения значений из контроллера </summary>
         public int SetSecondsToRead
         {
             get => _SetSecondsToRead;
@@ -19,8 +18,15 @@ namespace MixerReportsServer.Models
             }
         }
 
-        private string _Address = "10.0.57.10";
+        private int _SetSecondsToCorrect = 220;
+        /// <summary> Уставка секунд прошедших заливки для корректирования значений по контроллеру </summary>
+        public int SetSecondsToCorrect
+        {
+            get => _SetSecondsToCorrect;
+            set => Set(ref _SetSecondsToCorrect, value);
+        }
 
+        private string _Address = "10.0.57.10";
         /// <summary> IP адрес контроллера </summary>
         public string Address
         {
@@ -33,7 +39,6 @@ namespace MixerReportsServer.Models
         }
 
         private int _AluminiumProp = 20;
-
         /// <summary> Пропорция алюминий к воде </summary>
         public int AluminiumProp
         {
@@ -46,7 +51,6 @@ namespace MixerReportsServer.Models
         }
 
         private int _SecondsCorrect = 10;
-
         /// <summary> Коррекция прошедших секунд заливки в полученном результате </summary>
         public int SecondsCorrect
         {
