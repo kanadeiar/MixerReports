@@ -98,14 +98,14 @@ namespace MixerReportsServer.ViewModels
 
         #region Настройки
 
-        private Settings _Settings;
+        //private Settings _Settings;
 
-        /// <summary> Настройки </summary>
-        public Settings Settings
-        {
-            get => _Settings;
-            set => Set(ref _Settings, value);
-        }
+        ///// <summary> Настройки </summary>
+        //public Settings Settings
+        //{
+        //    get => _Settings;
+        //    set => Set(ref _Settings, value);
+        //}
 
 
 
@@ -130,10 +130,10 @@ namespace MixerReportsServer.ViewModels
         {
             //_sharp7ReaderService = sharp7ReaderService;
             _sharp7MixReaderService = sharp7MixReaderService;
-            if (File.Exists("data.json"))
-                Settings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText("data.json"));
-            else
-                Settings = new Settings();
+            //if (File.Exists("data.json"))
+            //    Settings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText("data.json"));
+            //else
+            //    Settings = new Settings();
             _timer = new Timer(3_000); //опрос каждые 3 секунды
             _timer.Elapsed += TimerOnElapsed;
             _timer.Start();
@@ -164,7 +164,7 @@ namespace MixerReportsServer.ViewModels
 
         private void OnClosedCommandExecuted(object p)
         {
-            System.IO.File.WriteAllText("data.json", JsonConvert.SerializeObject(Settings));
+            //System.IO.File.WriteAllText("data.json", JsonConvert.SerializeObject(Settings));
         }
 
         #region Вспомогательные команды
@@ -196,15 +196,15 @@ namespace MixerReportsServer.ViewModels
             var mixGetted = false;
             try
             {
-                if (Settings.Changed)
-                {
-                    //_sharp7ReaderService.SetSecondsToRead = Settings.SetSecondsToRead;
-                    //_sharp7ReaderService.Address = Settings.Address;
-                    //_sharp7ReaderService.AluminiumProp = Settings.AluminiumProp;
-                    //_sharp7ReaderService.SecondsCorrect = Settings.SecondsCorrect;
-                    //_sharp7ReaderService.SetSecondsToCorrect = Settings.SetSecondsToCorrect;
-                    Settings.Changed = false;
-                }
+                //if (Settings.Changed)
+                //{
+                //    //_sharp7ReaderService.SetSecondsToRead = Settings.SetSecondsToRead;
+                //    //_sharp7ReaderService.Address = Settings.Address;
+                //    //_sharp7ReaderService.AluminiumProp = Settings.AluminiumProp;
+                //    //_sharp7ReaderService.SecondsCorrect = Settings.SecondsCorrect;
+                //    //_sharp7ReaderService.SetSecondsToCorrect = Settings.SetSecondsToCorrect;
+                //    Settings.Changed = false;
+                //}
                 mixGetted = _sharp7MixReaderService.TryNewMixTick(out seconds, out error, out _mix);
                 //mixGetted = _sharp7ReaderService.GetMixOnTime(out seconds, out error, ref _mix);
                 if (mixGetted)

@@ -56,7 +56,7 @@ namespace MixerReports.lib.Services
             {
                 var mixRunning = NowMixRunning(out secondsBegin, out bool frontBegin, out bool rearEnd);
                 
-                _storage.UpdateData();
+                _storage.UpdateData(mixRunning);
 
                 if (frontBegin)
                 {
@@ -124,12 +124,12 @@ namespace MixerReports.lib.Services
                 _seconds = seconds;
             }
             /// <summary> Обновление данных </summary>
-            public void UpdateData()
+            public void UpdateData(bool mixRunning)
             {
                 byte[] bufferDb = new byte[455];
                 _S7Client.DBRead(401, 0, 454, bufferDb);
 
-                if (!_enableData)
+                if (!_enableData && mixRunning)
                 {
                     _mix.SetRevertMud = bufferDb.GetDIntAt(170) / 100.0f;
                     _mix.ActRevertMud = bufferDb.GetDIntAt(174) / 100.0f;
@@ -206,6 +206,7 @@ namespace MixerReports.lib.Services
 
                 mix.Number = 1;
                 mix.DateTime = DateTime.Now.AddSeconds(_seconds);
+                mix.FormNumber = bufferDb.GetIntAt(0);
                 mix.MixerTemperature = bufferDb.GetIntAt(6) / 10.0f;
                 var densSand = bufferDb.GetIntAt(284);
                 var sandInMud = 0.0f;
@@ -217,8 +218,9 @@ namespace MixerReports.lib.Services
                 mix.Normal = true;
             }
             /// <summary> Выдача данных </summary>
-            public Mix GetData() =>
-                new()
+            public Mix GetData()
+            {
+                var result = new Mix
                 {
                     SetRevertMud = _mix.SetRevertMud,
                     ActRevertMud = _mix.ActRevertMud,
@@ -241,6 +243,29 @@ namespace MixerReports.lib.Services
                     SetAluminium2 = _mix.SetAluminium2,
                     ActAluminium2 = _mix.ActAluminium2,
                 };
+                _mix.SetRevertMud = 0.0f;
+                _mix.ActRevertMud = 0.0f;
+                _mix.SetSandMud = 0.0f;
+                _mix.ActSandMud = 0.0f;
+                _mix.SetColdWater = 0.0f;
+                _mix.ActColdWater = 0.0f;
+                _mix.SetHotWater = 0.0f;
+                _mix.ActHotWater = 0.0f;
+                _mix.SetMixture1 = 0.0f;
+                _mix.ActMixture1 = 0.0f;
+                _mix.SetMixture2 = 0.0f;
+                _mix.ActMixture2 = 0.0f;
+                _mix.SetCement1 = 0.0f;
+                _mix.ActCement1 = 0.0f;
+                _mix.SetCement2 = 0.0f;
+                _mix.ActCement2 = 0.0f;
+                _mix.SetAluminium1 = 0.0f;
+                _mix.ActAluminium1 = 0.0f;
+                _mix.SetAluminium2 = 0.0f;
+                _mix.ActAluminium2 = 0.0f;
+                return result;
+            }
+
             private class SignalReadValue
             {
                 private readonly int _numByte;

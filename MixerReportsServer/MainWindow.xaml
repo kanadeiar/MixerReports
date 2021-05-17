@@ -140,38 +140,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-            <TabItem Header="Настройки" Height="40">
-                <DockPanel>
-                    <GroupBox Header="Настройки записи значений" DockPanel.Dock="Top">
-                        <StackPanel>
-                            <TextBlock Text="Сколько секунд должно пройти от начала заливки перед тем, как будут прочитаны и запомнены данные новой заливки:" TextWrapping="WrapWithOverflow"/>
-                            <TextBox Width="200" HorizontalAlignment="Left" Text="{Binding Settings.SetSecondsToRead}" ToolTip="Ввести целое число, по умолчанию: 100"/>
-                            <TextBlock Text="Сколько секунд должно пройти от начала заливки перед тем, как в данных заливки будут скорректированы параметры даты и температуры:" TextWrapping="WrapWithOverflow"/>
-                            <TextBox Width="200" HorizontalAlignment="Left" Text="{Binding Settings.SetSecondsToCorrect}" ToolTip="Ввести целое число, по умолчанию: 220"/>
-                            <TextBlock Text="Коррекция времени в получаемых результатах заливок в секундах:" TextWrapping="WrapWithOverflow"/>
-                            <TextBox Width="200" HorizontalAlignment="Left" Text="{Binding Settings.SecondsCorrect}" ToolTip="Ввести количество секунд, на сколько увеличить время, по умолчанию: -5"/>
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Настройки связи с контроллером" DockPanel.Dock="Top">
-                        <StackPanel>
-                            <TextBlock Text="IP-адрес контроллера" TextWrapping="WrapWithOverflow"/>
-                            <TextBox Width="200" HorizontalAlignment="Left" Text="{Binding Settings.Address}" ToolTip="Ввести IP-адрес контроллера, по умолчанию: 10.0.57.10"/>
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Настройки получаемых результатов" DockPanel.Dock="Top">
-                        <StackPanel>
-                            <TextBlock Text="Пропорция алюминия к воде:" TextWrapping="WrapWithOverflow"/>
-                            <TextBox Width="200" HorizontalAlignment="Left" Text="{Binding Settings.AluminiumProp}" ToolTip="Введите пропорцию алюминия к воде, по умолчанию: 20"/>
-                        </StackPanel>
-                    </GroupBox>
 
-                    <Grid>
-
-                    </Grid>
-
-                </DockPanel>
-
-            </TabItem>
         </TabControl>
 
 

@@ -40,9 +40,14 @@ namespace MixerReportsServer
 //#else
 //            services.AddScoped<ISharp7ReaderService, Sharp7ReaderService>();
 //#endif
-            services.AddScoped<ISharp7MixReaderService>(s => 
-                new Sharp7MixReaderService("10.0.57.10", 20, -10));
+            services.AddScoped<ISharp7MixReaderService>(s =>
+            {
+                GetAppSettings(out string address, out int aluminiumProp, out int secondsCorrect);
+                return new Sharp7MixReaderService(address, aluminiumProp, secondsCorrect);
+            });
         }
+
+        #region Вспомогательное
 
         private static string GetDefaultConnectionString()
         {
@@ -51,5 +56,14 @@ namespace MixerReportsServer
             var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             return connectionString.Replace("{{password}}", password);
         }
+        private static void GetAppSettings(out string address, out int aluminiumProp, out int secondsCorrect)
+        {
+            AppSettingsReader ar = new AppSettingsReader();
+            address = (string)ar.GetValue("address", typeof(string));
+            aluminiumProp = (int)ar.GetValue("aluminiumprop", typeof(int));
+            secondsCorrect = (int)ar.GetValue("secondscorrect", typeof(int));
+        }
+
+        #endregion
     }
 }
