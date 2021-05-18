@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using DocumentFormat.OpenXml.Packaging;
 using Ap = DocumentFormat.OpenXml.ExtendedProperties;
@@ -968,210 +970,12 @@ namespace MixerReports.Raports
 
             sheetData1.Append(row1);
 
-            #region Нужная строка
-
-            Row row2 = new Row() { RowIndex = (UInt32Value)2U, Spans = new ListValue<StringValue>() { InnerText = "1:28" }, DyDescent = 0.25D };
-
-            Cell cell29 = new Cell() { CellReference = "A2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue29 = new CellValue();
-            cellValue29.Text = "1";
-
-            cell29.Append(cellValue29);
-
-            Cell cell30 = new Cell() { CellReference = "B2", StyleIndex = (UInt32Value)7U };
-            CellValue cellValue30 = new CellValue();
-            cellValue30.Text = "44326.335358796299";
-
-            cell30.Append(cellValue30);
-
-            Cell cell31 = new Cell() { CellReference = "C2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue31 = new CellValue();
-            cellValue31.Text = "17";
-
-            cell31.Append(cellValue31);
-
-            Cell cell32 = new Cell() { CellReference = "D2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue32 = new CellValue();
-            cellValue32.Text = "2001";
-
-            cell32.Append(cellValue32);
-
-            Cell cell33 = new Cell() { CellReference = "E2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue33 = new CellValue();
-            cellValue33.Text = "41.7";
-
-            cell33.Append(cellValue33);
-
-            Cell cell34 = new Cell() { CellReference = "F2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue34 = new CellValue();
-            cellValue34.Text = "1172.8";
-
-            cell34.Append(cellValue34);
-
-            Cell cell35 = new Cell() { CellReference = "G2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue35 = new CellValue();
-            cellValue35.Text = "1158.4000000000001";
-
-            cell35.Append(cellValue35);
-
-            Cell cell36 = new Cell() { CellReference = "H2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue36 = new CellValue();
-            cellValue36.Text = "2182.5700000000002";
-
-            cell36.Append(cellValue36);
-
-            Cell cell37 = new Cell() { CellReference = "I2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue37 = new CellValue();
-            cellValue37.Text = "2182.1999999999998";
-
-            cell37.Append(cellValue37);
-
-            Cell cell38 = new Cell() { CellReference = "J2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue38 = new CellValue();
-            cellValue38.Text = "207.19";
-
-            cell38.Append(cellValue38);
-
-            Cell cell39 = new Cell() { CellReference = "K2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue39 = new CellValue();
-            cellValue39.Text = "202.4";
-
-            cell39.Append(cellValue39);
-
-            Cell cell40 = new Cell() { CellReference = "L2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue40 = new CellValue();
-            cellValue40.Text = "93.21";
-
-            cell40.Append(cellValue40);
-
-            Cell cell41 = new Cell() { CellReference = "M2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue41 = new CellValue();
-            cellValue41.Text = "93.2";
-
-            cell41.Append(cellValue41);
-
-            Cell cell42 = new Cell() { CellReference = "N2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue42 = new CellValue();
-            cellValue42.Text = "687.82";
-
-            cell42.Append(cellValue42);
-
-            Cell cell43 = new Cell() { CellReference = "O2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue43 = new CellValue();
-            cellValue43.Text = "683.3";
-
-            cell43.Append(cellValue43);
-
-            Cell cell44 = new Cell() { CellReference = "P2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue44 = new CellValue();
-            cellValue44.Text = "0";
-
-            cell44.Append(cellValue44);
-
-            Cell cell45 = new Cell() { CellReference = "Q2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue45 = new CellValue();
-            cellValue45.Text = "0";
-
-            cell45.Append(cellValue45);
-
-            Cell cell46 = new Cell() { CellReference = "R2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue46 = new CellValue();
-            cellValue46.Text = "0";
-
-            cell46.Append(cellValue46);
-
-            Cell cell47 = new Cell() { CellReference = "S2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue47 = new CellValue();
-            cellValue47.Text = "0";
-
-            cell47.Append(cellValue47);
-
-            Cell cell48 = new Cell() { CellReference = "T2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue48 = new CellValue();
-            cellValue48.Text = "557.61";
-
-            cell48.Append(cellValue48);
-
-            Cell cell49 = new Cell() { CellReference = "U2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue49 = new CellValue();
-            cellValue49.Text = "553.70000000000005";
-
-            cell49.Append(cellValue49);
-
-            Cell cell50 = new Cell() { CellReference = "V2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue50 = new CellValue();
-            cellValue50.Text = "2.75";
-
-            cell50.Append(cellValue50);
-
-            Cell cell51 = new Cell() { CellReference = "W2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue51 = new CellValue();
-            cellValue51.Text = "2.758";
-
-            cell51.Append(cellValue51);
-
-            Cell cell52 = new Cell() { CellReference = "X2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue52 = new CellValue();
-            cellValue52.Text = "0";
-
-            cell52.Append(cellValue52);
-
-            Cell cell53 = new Cell() { CellReference = "Y2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue53 = new CellValue();
-            cellValue53.Text = "0";
-
-            cell53.Append(cellValue53);
-
-            Cell cell54 = new Cell() { CellReference = "Z2", StyleIndex = (UInt32Value)6U };
-            CellValue cellValue54 = new CellValue();
-            cellValue54.Text = "1439.59";
-
-            cell54.Append(cellValue54);
-
-            Cell cell55 = new Cell() { CellReference = "AA2", StyleIndex = (UInt32Value)9U, DataType = CellValues.SharedString };
-            CellValue cellValue55 = new CellValue();
-            cellValue55.Text = "29";
-
-            cell55.Append(cellValue55);
-
-            Cell cell56 = new Cell() { CellReference = "AB2", StyleIndex = (UInt32Value)9U, DataType = CellValues.SharedString };
-            CellValue cellValue56 = new CellValue();
-            cellValue56.Text = "30";
-
-            cell56.Append(cellValue56);
-
-            row2.Append(cell29);
-            row2.Append(cell30);
-            row2.Append(cell31);
-            row2.Append(cell32);
-            row2.Append(cell33);
-            row2.Append(cell34);
-            row2.Append(cell35);
-            row2.Append(cell36);
-            row2.Append(cell37);
-            row2.Append(cell38);
-            row2.Append(cell39);
-            row2.Append(cell40);
-            row2.Append(cell41);
-            row2.Append(cell42);
-            row2.Append(cell43);
-            row2.Append(cell44);
-            row2.Append(cell45);
-            row2.Append(cell46);
-            row2.Append(cell47);
-            row2.Append(cell48);
-            row2.Append(cell49);
-            row2.Append(cell50);
-            row2.Append(cell51);
-            row2.Append(cell52);
-            row2.Append(cell53);
-            row2.Append(cell54);
-            row2.Append(cell55);
-            row2.Append(cell56);
-
-            #endregion
-
-            sheetData1.Append(row2);
+            int i = 0;
+            foreach (var mix in NightMixes)
+            {
+                AddNewPartRow(sheetData1, i, mix);
+                i++;
+            }
 
             #region Ненужная строка
 
@@ -1370,244 +1174,8 @@ namespace MixerReports.Raports
             row3.Append(cell84);
 
             #endregion
-            
-            #region Итоги
 
-            Row row4 = new Row() { RowIndex = (UInt32Value)4U, Spans = new ListValue<StringValue>() { InnerText = "1:28" }, DyDescent = 0.25D };
-
-            Cell cell85 = new Cell() { CellReference = "A4", StyleIndex = (UInt32Value)3U, DataType = CellValues.SharedString };
-            CellValue cellValue84 = new CellValue();
-            cellValue84.Text = "26";
-
-            cell85.Append(cellValue84);
-            Cell cell86 = new Cell() { CellReference = "B4", StyleIndex = (UInt32Value)3U };
-            Cell cell87 = new Cell() { CellReference = "C4", StyleIndex = (UInt32Value)3U };
-            Cell cell88 = new Cell() { CellReference = "D4", StyleIndex = (UInt32Value)3U };
-            Cell cell89 = new Cell() { CellReference = "E4", StyleIndex = (UInt32Value)3U };
-
-            Cell cell90 = new Cell() { CellReference = "F4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula1 = new CellFormula() { FormulaType = CellFormulaValues.Shared, Reference = "F4:Z4", SharedIndex = (UInt32Value)0U };
-            cellFormula1.Text = "SUM(F2:F3)";
-            CellValue cellValue85 = new CellValue();
-            cellValue85.Text = "2334.5100000000002";
-
-            cell90.Append(cellFormula1);
-            cell90.Append(cellValue85);
-
-            Cell cell91 = new Cell() { CellReference = "G4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula2 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula2.Text = "";
-            CellValue cellValue86 = new CellValue();
-            cellValue86.Text = "2305.4";
-
-            cell91.Append(cellFormula2);
-            cell91.Append(cellValue86);
-
-            Cell cell92 = new Cell() { CellReference = "H4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula3 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula3.Text = "";
-            CellValue cellValue87 = new CellValue();
-            cellValue87.Text = "4375.91";
-
-            cell92.Append(cellFormula3);
-            cell92.Append(cellValue87);
-
-            Cell cell93 = new Cell() { CellReference = "I4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula4 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula4.Text = "";
-            CellValue cellValue88 = new CellValue();
-            cellValue88.Text = "4375.3999999999996";
-
-            cell93.Append(cellFormula4);
-            cell93.Append(cellValue88);
-
-            Cell cell94 = new Cell() { CellReference = "J4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula5 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula5.Text = "";
-            CellValue cellValue89 = new CellValue();
-            cellValue89.Text = "487.96999999999997";
-
-            cell94.Append(cellFormula5);
-            cell94.Append(cellValue89);
-
-            Cell cell95 = new Cell() { CellReference = "K4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula6 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula6.Text = "";
-            CellValue cellValue90 = new CellValue();
-            cellValue90.Text = "478.20000000000005";
-
-            cell95.Append(cellFormula6);
-            cell95.Append(cellValue90);
-
-            Cell cell96 = new Cell() { CellReference = "L4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula7 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula7.Text = "";
-            CellValue cellValue91 = new CellValue();
-            cellValue91.Text = "116.52";
-
-            cell96.Append(cellFormula7);
-            cell96.Append(cellValue91);
-
-            Cell cell97 = new Cell() { CellReference = "M4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula8 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula8.Text = "";
-            CellValue cellValue92 = new CellValue();
-            cellValue92.Text = "116.80000000000001";
-
-            cell97.Append(cellFormula8);
-            cell97.Append(cellValue92);
-
-            Cell cell98 = new Cell() { CellReference = "N4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula9 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula9.Text = "";
-            CellValue cellValue93 = new CellValue();
-            cellValue93.Text = "687.82";
-
-            cell98.Append(cellFormula9);
-            cell98.Append(cellValue93);
-
-            Cell cell99 = new Cell() { CellReference = "O4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula10 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula10.Text = "";
-            CellValue cellValue94 = new CellValue();
-            cellValue94.Text = "683.3";
-
-            cell99.Append(cellFormula10);
-            cell99.Append(cellValue94);
-
-            Cell cell100 = new Cell() { CellReference = "P4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula11 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula11.Text = "";
-            CellValue cellValue95 = new CellValue();
-            cellValue95.Text = "687.82";
-
-            cell100.Append(cellFormula11);
-            cell100.Append(cellValue95);
-
-            Cell cell101 = new Cell() { CellReference = "Q4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula12 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula12.Text = "";
-            CellValue cellValue96 = new CellValue();
-            cellValue96.Text = "682.9";
-
-            cell101.Append(cellFormula12);
-            cell101.Append(cellValue96);
-
-            Cell cell102 = new Cell() { CellReference = "R4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula13 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula13.Text = "";
-            CellValue cellValue97 = new CellValue();
-            cellValue97.Text = "0";
-
-            cell102.Append(cellFormula13);
-            cell102.Append(cellValue97);
-
-            Cell cell103 = new Cell() { CellReference = "S4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula14 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula14.Text = "";
-            CellValue cellValue98 = new CellValue();
-            cellValue98.Text = "0";
-
-            cell103.Append(cellFormula14);
-            cell103.Append(cellValue98);
-
-            Cell cell104 = new Cell() { CellReference = "T4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula15 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula15.Text = "";
-            CellValue cellValue99 = new CellValue();
-            cellValue99.Text = "1111.8400000000001";
-
-            cell104.Append(cellFormula15);
-            cell104.Append(cellValue99);
-
-            Cell cell105 = new Cell() { CellReference = "U4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula16 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula16.Text = "";
-            CellValue cellValue100 = new CellValue();
-            cellValue100.Text = "1104.2";
-
-            cell105.Append(cellFormula16);
-            cell105.Append(cellValue100);
-
-            Cell cell106 = new Cell() { CellReference = "V4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula17 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula17.Text = "";
-            CellValue cellValue101 = new CellValue();
-            cellValue101.Text = "2.75";
-
-            cell106.Append(cellFormula17);
-            cell106.Append(cellValue101);
-
-            Cell cell107 = new Cell() { CellReference = "W4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula18 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula18.Text = "";
-            CellValue cellValue102 = new CellValue();
-            cellValue102.Text = "2.758";
-
-            cell107.Append(cellFormula18);
-            cell107.Append(cellValue102);
-
-            Cell cell108 = new Cell() { CellReference = "X4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula19 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula19.Text = "";
-            CellValue cellValue103 = new CellValue();
-            cellValue103.Text = "2.75";
-
-            cell108.Append(cellFormula19);
-            cell108.Append(cellValue103);
-
-            Cell cell109 = new Cell() { CellReference = "Y4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula20 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula20.Text = "";
-            CellValue cellValue104 = new CellValue();
-            cellValue104.Text = "2.714";
-
-            cell109.Append(cellFormula20);
-            cell109.Append(cellValue104);
-
-            Cell cell110 = new Cell() { CellReference = "Z4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula21 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
-            cellFormula21.Text = "";
-            CellValue cellValue105 = new CellValue();
-            cellValue105.Text = "2882.71";
-
-            cell110.Append(cellFormula21);
-            cell110.Append(cellValue105);
-            Cell cell111 = new Cell() { CellReference = "AA4", StyleIndex = (UInt32Value)8U };
-            Cell cell112 = new Cell() { CellReference = "AB4", StyleIndex = (UInt32Value)8U };
-
-            row4.Append(cell85);
-            row4.Append(cell86);
-            row4.Append(cell87);
-            row4.Append(cell88);
-            row4.Append(cell89);
-            row4.Append(cell90);
-            row4.Append(cell91);
-            row4.Append(cell92);
-            row4.Append(cell93);
-            row4.Append(cell94);
-            row4.Append(cell95);
-            row4.Append(cell96);
-            row4.Append(cell97);
-            row4.Append(cell98);
-            row4.Append(cell99);
-            row4.Append(cell100);
-            row4.Append(cell101);
-            row4.Append(cell102);
-            row4.Append(cell103);
-            row4.Append(cell104);
-            row4.Append(cell105);
-            row4.Append(cell106);
-            row4.Append(cell107);
-            row4.Append(cell108);
-            row4.Append(cell109);
-            row4.Append(cell110);
-            row4.Append(cell111);
-            row4.Append(cell112);
-            
-            #endregion
-
-            sheetData1.Append(row4);
+            AddNewResult(sheetData1, NightMixes.Count());
 
             PageMargins pageMargins1 = new PageMargins() { Left = 0.7D, Right = 0.7D, Top = 0.75D, Bottom = 0.75D, Header = 0.3D, Footer = 0.3D };
 
@@ -1870,176 +1438,184 @@ namespace MixerReports.Raports
 
             sheetData2.Append(row5);
 
+            int i = 0;
+            foreach (var mix in DayMixes)
+            {
+                AddNewPartRow(sheetData2, i, mix);
+                i++;
+            }
+
+            AddNewResult(sheetData2, DayMixes.Count());
+            
+            PageMargins pageMargins2 = new PageMargins() { Left = 0.7D, Right = 0.7D, Top = 0.75D, Bottom = 0.75D, Header = 0.3D, Footer = 0.3D };
+
+            worksheet2.Append(sheetDimension2);
+            worksheet2.Append(sheetViews2);
+            worksheet2.Append(sheetFormatProperties2);
+            worksheet2.Append(columns2);
+            worksheet2.Append(sheetData2);
+            worksheet2.Append(pageMargins2);
+
+            worksheetPart2.Worksheet = worksheet2;
+        }
+
+        #region Вспомогательные
+
+        private static void AddNewPartRow(SheetData sheetData2, int index, Mix mix)
+        {
             #region Нужная строка
+            
+            uint styleNumber = 1U;
+            uint styleData = 2U;
+            uint styleString = 8U;
+            if (!mix.Normal)
+            {
+                styleNumber = 6U;
+                styleData = 7U;
+                styleString = 9U;
+            }
 
-            Row row6 = new Row() { RowIndex = (UInt32Value)2U, Spans = new ListValue<StringValue>() { InnerText = "1:28" }, DyDescent = 0.25D };
+            Row row6 = new Row() 
+                { RowIndex = (UInt32Value) Convert.ToUInt32(index + 2), Spans = new ListValue<StringValue>() { InnerText = "1:28" }, DyDescent = 0.25D };
 
-            Cell cell141 = new Cell() { CellReference = "A2", StyleIndex = (UInt32Value)6U };
+            Cell cell141 = new Cell() { CellReference = $"A{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue134 = new CellValue();
-            cellValue134.Text = "1";
-
+            cellValue134.Text = mix.Number.ToString();
             cell141.Append(cellValue134);
 
-            Cell cell142 = new Cell() { CellReference = "B2", StyleIndex = (UInt32Value)7U };
+            Cell cell142 = new Cell() { CellReference = $"B{index + 2}", StyleIndex = styleData };
             CellValue cellValue135 = new CellValue();
-            cellValue135.Text = "44326.335358796299";
-
+            cellValue135.Text = mix.DateTime.ToOADate().ToString(CultureInfo.InvariantCulture);
             cell142.Append(cellValue135);
 
-            Cell cell143 = new Cell() { CellReference = "C2", StyleIndex = (UInt32Value)6U };
+            Cell cell143 = new Cell() { CellReference = $"C{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue136 = new CellValue();
-            cellValue136.Text = "17";
-
+            cellValue136.Text = mix.FormNumber.ToString();
             cell143.Append(cellValue136);
 
-            Cell cell144 = new Cell() { CellReference = "D2", StyleIndex = (UInt32Value)6U };
+            Cell cell144 = new Cell() { CellReference = $"D{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue137 = new CellValue();
-            cellValue137.Text = "2001";
-
+            cellValue137.Text = mix.RecipeNumber.ToString();
             cell144.Append(cellValue137);
 
-            Cell cell145 = new Cell() { CellReference = "E2", StyleIndex = (UInt32Value)6U };
+            Cell cell145 = new Cell() { CellReference = $"E{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue138 = new CellValue();
-            cellValue138.Text = "41.7";
-
+            cellValue138.Text = mix.MixerTemperature.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell145.Append(cellValue138);
 
-            Cell cell146 = new Cell() { CellReference = "F2", StyleIndex = (UInt32Value)6U };
+            Cell cell146 = new Cell() { CellReference = $"F{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue139 = new CellValue();
-            cellValue139.Text = "1172.8";
-
+            cellValue139.Text = mix.SetRevertMud.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell146.Append(cellValue139);
 
-            Cell cell147 = new Cell() { CellReference = "G2", StyleIndex = (UInt32Value)6U };
+            Cell cell147 = new Cell() { CellReference = $"G{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue140 = new CellValue();
-            cellValue140.Text = "1158.4000000000001";
-
+            cellValue140.Text = mix.ActRevertMud.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell147.Append(cellValue140);
 
-            Cell cell148 = new Cell() { CellReference = "H2", StyleIndex = (UInt32Value)6U };
+            Cell cell148 = new Cell() { CellReference = $"H{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue141 = new CellValue();
-            cellValue141.Text = "2182.5700000000002";
-
+            cellValue141.Text = mix.SetSandMud.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell148.Append(cellValue141);
 
-            Cell cell149 = new Cell() { CellReference = "I2", StyleIndex = (UInt32Value)6U };
+            Cell cell149 = new Cell() { CellReference = $"I{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue142 = new CellValue();
-            cellValue142.Text = "2182.1999999999998";
-
+            cellValue142.Text = mix.ActSandMud.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell149.Append(cellValue142);
 
-            Cell cell150 = new Cell() { CellReference = "J2", StyleIndex = (UInt32Value)6U };
+            Cell cell150 = new Cell() { CellReference = $"J{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue143 = new CellValue();
-            cellValue143.Text = "207.19";
-
+            cellValue143.Text = mix.SetColdWater.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell150.Append(cellValue143);
 
-            Cell cell151 = new Cell() { CellReference = "K2", StyleIndex = (UInt32Value)6U };
+            Cell cell151 = new Cell() { CellReference = $"K{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue144 = new CellValue();
-            cellValue144.Text = "202.4";
-
+            cellValue144.Text = mix.ActColdWater.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell151.Append(cellValue144);
 
-            Cell cell152 = new Cell() { CellReference = "L2", StyleIndex = (UInt32Value)6U };
+            Cell cell152 = new Cell() { CellReference = $"L{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue145 = new CellValue();
-            cellValue145.Text = "93.21";
-
+            cellValue145.Text = mix.SetHotWater.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell152.Append(cellValue145);
 
-            Cell cell153 = new Cell() { CellReference = "M2", StyleIndex = (UInt32Value)6U };
+            Cell cell153 = new Cell() { CellReference = $"M{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue146 = new CellValue();
-            cellValue146.Text = "93.2";
-
+            cellValue146.Text = mix.ActHotWater.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell153.Append(cellValue146);
 
-            Cell cell154 = new Cell() { CellReference = "N2", StyleIndex = (UInt32Value)6U };
+            Cell cell154 = new Cell() { CellReference = $"N{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue147 = new CellValue();
-            cellValue147.Text = "687.82";
-
+            cellValue147.Text = mix.SetMixture1.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell154.Append(cellValue147);
 
-            Cell cell155 = new Cell() { CellReference = "O2", StyleIndex = (UInt32Value)6U };
+            Cell cell155 = new Cell() { CellReference = $"O{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue148 = new CellValue();
-            cellValue148.Text = "683.3";
-
+            cellValue148.Text = mix.ActMixture1.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell155.Append(cellValue148);
 
-            Cell cell156 = new Cell() { CellReference = "P2", StyleIndex = (UInt32Value)6U };
+            Cell cell156 = new Cell() { CellReference = $"P{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue149 = new CellValue();
-            cellValue149.Text = "0";
-
+            cellValue149.Text = mix.SetMixture2.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell156.Append(cellValue149);
 
-            Cell cell157 = new Cell() { CellReference = "Q2", StyleIndex = (UInt32Value)6U };
+            Cell cell157 = new Cell() { CellReference = $"Q{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue150 = new CellValue();
-            cellValue150.Text = "0";
-
+            cellValue150.Text = mix.ActMixture2.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell157.Append(cellValue150);
 
-            Cell cell158 = new Cell() { CellReference = "R2", StyleIndex = (UInt32Value)6U };
+            Cell cell158 = new Cell() { CellReference = $"R{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue151 = new CellValue();
-            cellValue151.Text = "0";
-
+            cellValue151.Text = mix.SetCement1.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell158.Append(cellValue151);
 
-            Cell cell159 = new Cell() { CellReference = "S2", StyleIndex = (UInt32Value)6U };
+            Cell cell159 = new Cell() { CellReference = $"S{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue152 = new CellValue();
-            cellValue152.Text = "0";
-
+            cellValue152.Text = mix.ActCement1.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell159.Append(cellValue152);
 
-            Cell cell160 = new Cell() { CellReference = "T2", StyleIndex = (UInt32Value)6U };
+            Cell cell160 = new Cell() { CellReference = $"T{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue153 = new CellValue();
-            cellValue153.Text = "557.61";
-
+            cellValue153.Text = mix.SetCement2.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell160.Append(cellValue153);
 
-            Cell cell161 = new Cell() { CellReference = "U2", StyleIndex = (UInt32Value)6U };
+            Cell cell161 = new Cell() { CellReference = $"U{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue154 = new CellValue();
-            cellValue154.Text = "553.70000000000005";
-
+            cellValue154.Text = mix.ActCement2.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell161.Append(cellValue154);
 
-            Cell cell162 = new Cell() { CellReference = "V2", StyleIndex = (UInt32Value)6U };
+            Cell cell162 = new Cell() { CellReference = $"V{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue155 = new CellValue();
-            cellValue155.Text = "2.75";
-
+            cellValue155.Text = mix.SetAluminium1.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell162.Append(cellValue155);
 
-            Cell cell163 = new Cell() { CellReference = "W2", StyleIndex = (UInt32Value)6U };
+            Cell cell163 = new Cell() { CellReference = $"W{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue156 = new CellValue();
-            cellValue156.Text = "2.758";
-
+            cellValue156.Text = mix.ActAluminium1.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell163.Append(cellValue156);
 
-            Cell cell164 = new Cell() { CellReference = "X2", StyleIndex = (UInt32Value)6U };
+            Cell cell164 = new Cell() { CellReference = $"X{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue157 = new CellValue();
-            cellValue157.Text = "0";
-
+            cellValue157.Text = mix.SetAluminium2.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell164.Append(cellValue157);
 
-            Cell cell165 = new Cell() { CellReference = "Y2", StyleIndex = (UInt32Value)6U };
+            Cell cell165 = new Cell() { CellReference = $"Y{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue158 = new CellValue();
-            cellValue158.Text = "0";
-
+            cellValue158.Text = mix.ActAluminium2.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell165.Append(cellValue158);
 
-            Cell cell166 = new Cell() { CellReference = "Z2", StyleIndex = (UInt32Value)6U };
+            Cell cell166 = new Cell() { CellReference = $"Z{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue159 = new CellValue();
-            cellValue159.Text = "1439.59";
-
+            cellValue159.Text = mix.SandInMud.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell166.Append(cellValue159);
 
-            Cell cell167 = new Cell() { CellReference = "AA2", StyleIndex = (UInt32Value)9U, DataType = CellValues.SharedString };
+            Cell cell167 = new Cell() { CellReference = $"AA{index + 2}", StyleIndex = styleString, DataType = CellValues.String };
             CellValue cellValue160 = new CellValue();
-            cellValue160.Text = "29";
-
+            cellValue160.Text = mix.NormalStr;
             cell167.Append(cellValue160);
 
-            Cell cell168 = new Cell() { CellReference = "AB2", StyleIndex = (UInt32Value)9U, DataType = CellValues.SharedString };
+            Cell cell168 = new Cell() { CellReference = $"AB{index + 2}", StyleIndex = styleString, DataType = CellValues.String };
             CellValue cellValue161 = new CellValue();
-            cellValue161.Text = "30";
-
+            cellValue161.Text = mix.CharsStr;
             cell168.Append(cellValue161);
 
             row6.Append(cell141);
@@ -2074,211 +1650,132 @@ namespace MixerReports.Raports
             #endregion
 
             sheetData2.Append(row6);
+        }
 
+        private static void AddNewResult(SheetData sheetData2, int count)
+        {
             #region Итоги
 
-            Row row8 = new Row() { RowIndex = (UInt32Value)4U, Spans = new ListValue<StringValue>() { InnerText = "1:28" }, DyDescent = 0.25D };
+            Row row8 = new Row() 
+                { RowIndex = (UInt32Value) Convert.ToUInt32(count + 2), Spans = new ListValue<StringValue>() { InnerText = "1:28" }, DyDescent = 0.25D };
 
-            Cell cell197 = new Cell() { CellReference = "A4", StyleIndex = (UInt32Value)3U, DataType = CellValues.SharedString };
+            Cell cell197 = new Cell() { CellReference = $"A{count + 2}", StyleIndex = (UInt32Value)3U, DataType = CellValues.SharedString };
             CellValue cellValue189 = new CellValue();
             cellValue189.Text = "26";
 
             cell197.Append(cellValue189);
-            Cell cell198 = new Cell() { CellReference = "B4", StyleIndex = (UInt32Value)3U };
-            Cell cell199 = new Cell() { CellReference = "C4", StyleIndex = (UInt32Value)3U };
-            Cell cell200 = new Cell() { CellReference = "D4", StyleIndex = (UInt32Value)3U };
-            Cell cell201 = new Cell() { CellReference = "E4", StyleIndex = (UInt32Value)3U };
+            Cell cell198 = new Cell() { CellReference = $"B{count + 2}", StyleIndex = (UInt32Value)3U };
+            Cell cell199 = new Cell() { CellReference = $"C{count + 2}", StyleIndex = (UInt32Value)3U };
+            Cell cell200 = new Cell() { CellReference = $"D{count + 2}", StyleIndex = (UInt32Value)3U };
+            Cell cell201 = new Cell() { CellReference = $"E{count + 2}", StyleIndex = (UInt32Value)3U };
 
-            Cell cell202 = new Cell() { CellReference = "F4", StyleIndex = (UInt32Value)3U };
-            CellFormula cellFormula22 = new CellFormula() { FormulaType = CellFormulaValues.Shared, Reference = "F4:Z4", SharedIndex = (UInt32Value)0U };
-            cellFormula22.Text = "SUM(F2:F3)";
-            CellValue cellValue190 = new CellValue();
-            cellValue190.Text = "2334.5100000000002";
-
+            Cell cell202 = new Cell() { CellReference = $"F{count + 2}", StyleIndex = (UInt32Value)3U };
+            CellFormula cellFormula22 = new CellFormula() { FormulaType = CellFormulaValues.Shared, Reference = $"F{count + 2}:Z{count + 2}", SharedIndex = (UInt32Value)0U };
+            cellFormula22.Text = $"SUM(F1:F{count + 1})";
             cell202.Append(cellFormula22);
-            cell202.Append(cellValue190);
-
-            Cell cell203 = new Cell() { CellReference = "G4", StyleIndex = (UInt32Value)3U };
+            
+            Cell cell203 = new Cell() { CellReference = $"G{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula23 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula23.Text = "";
-            CellValue cellValue191 = new CellValue();
-            cellValue191.Text = "2305.4";
-
             cell203.Append(cellFormula23);
-            cell203.Append(cellValue191);
 
-            Cell cell204 = new Cell() { CellReference = "H4", StyleIndex = (UInt32Value)3U };
+            Cell cell204 = new Cell() { CellReference = $"H{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula24 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula24.Text = "";
-            CellValue cellValue192 = new CellValue();
-            cellValue192.Text = "4375.91";
-
             cell204.Append(cellFormula24);
-            cell204.Append(cellValue192);
 
-            Cell cell205 = new Cell() { CellReference = "I4", StyleIndex = (UInt32Value)3U };
+            Cell cell205 = new Cell() { CellReference = $"I{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula25 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula25.Text = "";
-            CellValue cellValue193 = new CellValue();
-            cellValue193.Text = "4375.3999999999996";
-
             cell205.Append(cellFormula25);
-            cell205.Append(cellValue193);
 
-            Cell cell206 = new Cell() { CellReference = "J4", StyleIndex = (UInt32Value)3U };
+            Cell cell206 = new Cell() { CellReference = $"J{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula26 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula26.Text = "";
-            CellValue cellValue194 = new CellValue();
-            cellValue194.Text = "487.96999999999997";
-
             cell206.Append(cellFormula26);
-            cell206.Append(cellValue194);
 
-            Cell cell207 = new Cell() { CellReference = "K4", StyleIndex = (UInt32Value)3U };
+            Cell cell207 = new Cell() { CellReference = $"K{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula27 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula27.Text = "";
-            CellValue cellValue195 = new CellValue();
-            cellValue195.Text = "478.20000000000005";
-
             cell207.Append(cellFormula27);
-            cell207.Append(cellValue195);
 
-            Cell cell208 = new Cell() { CellReference = "L4", StyleIndex = (UInt32Value)3U };
+            Cell cell208 = new Cell() { CellReference = $"L{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula28 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula28.Text = "";
-            CellValue cellValue196 = new CellValue();
-            cellValue196.Text = "116.52";
-
             cell208.Append(cellFormula28);
-            cell208.Append(cellValue196);
 
-            Cell cell209 = new Cell() { CellReference = "M4", StyleIndex = (UInt32Value)3U };
+            Cell cell209 = new Cell() { CellReference = $"M{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula29 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula29.Text = "";
-            CellValue cellValue197 = new CellValue();
-            cellValue197.Text = "116.80000000000001";
-
             cell209.Append(cellFormula29);
-            cell209.Append(cellValue197);
 
-            Cell cell210 = new Cell() { CellReference = "N4", StyleIndex = (UInt32Value)3U };
+            Cell cell210 = new Cell() { CellReference = $"N{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula30 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula30.Text = "";
-            CellValue cellValue198 = new CellValue();
-            cellValue198.Text = "687.82";
-
             cell210.Append(cellFormula30);
-            cell210.Append(cellValue198);
 
-            Cell cell211 = new Cell() { CellReference = "O4", StyleIndex = (UInt32Value)3U };
+            Cell cell211 = new Cell() { CellReference = $"O{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula31 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula31.Text = "";
-            CellValue cellValue199 = new CellValue();
-            cellValue199.Text = "683.3";
-
             cell211.Append(cellFormula31);
-            cell211.Append(cellValue199);
 
-            Cell cell212 = new Cell() { CellReference = "P4", StyleIndex = (UInt32Value)3U };
+            Cell cell212 = new Cell() { CellReference = $"P{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula32 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula32.Text = "";
-            CellValue cellValue200 = new CellValue();
-            cellValue200.Text = "687.82";
-
             cell212.Append(cellFormula32);
-            cell212.Append(cellValue200);
 
-            Cell cell213 = new Cell() { CellReference = "Q4", StyleIndex = (UInt32Value)3U };
+            Cell cell213 = new Cell() { CellReference = $"Q{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula33 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula33.Text = "";
-            CellValue cellValue201 = new CellValue();
-            cellValue201.Text = "682.9";
-
             cell213.Append(cellFormula33);
-            cell213.Append(cellValue201);
 
-            Cell cell214 = new Cell() { CellReference = "R4", StyleIndex = (UInt32Value)3U };
+            Cell cell214 = new Cell() { CellReference = $"R{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula34 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula34.Text = "";
-            CellValue cellValue202 = new CellValue();
-            cellValue202.Text = "0";
-
             cell214.Append(cellFormula34);
-            cell214.Append(cellValue202);
 
-            Cell cell215 = new Cell() { CellReference = "S4", StyleIndex = (UInt32Value)3U };
+            Cell cell215 = new Cell() { CellReference = $"S{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula35 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula35.Text = "";
-            CellValue cellValue203 = new CellValue();
-            cellValue203.Text = "0";
-
             cell215.Append(cellFormula35);
-            cell215.Append(cellValue203);
 
-            Cell cell216 = new Cell() { CellReference = "T4", StyleIndex = (UInt32Value)3U };
+            Cell cell216 = new Cell() { CellReference = $"T{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula36 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula36.Text = "";
-            CellValue cellValue204 = new CellValue();
-            cellValue204.Text = "1111.8400000000001";
-
             cell216.Append(cellFormula36);
-            cell216.Append(cellValue204);
 
-            Cell cell217 = new Cell() { CellReference = "U4", StyleIndex = (UInt32Value)3U };
+            Cell cell217 = new Cell() { CellReference = $"U{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula37 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula37.Text = "";
-            CellValue cellValue205 = new CellValue();
-            cellValue205.Text = "1104.2";
-
             cell217.Append(cellFormula37);
-            cell217.Append(cellValue205);
 
-            Cell cell218 = new Cell() { CellReference = "V4", StyleIndex = (UInt32Value)3U };
+            Cell cell218 = new Cell() { CellReference = $"V{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula38 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula38.Text = "";
-            CellValue cellValue206 = new CellValue();
-            cellValue206.Text = "2.75";
-
             cell218.Append(cellFormula38);
-            cell218.Append(cellValue206);
 
-            Cell cell219 = new Cell() { CellReference = "W4", StyleIndex = (UInt32Value)3U };
+            Cell cell219 = new Cell() { CellReference = $"W{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula39 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula39.Text = "";
-            CellValue cellValue207 = new CellValue();
-            cellValue207.Text = "2.758";
-
             cell219.Append(cellFormula39);
-            cell219.Append(cellValue207);
 
-            Cell cell220 = new Cell() { CellReference = "X4", StyleIndex = (UInt32Value)3U };
+            Cell cell220 = new Cell() { CellReference = $"X{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula40 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula40.Text = "";
-            CellValue cellValue208 = new CellValue();
-            cellValue208.Text = "2.75";
-
             cell220.Append(cellFormula40);
-            cell220.Append(cellValue208);
 
-            Cell cell221 = new Cell() { CellReference = "Y4", StyleIndex = (UInt32Value)3U };
+            Cell cell221 = new Cell() { CellReference = $"Y{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula41 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula41.Text = "";
-            CellValue cellValue209 = new CellValue();
-            cellValue209.Text = "2.714";
-
             cell221.Append(cellFormula41);
-            cell221.Append(cellValue209);
 
-            Cell cell222 = new Cell() { CellReference = "Z4", StyleIndex = (UInt32Value)3U };
+            Cell cell222 = new Cell() { CellReference = $"Z{count + 2}", StyleIndex = (UInt32Value)3U };
             CellFormula cellFormula42 = new CellFormula() { FormulaType = CellFormulaValues.Shared, SharedIndex = (UInt32Value)0U };
             cellFormula42.Text = "";
-            CellValue cellValue210 = new CellValue();
-            cellValue210.Text = "2882.71";
-
             cell222.Append(cellFormula42);
-            cell222.Append(cellValue210);
-            Cell cell223 = new Cell() { CellReference = "AA4", StyleIndex = (UInt32Value)8U };
-            Cell cell224 = new Cell() { CellReference = "AB4", StyleIndex = (UInt32Value)8U };
+
+            Cell cell223 = new Cell() { CellReference = $"AA{count + 2}", StyleIndex = (UInt32Value)8U };
+            Cell cell224 = new Cell() { CellReference = $"AB{count + 2}", StyleIndex = (UInt32Value)8U };
 
             row8.Append(cell197);
             row8.Append(cell198);
@@ -2310,22 +1807,11 @@ namespace MixerReports.Raports
             row8.Append(cell224);
 
             #endregion
-            
+
             sheetData2.Append(row8);
-
-            PageMargins pageMargins2 = new PageMargins() { Left = 0.7D, Right = 0.7D, Top = 0.75D, Bottom = 0.75D, Header = 0.3D, Footer = 0.3D };
-            PageSetup pageSetup1 = new PageSetup() { PaperSize = (UInt32Value)9U, Orientation = OrientationValues.Portrait, Id = "rId1" };
-
-            worksheet2.Append(sheetDimension2);
-            worksheet2.Append(sheetViews2);
-            worksheet2.Append(sheetFormatProperties2);
-            worksheet2.Append(columns2);
-            worksheet2.Append(sheetData2);
-            worksheet2.Append(pageMargins2);
-            worksheet2.Append(pageSetup1);
-
-            worksheetPart2.Worksheet = worksheet2;
         }
+
+        #endregion
 
         // Generates content of spreadsheetPrinterSettingsPart1.
         private void GenerateSpreadsheetPrinterSettingsPart1Content(SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart1)
@@ -2341,49 +1827,37 @@ namespace MixerReports.Raports
         private void GenerateCalculationChainPart1Content(CalculationChainPart calculationChainPart1)
         {
             CalculationChain calculationChain1 = new CalculationChain();
-            CalculationCell calculationCell1 = new CalculationCell() { CellReference = "Z4", SheetId = 1, NewLevel = true };
-            CalculationCell calculationCell2 = new CalculationCell() { CellReference = "Y4", SheetId = 1 };
-            CalculationCell calculationCell3 = new CalculationCell() { CellReference = "X4", SheetId = 1 };
-            CalculationCell calculationCell4 = new CalculationCell() { CellReference = "W4", SheetId = 1 };
-            CalculationCell calculationCell5 = new CalculationCell() { CellReference = "V4", SheetId = 1 };
-            CalculationCell calculationCell6 = new CalculationCell() { CellReference = "U4", SheetId = 1 };
-            CalculationCell calculationCell7 = new CalculationCell() { CellReference = "T4", SheetId = 1 };
-            CalculationCell calculationCell8 = new CalculationCell() { CellReference = "S4", SheetId = 1 };
-            CalculationCell calculationCell9 = new CalculationCell() { CellReference = "R4", SheetId = 1 };
-            CalculationCell calculationCell10 = new CalculationCell() { CellReference = "Q4", SheetId = 1 };
-            CalculationCell calculationCell11 = new CalculationCell() { CellReference = "P4", SheetId = 1 };
-            CalculationCell calculationCell12 = new CalculationCell() { CellReference = "O4", SheetId = 1 };
-            CalculationCell calculationCell13 = new CalculationCell() { CellReference = "N4", SheetId = 1 };
-            CalculationCell calculationCell14 = new CalculationCell() { CellReference = "M4", SheetId = 1 };
-            CalculationCell calculationCell15 = new CalculationCell() { CellReference = "L4", SheetId = 1 };
-            CalculationCell calculationCell16 = new CalculationCell() { CellReference = "K4", SheetId = 1 };
-            CalculationCell calculationCell17 = new CalculationCell() { CellReference = "J4", SheetId = 1 };
-            CalculationCell calculationCell18 = new CalculationCell() { CellReference = "I4", SheetId = 1 };
-            CalculationCell calculationCell19 = new CalculationCell() { CellReference = "H4", SheetId = 1 };
-            CalculationCell calculationCell20 = new CalculationCell() { CellReference = "G4", SheetId = 1 };
-            CalculationCell calculationCell21 = new CalculationCell() { CellReference = "F4", SheetId = 1 };
-            CalculationCell calculationCell22 = new CalculationCell() { CellReference = "Z4", SheetId = 2, NewLevel = true };
-            CalculationCell calculationCell23 = new CalculationCell() { CellReference = "Y4", SheetId = 2 };
-            CalculationCell calculationCell24 = new CalculationCell() { CellReference = "X4", SheetId = 2 };
-            CalculationCell calculationCell25 = new CalculationCell() { CellReference = "W4", SheetId = 2 };
-            CalculationCell calculationCell26 = new CalculationCell() { CellReference = "V4", SheetId = 2 };
-            CalculationCell calculationCell27 = new CalculationCell() { CellReference = "U4", SheetId = 2 };
-            CalculationCell calculationCell28 = new CalculationCell() { CellReference = "T4", SheetId = 2 };
-            CalculationCell calculationCell29 = new CalculationCell() { CellReference = "S4", SheetId = 2 };
-            CalculationCell calculationCell30 = new CalculationCell() { CellReference = "R4", SheetId = 2 };
-            CalculationCell calculationCell31 = new CalculationCell() { CellReference = "Q4", SheetId = 2 };
-            CalculationCell calculationCell32 = new CalculationCell() { CellReference = "P4", SheetId = 2 };
-            CalculationCell calculationCell33 = new CalculationCell() { CellReference = "O4", SheetId = 2 };
-            CalculationCell calculationCell34 = new CalculationCell() { CellReference = "N4", SheetId = 2 };
-            CalculationCell calculationCell35 = new CalculationCell() { CellReference = "M4", SheetId = 2 };
-            CalculationCell calculationCell36 = new CalculationCell() { CellReference = "L4", SheetId = 2 };
-            CalculationCell calculationCell37 = new CalculationCell() { CellReference = "K4", SheetId = 2 };
-            CalculationCell calculationCell38 = new CalculationCell() { CellReference = "J4", SheetId = 2 };
-            CalculationCell calculationCell39 = new CalculationCell() { CellReference = "I4", SheetId = 2 };
-            CalculationCell calculationCell40 = new CalculationCell() { CellReference = "H4", SheetId = 2 };
-            CalculationCell calculationCell41 = new CalculationCell() { CellReference = "G4", SheetId = 2 };
-            CalculationCell calculationCell42 = new CalculationCell() { CellReference = "F4", SheetId = 2 };
 
+            AddChainToPart(NightMixes.Count(), calculationChain1, 1);
+
+            AddChainToPart(DayMixes.Count(), calculationChain1, 2);
+
+            calculationChainPart1.CalculationChain = calculationChain1;
+        }
+
+        private static void AddChainToPart(int count, CalculationChain calculationChain1, int sheetId)
+        {
+            CalculationCell calculationCell1 = new CalculationCell() { CellReference = $"Z{count + 2}", SheetId = sheetId, NewLevel = true };
+            CalculationCell calculationCell2 = new CalculationCell() { CellReference = $"Y{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell3 = new CalculationCell() { CellReference = $"X{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell4 = new CalculationCell() { CellReference = $"W{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell5 = new CalculationCell() { CellReference = $"V{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell6 = new CalculationCell() { CellReference = $"U{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell7 = new CalculationCell() { CellReference = $"T{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell8 = new CalculationCell() { CellReference = $"S{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell9 = new CalculationCell() { CellReference = $"R{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell10 = new CalculationCell() { CellReference = $"Q{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell11 = new CalculationCell() { CellReference = $"P{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell12 = new CalculationCell() { CellReference = $"O{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell13 = new CalculationCell() { CellReference = $"N{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell14 = new CalculationCell() { CellReference = $"M{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell15 = new CalculationCell() { CellReference = $"L{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell16 = new CalculationCell() { CellReference = $"K{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell17 = new CalculationCell() { CellReference = $"J{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell18 = new CalculationCell() { CellReference = $"I{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell19 = new CalculationCell() { CellReference = $"H{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell20 = new CalculationCell() { CellReference = $"G{count + 2}", SheetId = sheetId };
+            CalculationCell calculationCell21 = new CalculationCell() { CellReference = $"F{count + 2}", SheetId = sheetId };
             calculationChain1.Append(calculationCell1);
             calculationChain1.Append(calculationCell2);
             calculationChain1.Append(calculationCell3);
@@ -2405,29 +1879,6 @@ namespace MixerReports.Raports
             calculationChain1.Append(calculationCell19);
             calculationChain1.Append(calculationCell20);
             calculationChain1.Append(calculationCell21);
-            calculationChain1.Append(calculationCell22);
-            calculationChain1.Append(calculationCell23);
-            calculationChain1.Append(calculationCell24);
-            calculationChain1.Append(calculationCell25);
-            calculationChain1.Append(calculationCell26);
-            calculationChain1.Append(calculationCell27);
-            calculationChain1.Append(calculationCell28);
-            calculationChain1.Append(calculationCell29);
-            calculationChain1.Append(calculationCell30);
-            calculationChain1.Append(calculationCell31);
-            calculationChain1.Append(calculationCell32);
-            calculationChain1.Append(calculationCell33);
-            calculationChain1.Append(calculationCell34);
-            calculationChain1.Append(calculationCell35);
-            calculationChain1.Append(calculationCell36);
-            calculationChain1.Append(calculationCell37);
-            calculationChain1.Append(calculationCell38);
-            calculationChain1.Append(calculationCell39);
-            calculationChain1.Append(calculationCell40);
-            calculationChain1.Append(calculationCell41);
-            calculationChain1.Append(calculationCell42);
-
-            calculationChainPart1.CalculationChain = calculationChain1;
         }
 
         #endregion
@@ -2609,7 +2060,7 @@ namespace MixerReports.Raports
 
             SharedStringItem sharedStringItem29 = new SharedStringItem();
             Text text29 = new Text();
-            text29.Text = "Характеристик";
+            text29.Text = "Характе-\nристики";
 
             sharedStringItem29.Append(text29);
 

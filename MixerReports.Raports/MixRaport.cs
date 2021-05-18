@@ -1232,6 +1232,8 @@ namespace MixerRaportsViewer.Raports
             worksheetPart2.Worksheet = worksheet2;
         }
 
+        #region Вспомогательные
+
         private static void AddNewPart2Row(SheetData sheetData2, int index, Mix mix)
         {
             Row row6 = new Row()
@@ -1574,7 +1576,8 @@ namespace MixerRaportsViewer.Raports
             sheetData2.Append(row8);
         }
 
-
+        #endregion
+        
         // Generates content of spreadsheetPrinterSettingsPart1.
         private void GenerateSpreadsheetPrinterSettingsPart1Content(SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart1)
         {

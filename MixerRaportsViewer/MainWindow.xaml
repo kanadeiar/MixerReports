@@ -238,7 +238,7 @@
                             </GroupBox>
                             <Button Content="Обновить" Padding="5" VerticalAlignment="Center" Height="40" Margin="1,0"
                                     Command="{Binding UpdateShiftMixesCommand}"/>
-                            <Button Content="Excel отчет как ..." Padding="5" Height="40" VerticalAlignment="Center" Margin="1,0"
+                            <Button Content="Сохранить в Excel как ..." Padding="5" Height="40" VerticalAlignment="Center" Margin="1,0"
                                     Command="{Binding GenerateRaportMixesCommand}"/>
                         </StackPanel>
                     </GroupBox>
@@ -557,10 +557,12 @@
                             <GroupBox Header="Фильтр характеристик" Margin="3,0">
                                 <StackPanel>
                                     <CheckBox Content="Только плохие заливки" IsChecked="{Binding SetOnlyBadArchivesMixes}"/>
+                                    <CheckBox Content="Плохие + смежные к плохим заливки"/>
                                 </StackPanel>
                             </GroupBox>
                             <Button Content="Обновить" Padding="5" Height="40" VerticalAlignment="Center"
                                     Command="{Binding UpdateFilteredArchiveMixesCommand}"/>
+                            <Button Content="Сохранить в Excel как ..." Padding="5" Height="40" VerticalAlignment="Center" Margin="5"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Grid.Row="1" Header="Отфильтрованные архивные данные">
