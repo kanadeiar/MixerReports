@@ -1042,7 +1042,7 @@ namespace MixerRaportsViewer.ViewModels
         {
             var dialog = new SaveFileDialog
             {
-                Title = "Сохранение отчета по заливкам в формате Excel",
+                Title = "Сохранение отчета по заливкам выбранного дня в формате Excel",
                 Filter = "Файлы Excel (*.xlsx)|*.xlsx|Все файлы (*.*)|*.*",
                 FileName = $"Отчет БСУ {ShiftSelectDateTime:dd.MM.yyyy}",
                 OverwritePrompt = true,
@@ -1099,7 +1099,35 @@ namespace MixerRaportsViewer.ViewModels
 
         private void OnGenerateFilteredArchiveMixesCommandExecuted(object p)
         {
+            var dialog = new SaveFileDialog
+            {
+                Title = "Сохранение отчета по архивным данным заливок в формате Excel",
+                Filter = "Файлы Excel (*.xlsx)|*.xlsx|Все файлы (*.*)|*.*",
+                FileName = $"Отчет БСУ с {FilterArchivesBeginDateTime:dd.MM.yyyy} по {FilterArchivesEndDateTime:dd.MM.yyyy}",
+                OverwritePrompt = true,
+                InitialDirectory = Environment.CurrentDirectory,
+            };
+            if (dialog.ShowDialog() == false)
+                return;
+            MixRaportArchives raport = new MixRaportArchives();
+            raport.Mixes = FilteredArchivesMixes;
 
+            var fileName = dialog.FileName;
+            try
+            {
+                raport.CreatePackage(fileName);
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show($"Ошибка ввода-вывода при сохранении данных в файл {fileName}, ошибка: \n{e.Message}", "Ошибка сохранения файла", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Не удалось сохранить данные в файл {fileName}, ошибка: \n{e.Message}", "Ошибка сохранения файла", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            MessageBox.Show($"Отчет по заливкам архивным успешно сохранен в этом файле: \n{fileName}\n");
         }
 
         #endregion

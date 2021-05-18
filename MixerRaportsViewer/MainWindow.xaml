@@ -558,13 +558,14 @@
                                 <StackPanel>
                                     <CheckBox Content="Только плохие заливки" 
                                               IsChecked="{Binding SetOnlyBadArchivesMixes}"/>
-                                    <CheckBox Content="Околоплохие заливки"
+                                    <CheckBox Content="Предшествующие и следующие после плохих заливок"
                                               IsChecked="{Binding SetAroundBadArchives}"/>
                                 </StackPanel>
                             </GroupBox>
                             <Button Content="Обновить" Padding="5" Height="40" VerticalAlignment="Center"
                                     Command="{Binding UpdateFilteredArchiveMixesCommand}"/>
-                            <Button Content="Сохранить в Excel как ..." Padding="5" Height="40" VerticalAlignment="Center" Margin="5"/>
+                            <Button Content="Сохранить в Excel как ..." Padding="5" Height="40" VerticalAlignment="Center" Margin="5"
+                                    Command="{Binding GenerateFilteredArchiveMixesCommand}"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Grid.Row="1" Header="Отфильтрованные архивные данные">
