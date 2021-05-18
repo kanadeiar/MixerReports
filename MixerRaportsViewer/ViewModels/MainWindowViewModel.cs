@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
@@ -669,7 +670,8 @@ namespace MixerRaportsViewer.ViewModels
             get
             {
                 var mixs = _Mixes.GetAll()
-                    .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8))
+                    .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) &&
+                                m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8))
                     .OrderBy(m => m.DateTime).ToList();
                 CountArchivesMixes = mixs.Count;
                 CountNormalArchivesMixes = mixs.Count(m => m.Normal);

@@ -25,6 +25,9 @@
                 <MenuItem Header="Выход" 
                           Command="{Binding CloseAppCommand}"/>
             </MenuItem>
+            <MenuItem Header="Сервис">
+                <MenuItem Header="Ввод данных из DBF файла в базу данных"/>
+            </MenuItem>
         </Menu>
 
         <StatusBar DockPanel.Dock="Bottom">

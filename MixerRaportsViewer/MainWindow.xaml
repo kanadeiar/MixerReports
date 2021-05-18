@@ -558,7 +558,7 @@
                                 <StackPanel>
                                     <CheckBox Content="Только плохие заливки" 
                                               IsChecked="{Binding SetOnlyBadArchivesMixes}"/>
-                                    <CheckBox Content="Предшествующие и следующие после плохих заливок"
+                                    <CheckBox Content="Включая околоплохие заливки"
                                               IsChecked="{Binding SetAroundBadArchives}"/>
                                 </StackPanel>
                             </GroupBox>
