@@ -192,10 +192,10 @@ namespace MixerReports.lib.Services
                 }
                 if (_signalAluminium1.GetSignalReadValue(ref bufferDb) || _signalAluminium2.GetSignalReadValue(ref bufferDb))
                 {
-                    _mix.SetAluminium1 = bufferDb.GetDIntAt(250) / 100.0f;
-                    _mix.ActAluminium1 = bufferDb.GetDIntAt(254) / 100.0f;
-                    _mix.SetAluminium2 = bufferDb.GetDIntAt(258) / 100.0f;
-                    _mix.ActAluminium2 = bufferDb.GetDIntAt(262) / 100.0f;
+                    _mix.SetAluminium1 = bufferDb.GetDIntAt(250) / 100.0f / (_aluminiumProp + 1);
+                    _mix.ActAluminium1 = bufferDb.GetDIntAt(254) / 100.0f / (_aluminiumProp + 1);
+                    _mix.SetAluminium2 = bufferDb.GetDIntAt(258) / 100.0f / (_aluminiumProp + 1);
+                    _mix.ActAluminium2 = bufferDb.GetDIntAt(262) / 100.0f / (_aluminiumProp + 1);
                 }
             }
             /// <summary> Корректирование данных </summary>
@@ -211,7 +211,7 @@ namespace MixerReports.lib.Services
                 var densSand = bufferDb.GetIntAt(284);
                 var sandInMud = 0.0f;
                 if (densSand >= 900 && densSand <= 2000)
-                    sandInMud = (bufferDb.GetDIntAt(182) / 100.0f / densSand) * 1110.0f;
+                    sandInMud = (bufferDb.GetDIntAt(182) / 100.0f / densSand) * 1110.0f * 1.0075f;
                 mix.SandInMud = sandInMud;
                 mix.DensitySandMud = bufferDb.GetIntAt(284) / 1000.0f;
                 mix.DensityRevertMud = bufferDb.GetIntAt(282) / 1000.0f;

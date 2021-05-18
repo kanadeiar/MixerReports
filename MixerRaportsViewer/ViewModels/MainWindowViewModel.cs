@@ -13,6 +13,7 @@ using MixerRaportsViewer.Commands;
 using MixerRaportsViewer.Raports;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
+using MixerReports.Raports;
 
 namespace MixerRaportsViewer.ViewModels
 {
@@ -1027,35 +1028,39 @@ namespace MixerRaportsViewer.ViewModels
 
         private void OnGenerateRaportMixesCommandExecuted(object p)
         {
-            var dialog = new SaveFileDialog
-            {
-                Title = "Сохранение отчета по заливкам в формате Excel",
-                Filter = "Файлы Excel (*.xlsx)|*.xlsx|Все файлы (*.*)|*.*",
-                FileName = $"Отчет БСУ {ShiftSelectDateTime:dd.MM.yyyy}",
-                OverwritePrompt = true,
-                InitialDirectory = Environment.CurrentDirectory,
-            };
-            if (dialog.ShowDialog() == false)
-                return;
-            MixRaport raport = new MixRaport();
+            //var dialog = new SaveFileDialog
+            //{
+            //    Title = "Сохранение отчета по заливкам в формате Excel",
+            //    Filter = "Файлы Excel (*.xlsx)|*.xlsx|Все файлы (*.*)|*.*",
+            //    FileName = $"Отчет БСУ {ShiftSelectDateTime:dd.MM.yyyy}",
+            //    OverwritePrompt = true,
+            //    InitialDirectory = Environment.CurrentDirectory,
+            //};
+            //if (dialog.ShowDialog() == false)
+            //    return;
+            //MixRaport raport = new MixRaport();
+            //raport.DayMixes = ShiftDayMixes;
+            //raport.NightMixes = ShiftNightMixes;
+            //var fileName = dialog.FileName;
+            //try
+            //{
+            //    raport.CreatePackage(fileName);
+            //}
+            //catch (IOException e)
+            //{
+            //    MessageBox.Show($"Ошибка ввода-вывода при сохранении данных в файл {fileName}, ошибка: \n{e.Message}","Ошибка сохранения файла", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    return;
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show($"Не удалось сохранить данные в файл {fileName}, ошибка: \n{e.Message}", "Ошибка сохранения файла", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    return;
+            //}
+            //MessageBox.Show($"Отчет по заливкам успешно создан: \n{fileName}\n");
+            MixRaportRed raport = new MixRaportRed();
             raport.DayMixes = ShiftDayMixes;
             raport.NightMixes = ShiftNightMixes;
-            var fileName = dialog.FileName;
-            try
-            {
-                raport.CreatePackage(fileName);
-            }
-            catch (IOException e)
-            {
-                MessageBox.Show($"Ошибка ввода-вывода при сохранении данных в файл {fileName}, ошибка: \n{e.Message}","Ошибка сохранения файла", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show($"Не удалось сохранить данные в файл {fileName}, ошибка: \n{e.Message}", "Ошибка сохранения файла", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            MessageBox.Show($"Отчет по заливкам успешно создан: \n{fileName}\n");
+            raport.CreatePackage("text.xlsx");
         }
 
         #endregion
