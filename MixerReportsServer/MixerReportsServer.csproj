@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MixerRaports.dbf\MixerRaports.dbf.csproj" />
     <ProjectReference Include="..\MixerReports.lib\MixerReports.lib.csproj" />
   </ItemGroup>
 

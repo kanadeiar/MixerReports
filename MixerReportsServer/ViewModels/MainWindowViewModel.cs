@@ -9,6 +9,8 @@ using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Win32;
+using MixerRaports.dbf.Interfaces;
 using MixerReports.lib.Data.Base;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
@@ -21,11 +23,11 @@ namespace MixerReportsServer.ViewModels
 {
     class MainWindowViewModel : ViewModel
     {
-        //private readonly IRepository<Mix> _Mixes;
         private readonly Timer _timer;
 
-        //private readonly ISharp7ReaderService _sharp7ReaderService;
         private readonly ISharp7MixReaderService _sharp7MixReaderService;
+
+        private readonly IDBFConverterService _dbfConverterService;
 
         private Mix _mix;
 
@@ -126,14 +128,10 @@ namespace MixerReportsServer.ViewModels
 
         #endregion
 
-        public MainWindowViewModel(ISharp7MixReaderService sharp7MixReaderService)
+        public MainWindowViewModel(ISharp7MixReaderService sharp7MixReaderService, IDBFConverterService dbfConverterService)
         {
-            //_sharp7ReaderService = sharp7ReaderService;
             _sharp7MixReaderService = sharp7MixReaderService;
-            //if (File.Exists("data.json"))
-            //    Settings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText("data.json"));
-            //else
-            //    Settings = new Settings();
+            _dbfConverterService = dbfConverterService;
             _timer = new Timer(3_000); //опрос каждые 3 секунды
             _timer.Elapsed += TimerOnElapsed;
             _timer.Start();
@@ -154,17 +152,54 @@ namespace MixerReportsServer.ViewModels
             LoadData();
         }
 
-        private ICommand _ClosedCommand;
+        private ICommand _ImportDataFromDBFCommand;
 
-        /// <summary> Команда закрытие приложения </summary>
-        public ICommand ClosedCommand => _ClosedCommand ??=
-            new LambdaCommand(OnClosedCommandExecuted, CanClosedCommandExecute);
-
-        private bool CanClosedCommandExecute(object p) => true;
-
-        private void OnClosedCommandExecuted(object p)
+        /// <summary> Импорт данных из DBF файлов в базу данных </summary>
+        public ICommand ImportDataFromDBFCommand => _ImportDataFromDBFCommand ??=
+            new LambdaCommand(OnImportDataFromDBFCommandExecuted, CanImportDataFromDBFCommandExecute);
+        private bool CanImportDataFromDBFCommandExecute(object p) => true;
+        private void OnImportDataFromDBFCommandExecuted(object p)
         {
-            //System.IO.File.WriteAllText("data.json", JsonConvert.SerializeObject(Settings));
+            var dialog = new OpenFileDialog
+            {
+                Title = "Выбор один файл или множество для чтения DBF",
+                InitialDirectory = Environment.CurrentDirectory,
+                Filter = "Файлы DBF (*.dbf)|*.dbf|Все файлы (*.*)|*.*",
+                Multiselect = true,
+            };
+            if (dialog.ShowDialog() != true)
+                return;
+            var dbfFiles = dialog.FileNames;
+            if (dbfFiles.Length <= 0)
+            {
+                MessageBox.Show($"Не выбраны файлы для чтения", "Ошибка выбора файлов", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            var list = new List<Mix>();
+
+            try
+            {
+                foreach (var fileName in dbfFiles)
+                {
+                    if (File.Exists(fileName))
+                    {
+                        list.AddRange(_dbfConverterService.GetMixesFromDBF(fileName));
+                    }
+                }
+                MessageBox.Show($"Успешно удалось прочитать из файлов информацию о {list.Count} заливок", "Импорт данных по заливкам в базу данных", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Не удалось прочитать информацию из файлов о заливках, ошибка:\n{e.Message}", "Ошибка импорта данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+
+
+
+
+
+            //MessageBox.Show($"Успешно удалось импортировать в базу данных {countMix} заливок", "Импорт данных по заливкам в базу данных", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         #region Вспомогательные команды
@@ -196,17 +231,7 @@ namespace MixerReportsServer.ViewModels
             var mixGetted = false;
             try
             {
-                //if (Settings.Changed)
-                //{
-                //    //_sharp7ReaderService.SetSecondsToRead = Settings.SetSecondsToRead;
-                //    //_sharp7ReaderService.Address = Settings.Address;
-                //    //_sharp7ReaderService.AluminiumProp = Settings.AluminiumProp;
-                //    //_sharp7ReaderService.SecondsCorrect = Settings.SecondsCorrect;
-                //    //_sharp7ReaderService.SetSecondsToCorrect = Settings.SetSecondsToCorrect;
-                //    Settings.Changed = false;
-                //}
                 mixGetted = _sharp7MixReaderService.TryNewMixTick(out seconds, out error, out _mix);
-                //mixGetted = _sharp7ReaderService.GetMixOnTime(out seconds, out error, ref _mix);
                 if (mixGetted)
                 {
                     ConnectToPLC = true;
@@ -218,7 +243,6 @@ namespace MixerReportsServer.ViewModels
                 }
                 else
                 {
-                    //MixInfo = $"Прошло {seconds} из {_sharp7ReaderService.SetSecondsToRead} секунд заливки";
                     MixInfo = $"Прошло {seconds} секунд заливки";
                     ConnectToPLC = true;
                 }

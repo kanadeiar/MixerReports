@@ -15,9 +15,6 @@
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
         </i:EventTrigger>
-        <i:EventTrigger EventName="Closed">
-            <i:InvokeCommandAction Command="{Binding ClosedCommand}"/>
-        </i:EventTrigger>
     </i:Interaction.Triggers>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -26,7 +23,8 @@
                           Command="{Binding CloseAppCommand}"/>
             </MenuItem>
             <MenuItem Header="Сервис">
-                <MenuItem Header="Ввод данных из DBF файла в базу данных"/>
+                <MenuItem Header="Импорт данных из DBF файлов в базу данных"
+                          Command="{Binding ImportDataFromDBFCommand}"/>
             </MenuItem>
         </Menu>
 

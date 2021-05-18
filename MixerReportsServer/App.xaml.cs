@@ -2,6 +2,8 @@
 using System.Configuration;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
+using MixerRaports.dbf.Interfaces;
+using MixerRaports.dbf.Services;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Services;
 using MixerReportsServer.ViewModels;
@@ -45,6 +47,8 @@ namespace MixerReportsServer
                 GetAppSettings(out string address, out int aluminiumProp, out int secondsCorrect);
                 return new Sharp7MixReaderService(address, aluminiumProp, secondsCorrect);
             });
+
+            services.AddScoped<IDBFConverterService, DBFConverterService>();
         }
 
         #region Вспомогательное
