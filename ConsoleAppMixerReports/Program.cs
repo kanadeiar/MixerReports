@@ -4,6 +4,7 @@ using System.Timers;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
 using MixerReports.lib.Services;
+using Sharp7;
 
 namespace ConsoleAppMixerReports
 {
@@ -17,9 +18,10 @@ namespace ConsoleAppMixerReports
             RussianConsole();
             Console.WriteLine("Тестирование контроллерой части сервиса отчетов по заливкам");
 
+            _service = new Sharp7EasyMixReaderService(new S7Client{ConnTimeout = 5_000, RecvTimeout = 5_000});
             //_sharp7ReaderService = new Sharp7ReaderService();
             //_sharp7ReaderService = new DebugReaderService();
-            _service = new Sharp7MixReaderService();
+            //_service = new Sharp7MixReaderService();
             Console.WriteLine(_service.TestConnection(out int error)
                 ? "Соединение с контроллером успешно установлено"
                 : $"Ошибка установки соединения с контроллером: {error}");
@@ -47,8 +49,8 @@ namespace ConsoleAppMixerReports
         private static void TimerOnElapsed(object sender, ElapsedEventArgs e)
         {
             _timer.Enabled = false;
-            try
-            {
+            //try
+            //{
                 if (_service.TryNewMixTick(out int seconds, out int error, out Mix mix))
                 {
                     PrintDatas(mix);
@@ -56,11 +58,12 @@ namespace ConsoleAppMixerReports
                 Console.Title = $"Заливка - {seconds} секунд, ошибка - {error}";
 
                 //if (_sharp7ReaderService.GetMixOnTime(out int seconds, out int error, out Mix mix)) PrintDatas(mix);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Ошибка чтения заливки: " + ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("Ошибка чтения заливки: " + ex.Message);
+            //    throw;
+            //}
             _timer.Enabled = true;
         }
 

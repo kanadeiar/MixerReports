@@ -21,7 +21,7 @@ namespace MixerReports.lib.Services
         public Sharp7MixReaderService(string address = "10.0.57.10", int aluminiumProp = 20, int seconds = 0)
         {
             _S7Client = new S7Client {ConnTimeout = 5_000, RecvTimeout = 5_000};
-            _storage = new LocalDataStorage(_S7Client, _aluminiumProp, _seconds);
+            _storage = new LocalDataStorage(_S7Client, aluminiumProp, seconds);
             _address = address;
             _aluminiumProp = aluminiumProp;
             _seconds = seconds;
@@ -64,7 +64,7 @@ namespace MixerReports.lib.Services
                 }
                 if (rearEnd)
                 {
-                    _storage.CorrectData(ref _tempMix); //коррекция данных заливки
+                    _storage.CorrectData(ref _tempMix); //получение скорректированных данных
                     mix = _tempMix; //вертаем новые уточненные данные
                     result = true;
                 }
@@ -75,9 +75,23 @@ namespace MixerReports.lib.Services
                 result = false;
             }
             _S7Client.Disconnect();
+            DebugDatas(_tempMix);
             return result;
         }
-        
+        private static void DebugDatas(Mix row)
+        {
+            if (row is null)
+                return;
+            Debug.WriteLine($" {row.DateTime:g} {row.Number} Форма №{row.FormNumber} {row.MixerTemperature}, " +
+                            $"обратный шлам: {row.SetRevertMud} {row.ActRevertMud} песчаный шлам: {row.SetSandMud} {row.ActSandMud} " +
+                            $"холодная вода: {row.SetColdWater} {row.ActColdWater} горячая вода {row.SetHotWater} {row.ActHotWater} " +
+                            $"ипв1: {row.SetMixture1} {row.ActMixture1} ипв2: {row.SetMixture2} {row.ActMixture2} " +
+                            $"цемент1: {row.SetCement1} {row.ActCement1} цемент2: {row.SetCement2} {row.ActCement2} " +
+                            $"алюминий1: {row.SetAluminium1} {row.ActAluminium1} алюминий2: {row.SetAluminium2} {row.ActAluminium2} песок в шламе: {row.SandInMud}" +
+                            $"норма: {row.Normal} комментарий: {row.Comment}");
+        }
+
+
         /// <summary> Состояние текущей заливки </summary>
         /// <param name="secondsBegin">сколько секунд идет</param>
         /// <param name="frontBegin">начало</param>
@@ -106,7 +120,7 @@ namespace MixerReports.lib.Services
             private int _aluminiumProp; //пропорция алюминия к воде
             private int _seconds; //уточнение времени
             //сигналы появления новых значений
-            private SignalReadValue _signalRevertMud = new (452,0);
+            private SignalReadValue _signalRevertMud = new (454,0);
             private SignalReadValue _signalSandMud = new(452, 6);
             private SignalReadValue _signalColdWater = new(453,6);
             private SignalReadValue _signalHotWater = new(453, 4);
@@ -127,7 +141,9 @@ namespace MixerReports.lib.Services
             public void UpdateData(bool mixRunning)
             {
                 byte[] bufferDb = new byte[455];
-                _S7Client.DBRead(401, 0, 454, bufferDb);
+                _S7Client.DBRead(401, 0, 455, bufferDb);
+
+                //Debug.WriteLine($"Data 451: {bufferDb.GetByteAt(451)} Data 452: {bufferDb.GetByteAt(452)} Data 453: {bufferDb.GetByteAt(453)} Data 454: {bufferDb.GetByteAt(454)}");
 
                 if (!_enableData && mixRunning)
                 {
@@ -160,44 +176,67 @@ namespace MixerReports.lib.Services
                 {
                     _mix.SetRevertMud = bufferDb.GetDIntAt(170) / 100.0f;
                     _mix.ActRevertMud = bufferDb.GetDIntAt(174) / 100.0f;
+                    Debug.Write($"ОШ: {_mix.SetRevertMud} {_mix.ActRevertMud} ");
                 }
                 if (_signalSandMud.GetSignalReadValue(ref bufferDb))
                 {
                     _mix.SetSandMud = bufferDb.GetDIntAt(178) / 100.0f;
                     _mix.ActSandMud = bufferDb.GetDIntAt(182) / 100.0f;
+                    Debug.Write($"ПШ: {_mix.SetSandMud} {_mix.ActSandMud} ");
                 }
                 if (_signalColdWater.GetSignalReadValue(ref bufferDb))
                 {
                     _mix.SetColdWater = bufferDb.GetDIntAt(186) / 100.0f;
                     _mix.ActColdWater = bufferDb.GetDIntAt(190) / 100.0f;
+                    Debug.Write($"холодной воды: {_mix.SetColdWater} {_mix.ActColdWater} ");
                 }
                 if (_signalHotWater.GetSignalReadValue(ref bufferDb))
                 {
                     _mix.SetHotWater = bufferDb.GetDIntAt(194) / 100.0f;
                     _mix.ActHotWater = bufferDb.GetDIntAt(198) / 100.0f;
+                    Debug.Write($"горячей воды: {_mix.SetHotWater} {_mix.ActHotWater} ");
                 }
-                if (_signalMixture1.GetSignalReadValue(ref bufferDb) || _signalMixture2.GetSignalReadValue(ref bufferDb))
+                if (_signalMixture1.GetSignalReadValue(ref bufferDb))
                 {
                     _mix.SetMixture1 = bufferDb.GetDIntAt(202) / 100.0f;
                     _mix.ActMixture1 = bufferDb.GetDIntAt(206) / 100.0f;
+                    Debug.Write($"ИПВ1: {_mix.SetMixture1} {_mix.ActMixture1} ");
+                }
+                if (_signalMixture2.GetSignalReadValue(ref bufferDb))
+                {
                     _mix.SetMixture2 = bufferDb.GetDIntAt(210) / 100.0f;
                     _mix.ActMixture2 = bufferDb.GetDIntAt(214) / 100.0f;
+                    Debug.Write($"ИПВ2: {_mix.SetMixture2} {_mix.ActMixture2} ");
                 }
-                if (_signalCement1.GetSignalReadValue(ref bufferDb) || _signalCement2.GetSignalReadValue(ref bufferDb))
+                if (_signalCement1.GetSignalReadValue(ref bufferDb))
                 {
                     _mix.SetCement1 = bufferDb.GetDIntAt(234) / 100.0f;
                     _mix.ActCement1 = bufferDb.GetDIntAt(238) / 100.0f;
+                    Debug.Write($"цемента1: {_mix.SetCement1} {_mix.ActCement1} ");
+                }
+                if (_signalCement2.GetSignalReadValue(ref bufferDb))
+                {
                     _mix.SetCement2 = bufferDb.GetDIntAt(242) / 100.0f;
                     _mix.ActCement2 = bufferDb.GetDIntAt(246) / 100.0f;
+                    Debug.Write($"цемента2: {_mix.SetCement2} {_mix.ActCement2} ");
                 }
-                if (_signalAluminium1.GetSignalReadValue(ref bufferDb) || _signalAluminium2.GetSignalReadValue(ref bufferDb))
+                if (_signalAluminium1.GetSignalReadValue(ref bufferDb))
                 {
                     _mix.SetAluminium1 = bufferDb.GetDIntAt(250) / 100.0f / (_aluminiumProp + 1);
                     _mix.ActAluminium1 = bufferDb.GetDIntAt(254) / 100.0f / (_aluminiumProp + 1);
+                    Debug.Write($"алюминия1: {_mix.SetAluminium1} {_mix.ActAluminium1} ");
+                }
+                if (_signalAluminium2.GetSignalReadValue(ref bufferDb))
+                {
                     _mix.SetAluminium2 = bufferDb.GetDIntAt(258) / 100.0f / (_aluminiumProp + 1);
                     _mix.ActAluminium2 = bufferDb.GetDIntAt(262) / 100.0f / (_aluminiumProp + 1);
+                    Debug.Write($"алюминия2: {_mix.SetAluminium2} {_mix.ActAluminium2} ");
                 }
+                Debug.WriteLine("");
             }
+
+
+
             /// <summary> Корректирование данных </summary>
             public void CorrectData(ref Mix mix)
             {
@@ -270,7 +309,7 @@ namespace MixerReports.lib.Services
             {
                 private readonly int _numByte;
                 private readonly int _numBit;
-                private bool _doneRead;
+                //private bool _doneRead;
 
                 public SignalReadValue(int numByte, int numBit)
                 {
@@ -279,10 +318,11 @@ namespace MixerReports.lib.Services
                 }
                 public bool GetSignalReadValue(ref byte[] bufferDb)
                 {
-                    var readValue = bufferDb.GetBitAt(_numByte, _numBit);
-                    var result = readValue && !_doneRead;
-                    _doneRead = readValue;
-                    return result;
+                    //var readValue = bufferDb.GetBitAt(_numByte, _numBit);
+                    //var result = readValue && !_doneRead;
+                    //_doneRead = readValue;
+                    //return result;
+                    return bufferDb.GetBitAt(_numByte, _numBit);
                 }
             }
 
