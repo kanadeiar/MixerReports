@@ -132,20 +132,6 @@ namespace MixerReports.lib.Services.Tools
                 count++;
                 sb.Append($"цемента2: {_mixBuffer.SetCement2} {_mixBuffer.ActCement2} ");
             }
-            //if (GetSignalFromBit(ref _bufferDb, 453, 0))
-            //{
-            //    _mixBuffer.SetAluminium1 = _bufferDb.GetDIntAt(250) / 100.0f / (_aluminiumProp + 1);
-            //    _mixBuffer.ActAluminium1 = _bufferDb.GetDIntAt(254) / 100.0f / (_aluminiumProp + 1);
-            //    count++;
-            //    sb.Append($"алюминия1: {_mixBuffer.SetAluminium1} {_mixBuffer.ActAluminium1} ");
-            //}
-            //if (GetSignalFromBit(ref _bufferDb, 453, 2))
-            //{
-            //    _mixBuffer.SetAluminium2 = _bufferDb.GetDIntAt(258) / 100.0f / (_aluminiumProp + 1);
-            //    _mixBuffer.ActAluminium2 = _bufferDb.GetDIntAt(262) / 100.0f / (_aluminiumProp + 1);
-            //    count++;
-            //    sb.Append($"алюминия2: {_mixBuffer.SetAluminium2} {_mixBuffer.ActAluminium2} ");
-            //}
             if (GetSignalFromBit(ref _bufferDb, 453, 0) || GetSignalFromBit(ref _bufferDb, 453, 2))
             {
                 _mixBuffer.SetAluminium1 = _bufferDb.GetDIntAt(250) / 100.0f / (_aluminiumProp + 1);

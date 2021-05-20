@@ -11,9 +11,7 @@ using Sharp7;
 
 namespace MixerReportsServer
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
+    /// <summary> Interaction logic for App.xaml </summary>
     public partial class App : Application
     {
         private static IServiceProvider __Services;
@@ -28,13 +26,8 @@ namespace MixerReportsServer
         private static string __DefaultConnectionString;
         public static string DefaultConnectionString => __DefaultConnectionString ??= GetDefaultConnectionString();
 
-        /// <summary> Инит сервисов </summary>
-        /// <param name="services">сервисы приложения</param>
         private static void InitializeServices(IServiceCollection services)
         {
-            //services.AddDbContext<SPBSUMixerRaportsEntities>(
-            //    c => c.UseSqlServer(GetDefaultConnectionString(), o => o.EnableRetryOnFailure()).ConfigureWarnings(w => w.Throw(RelationalEventId.BoolWithDefaultWarning)));
-            
             services.AddScoped<MainWindowViewModel>();
 
             services.AddScoped<ISharp7MixReaderService>(s =>
@@ -42,18 +35,6 @@ namespace MixerReportsServer
                 GetAppSettings(out string address, out int aluminiumProp, out int secondsCorrect);
                 return new Sharp7EasyMixReaderService(new S7Client{ConnTimeout = 5_000, RecvTimeout = 5_000}, address, aluminiumProp, secondsCorrect);
             });
-
-            //services.AddScoped<IRepository<Mix>, MixRepository>();
-            //#if DEBUG
-            //            services.AddScoped<ISharp7ReaderService, DebugReaderService>();
-            //#else
-            //            services.AddScoped<ISharp7ReaderService, Sharp7ReaderService>();
-            //#endif
-            //services.AddScoped<ISharp7MixReaderService>(s =>
-            //{
-            //    GetAppSettings(out string address, out int aluminiumProp, out int secondsCorrect);
-            //    return new Sharp7MixReaderService(address, aluminiumProp, secondsCorrect);
-            //});
 
             services.AddScoped<IDBFConverterService, DBFConverterService>();
         }

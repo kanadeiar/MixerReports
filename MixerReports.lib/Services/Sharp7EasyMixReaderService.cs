@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
 using MixerReports.lib.Services.Tools;

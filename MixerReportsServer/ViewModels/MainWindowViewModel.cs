@@ -15,9 +15,7 @@ using MixerReports.lib.Data.Base;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
 using MixerReportsServer.Commands;
-using MixerReportsServer.Models;
 using MixerReportsServer.ViewModels.Base;
-using Newtonsoft.Json;
 
 namespace MixerReportsServer.ViewModels
 {
@@ -101,22 +99,7 @@ namespace MixerReportsServer.ViewModels
             }
         }
         public string ConnectToDataBaseStr => (ConnectToDataBase) ? "Соединение с базой данных установлено" : "Соединение с базой данных потеряно";
-
-        #region Настройки
-
-        //private Settings _Settings;
-
-        ///// <summary> Настройки </summary>
-        //public Settings Settings
-        //{
-        //    get => _Settings;
-        //    set => Set(ref _Settings, value);
-        //}
-
-
-
-        #endregion
-
+        
         #region Вспомогательное
 
         private string _Title = "Заливочные отчеты - Сервер";
@@ -234,9 +217,6 @@ namespace MixerReportsServer.ViewModels
                 AddToLog($"{DateTime.Now} Ошибка связи с базой данных {ex.Message}, Подробности: {ex?.InnerException?.Message} Данные: {PrintDatas(list[0])} ... {list.Count} штук.");
                 ConnectToDataBase = false;
             }
-
-
-            //MessageBox.Show($"Успешно удалось импортировать в базу данных {countMix} заливок", "Импорт данных по заливкам в базу данных", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         #endregion
