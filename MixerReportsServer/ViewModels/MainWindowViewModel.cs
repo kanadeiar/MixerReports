@@ -23,6 +23,8 @@ namespace MixerReportsServer.ViewModels
 {
     class MainWindowViewModel : ViewModel
     {
+        #region Поля
+
         private readonly Timer _timer;
 
         private readonly ISharp7MixReaderService _sharp7MixReaderService;
@@ -30,6 +32,8 @@ namespace MixerReportsServer.ViewModels
         private readonly IDBFConverterService _dbfConverterService;
 
         private Mix _mix;
+
+        #endregion
 
         #region Свойства
 
@@ -139,6 +143,8 @@ namespace MixerReportsServer.ViewModels
 
         #region Команды
 
+        #region Данные
+
         private ICommand _LoadDataCommand;
 
         /// <summary> Команда загрузки данных </summary>
@@ -151,6 +157,10 @@ namespace MixerReportsServer.ViewModels
         {
             LoadData();
         }
+
+        #endregion
+
+        #region Импорт данных из DBF файла
 
         private ICommand _ImportDataFromDBFCommand;
 
@@ -194,13 +204,42 @@ namespace MixerReportsServer.ViewModels
                 return;
             }
 
-
-
-
+            try
+            {
+                var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
+                    .UseSqlServer(App.DefaultConnectionString, o => o.EnableRetryOnFailure())
+                    .ConfigureWarnings(w => w.Throw(RelationalEventId.BoolWithDefaultWarning)).Options;
+                using (var db = new SPBSUMixerRaportsEntities(options))
+                {
+                    db.Mixes.AddRange(list);
+                    db.SaveChanges();
+                }
+                OnPropertyChanged(nameof(LastMixes));
+                OnPropertyChanged(nameof(NowShiftMixes));
+                AddToLog($"{DateTime.Now:dd.MM.yyyy HH:mm:ss}, Успешно добавлены заливки импортом из DBF файла в количестве {list.Count} штук.");
+                ConnectToDataBase = true;
+            }
+            catch (DbUpdateException ex)
+            {
+                AddToLog($"{DateTime.Now} Ошибка обновления данных в базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message} Данные: {PrintDatas(list[0])} ... {list.Count} штук.");
+                ConnectToDataBase = false;
+            }
+            catch (RetryLimitExceededException ex)
+            {
+                AddToLog($"{DateTime.Now} Превышение лимита попыток подключения к базе данных {ex.Message}, Подробности: {ex?.InnerException?.Message} Данные: {PrintDatas(list[0])} ... {list.Count} штук.");
+                ConnectToDataBase = false;
+            }
+            catch (Exception ex)
+            {
+                AddToLog($"{DateTime.Now} Ошибка связи с базой данных {ex.Message}, Подробности: {ex?.InnerException?.Message} Данные: {PrintDatas(list[0])} ... {list.Count} штук.");
+                ConnectToDataBase = false;
+            }
 
 
             //MessageBox.Show($"Успешно удалось импортировать в базу данных {countMix} заливок", "Импорт данных по заливкам в базу данных", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+
+        #endregion
 
         #region Вспомогательные команды
 
@@ -222,6 +261,8 @@ namespace MixerReportsServer.ViewModels
         #endregion
 
         #region Вспомогательные
+
+        #region Для таймера
 
         private void TimerOnElapsed(object sender, ElapsedEventArgs e)
         {
@@ -307,6 +348,9 @@ namespace MixerReportsServer.ViewModels
 
             _timer.Enabled = true;
         }
+
+        #endregion
+
         /// <summary> Загрузка данных из бд в вьюмодель </summary>
         private void LoadData()
         {
