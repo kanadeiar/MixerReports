@@ -51,6 +51,8 @@ namespace MixerReports.lib.Models
             set => Set(ref _MixerTemperature, value);
         }
 
+        #region Компоненты заливки
+
         private float _SetRevertMud;
 
         /// <summary> Заданный вес обратный шлам </summary>
@@ -259,6 +261,10 @@ namespace MixerReports.lib.Models
             set => Set(ref _DensityRevertMud, value);
         }
 
+        #endregion
+
+        #region Характеристики заливки
+
         /// <summary> Нормальная заливка </summary>
         public bool Normal
         {
@@ -333,6 +339,8 @@ namespace MixerReports.lib.Models
             get => _Comment;
             set => Set(ref _Comment, value);
         }
+
+        #endregion
     }
 
 

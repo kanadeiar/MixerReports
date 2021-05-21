@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Newtonsoft.Json;
 
 namespace MixerReportsServer
 {

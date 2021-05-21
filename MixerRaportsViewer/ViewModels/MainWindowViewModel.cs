@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Win32;
 using MixerRaportsViewer.Commands;
-using MixerRaportsViewer.Raports;
 using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
+using MixerReports.Raports;
 
 namespace MixerRaportsViewer.ViewModels
 {
@@ -615,7 +615,6 @@ namespace MixerRaportsViewer.ViewModels
         #region Архивные данные за выбранный диапазон дат
 
         private DateTime _FilterArchivesBeginDateTime = DateTime.Today.AddDays(-1);
-
         /// <summary> Выбранная дата начала архивных данных </summary>
         public DateTime FilterArchivesBeginDateTime
         {
@@ -628,7 +627,6 @@ namespace MixerRaportsViewer.ViewModels
         }
 
         private DateTime _FilterArchivesEndDateTime = DateTime.Today;
-
         /// <summary> Выбранная дата окончания архивных данных </summary>
         public DateTime FilterArchivesEndDateTime
         {
@@ -641,7 +639,6 @@ namespace MixerRaportsViewer.ViewModels
         }
 
         private bool _setOnlyBadArchivesMixes;
-
         /// <summary> Выбор - показывать только плохие заливки </summary>
         public bool SetOnlyBadArchivesMixes
         {
@@ -653,13 +650,26 @@ namespace MixerRaportsViewer.ViewModels
             }
         }
 
+        private bool _SetAroundBadArchives;
+        /// <summary> Выбор - показывать смежные к плохим заливки </summary>
+        public bool SetAroundBadArchives
+        {
+            get => _SetAroundBadArchives;
+            set
+            {
+                Set(ref _SetAroundBadArchives, value);
+                OnPropertyChanged(nameof(FilteredArchivesMixes));
+            }
+        }
+
         /// <summary> Отфильтрованные архивные данные </summary>
         public ICollection<Mix> FilteredArchivesMixes
         {
             get
             {
                 var mixs = _Mixes.GetAll()
-                    .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8))
+                    .Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) &&
+                                m.DateTime < FilterArchivesEndDateTime.AddHours(24).AddHours(8))
                     .OrderBy(m => m.DateTime).ToList();
                 CountArchivesMixes = mixs.Count;
                 CountNormalArchivesMixes = mixs.Count(m => m.Normal);
@@ -694,8 +704,11 @@ namespace MixerRaportsViewer.ViewModels
                 ArchCountBoiledMixes = mixs.Count(m => m.Boiled);
                 ArchCountMudMixes = mixs.Count(m => m.IsMud);
 
-                if (SetOnlyBadArchivesMixes)
+                if (SetOnlyBadArchivesMixes && !SetAroundBadArchives)
                     mixs = mixs.Where(m => m.Normal == false).ToList();
+                if (SetAroundBadArchives)
+                    mixs = mixs.Skip(1).SkipLast(1).Where((m, ind) =>
+                        !m.Normal || !mixs.ElementAt(ind).Normal || !mixs.ElementAt(ind + 2).Normal).ToList();
                 return mixs;
             }
         }
@@ -1029,7 +1042,7 @@ namespace MixerRaportsViewer.ViewModels
         {
             var dialog = new SaveFileDialog
             {
-                Title = "Сохранение отчета по заливкам в формате Excel",
+                Title = "Сохранение отчета по заливкам выбранного дня в формате Excel",
                 Filter = "Файлы Excel (*.xlsx)|*.xlsx|Все файлы (*.*)|*.*",
                 FileName = $"Отчет БСУ {ShiftSelectDateTime:dd.MM.yyyy}",
                 OverwritePrompt = true,
@@ -1037,9 +1050,10 @@ namespace MixerRaportsViewer.ViewModels
             };
             if (dialog.ShowDialog() == false)
                 return;
-            MixRaport raport = new MixRaport();
+            MixRaportRed raport = new MixRaportRed();
             raport.DayMixes = ShiftDayMixes;
             raport.NightMixes = ShiftNightMixes;
+
             var fileName = dialog.FileName;
             try
             {
@@ -1047,7 +1061,7 @@ namespace MixerRaportsViewer.ViewModels
             }
             catch (IOException e)
             {
-                MessageBox.Show($"Ошибка ввода-вывода при сохранении данных в файл {fileName}, ошибка: \n{e.Message}","Ошибка сохранения файла", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка ввода-вывода при сохранении данных в файл {fileName}, ошибка: \n{e.Message}", "Ошибка сохранения файла", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             catch (Exception e)
@@ -1055,7 +1069,7 @@ namespace MixerRaportsViewer.ViewModels
                 MessageBox.Show($"Не удалось сохранить данные в файл {fileName}, ошибка: \n{e.Message}", "Ошибка сохранения файла", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            MessageBox.Show($"Отчет по заливкам успешно создан: \n{fileName}\n");
+            MessageBox.Show($"Отчет по заливкам успешно сохранен в этом файле: \n{fileName}\n");
         }
 
         #endregion
@@ -1073,6 +1087,47 @@ namespace MixerRaportsViewer.ViewModels
         private void OnUpdateFilteredArchiveMixesCommandExecuted(object p)
         {
             OnPropertyChanged(nameof(FilteredArchivesMixes));
+        }
+
+        private ICommand _GenerateFilteredArchiveMixesCommand;
+
+        /// <summary> Генерация отчета по отфильтрованным архивным данным </summary>
+        public ICommand GenerateFilteredArchiveMixesCommand => _GenerateFilteredArchiveMixesCommand ??=
+            new LambdaCommand(OnGenerateFilteredArchiveMixesCommandExecuted, CanGenerateFilteredArchiveMixesCommandExecute);
+
+        private bool CanGenerateFilteredArchiveMixesCommandExecute(object p) => true;
+
+        private void OnGenerateFilteredArchiveMixesCommandExecuted(object p)
+        {
+            var dialog = new SaveFileDialog
+            {
+                Title = "Сохранение отчета по архивным данным заливок в формате Excel",
+                Filter = "Файлы Excel (*.xlsx)|*.xlsx|Все файлы (*.*)|*.*",
+                FileName = $"Отчет БСУ с {FilterArchivesBeginDateTime:dd.MM.yyyy} по {FilterArchivesEndDateTime:dd.MM.yyyy}",
+                OverwritePrompt = true,
+                InitialDirectory = Environment.CurrentDirectory,
+            };
+            if (dialog.ShowDialog() == false)
+                return;
+            MixRaportArchives raport = new MixRaportArchives();
+            raport.Mixes = FilteredArchivesMixes;
+
+            var fileName = dialog.FileName;
+            try
+            {
+                raport.CreatePackage(fileName);
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show($"Ошибка ввода-вывода при сохранении данных в файл {fileName}, ошибка: \n{e.Message}", "Ошибка сохранения файла", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Не удалось сохранить данные в файл {fileName}, ошибка: \n{e.Message}", "Ошибка сохранения файла", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            MessageBox.Show($"Отчет по заливкам архивным успешно сохранен в этом файле: \n{fileName}\n");
         }
 
         #endregion

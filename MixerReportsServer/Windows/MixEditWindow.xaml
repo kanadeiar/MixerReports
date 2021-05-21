@@ -1,0 +1,179 @@
+﻿<Window x:Class="MixerReportsServer.Windows.MixEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MixerReportsServer.Windows"
+        xmlns:libm="clr-namespace:MixerReports.lib.Models;assembly=MixerReports.lib"
+        mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="{Binding LocTitle}" 
+        Height="650" Width="500" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+    <DockPanel Background="Yellow">
+        <DockPanel.Resources>
+            <Style TargetType="TextBox">
+                <Setter Property="Validation.ErrorTemplate">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <DockPanel ToolTip="{Binding AdornedElement.(Validation.Errors)[0].ErrorContent, ElementName=ErrorVisualElement}">
+                                <TextBlock DockPanel.Dock="Right" Text="!" FontWeight="Black" Margin="-7,0,0,0" Foreground="Red" VerticalAlignment="Center"/>
+                                <Border Padding="1" BorderBrush="#55FF0000" BorderThickness="10" CornerRadius="3">
+                                    <AdornedElementPlaceholder Name="ErrorVisualElement"/>
+                                </Border>
+                            </DockPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="True">
+                        <Setter Property="Background" Value="Pink"/>
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </DockPanel.Resources>
+        <GroupBox Header="Данные по заливке" DockPanel.Dock="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Номер заливки" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Number, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="0" Text="Датавремя заливки" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Grid.Row="0" Text="{Binding DateTime, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Номер формы" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding FormNumber, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="1" Text="Номер рецепта" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding RecipeNumber, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Температура смесителя" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding MixerTemperature, ValidatesOnExceptions=True, StringFormat=\{0:f2\}, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Компоненты заливки" DockPanel.Dock="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Заданный вес обр.ш." HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding SetRevertMud, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="0" Text="Факт вес обр.ш." HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Grid.Row="0" Text="{Binding ActRevertMud, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Заданный вес песч.шл." HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SetSandMud, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="1" Text="Факт вес песч.ш." HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding ActSandMud, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Заданный вес хол.вода" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding SetColdWater, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="2" Text="Факт вес хол.вода" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding ActColdWater, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="Заданный вес гор.вода" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding SetHotWater, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="3" Text="Факт вес гор.вода" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding ActHotWater, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="Заданный вес ИПВ1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding SetMixture1, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="4" Text="Факт вес ИПВ1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Grid.Row="4" Text="{Binding ActMixture1, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="Заданный вес ИПВ2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding SetMixture2, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="5" Text="Факт вес ИПВ2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Grid.Row="5" Text="{Binding ActMixture2, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="Заданный вес цемент1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding SetCement1, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="6" Text="Факт вес цемент1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Grid.Row="6" Text="{Binding ActCement1, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="7" Text="Заданный вес цемент2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding SetCement2, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="7" Text="Факт вес цемент2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Grid.Row="7" Text="{Binding ActCement2, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="8" Text="Заданный вес алюминий1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding SetAluminium1, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="8" Text="Факт вес алюминий1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Grid.Row="8" Text="{Binding ActAluminium1, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="9" Text="Заданный вес алюминий2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding SetAluminium2, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="9" Text="Факт вес алюминий2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Grid.Row="9" Text="{Binding ActAluminium2, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="10" Text="Песок в шламе" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="10" Text="{Binding SandInMud, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="11" Text="Плотность песч.ш." HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="11" Text="{Binding DensitySandMud, StringFormat=\{0:f3\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="11" Text="Плотность обр.ш." HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" Grid.Row="11" Text="{Binding DensityRevertMud, StringFormat=\{0:f3\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Характеристики заливки" DockPanel.Dock="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Норма:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <CheckBox Grid.Column="1" Grid.Row="0" IsChecked="{Binding Normal}" Content="Нормальная заливка?" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Недоросток:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <CheckBox Grid.Column="1" Grid.Row="1" IsChecked="{Binding Undersized}" Content="Недоросток!" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="1" Text="Переросток:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <CheckBox Grid.Column="3" Grid.Row="1" IsChecked="{Binding Overground}" Content="Недоросток!" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Закипел:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding Boiled}" Content="Закипел!" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="2" Text="Шлам:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <CheckBox Grid.Column="3" Grid.Row="2" IsChecked="{Binding IsMud}" Content="Сброшен в шлам!" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="Эксперимент:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding IsExperiment}" Content="Эксперимент!" Margin="3"/>
+                <TextBlock Grid.Column="2" Grid.Row="3" Text="Другое:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <CheckBox Grid.Column="3" Grid.Row="3" IsChecked="{Binding Other}" Content="Другое!" Margin="3"/>
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="Комментарий:" HorizontalAlignment="Right" Margin="0,3,0,0"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" TextWrapping="Wrap" Margin="3" Height="40"
+                           Text="{Binding Comment, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                           ToolTip="Полезный комментарии к этой заливке, который должен быть сохранен в базе и в дальнейшем может пригодиться"/>
+            </Grid>
+        </GroupBox>
+        <UniformGrid DockPanel.Dock="Bottom" Rows="1" 
+                     HorizontalAlignment="Right"
+                     Margin="10"
+                     Button.Click="WindowButton_Click">
+            <Button Content="OK" IsDefault="True" Margin="3,0" Padding="20, 0" MaxHeight="50"/>
+            <Button Content="Отмена" IsCancel="True" Margin="3,0" Padding="20, 0" MaxHeight="50"/>
+        </UniformGrid>
+    </DockPanel>
+</Window>
