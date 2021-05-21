@@ -33,7 +33,7 @@ namespace MixerReportsServer
             services.AddScoped<ISharp7MixReaderService>(s =>
             {
                 GetAppSettings(out string address, out int aluminiumProp, out int secondsCorrect);
-                return new Sharp7EasyMixReaderService(new S7Client{ConnTimeout = 5_000, RecvTimeout = 5_000}, address, aluminiumProp, secondsCorrect);
+                return new Sharp7EasyMixReaderService(address, aluminiumProp, secondsCorrect);
             });
 
             services.AddScoped<IDBFConverterService, DBFConverterService>();

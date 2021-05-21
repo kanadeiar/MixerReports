@@ -18,7 +18,7 @@ namespace ConsoleAppMixerReports
             RussianConsole();
             Console.WriteLine("Тестирование контроллерой части сервиса отчетов по заливкам");
 
-            _service = new Sharp7EasyMixReaderService(new S7Client{ConnTimeout = 5_000, RecvTimeout = 5_000});
+            _service = new Sharp7EasyMixReaderService();
             //_sharp7ReaderService = new Sharp7ReaderService();
             //_sharp7ReaderService = new DebugReaderService();
             //_service = new Sharp7MixReaderService();

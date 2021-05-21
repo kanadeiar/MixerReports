@@ -15,11 +15,10 @@ namespace MixerReports.lib.Services
 
         private bool _edgeFrontBegin;
 
-        public Sharp7EasyMixReaderService(S7Client client, string address = "10.0.57.10", int aluminiumProp = 20, int seconds = - 10)
+        public Sharp7EasyMixReaderService(string address = "10.0.57.10", int aluminiumProp = 20, int seconds = - 10)
         {
-            //_client = new S7Client {ConnTimeout = 5_000, RecvTimeout = 5_000};
-            _client = client;
             _address = address;
+            _client = new S7Client {ConnTimeout = 5_000, RecvTimeout = 5_000};
             _connector = new BufferedPLCConnector(_client, aluminiumProp, seconds);
         }
         /// <summary> Тест соединения с контроллером </summary>
@@ -54,7 +53,7 @@ namespace MixerReports.lib.Services
                 var count = _connector.UpdateBuffer(begin);
                 if (begin)
                     _edgeFrontBegin = true;
-                if (_edgeFrontBegin && count <= 4)
+                if (_edgeFrontBegin && count <= 1)
                 {
                     _connector.SetNewMixFromBuffer();
                     _connector.ClearBuffer();

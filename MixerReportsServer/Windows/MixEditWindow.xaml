@@ -59,7 +59,7 @@
                 <TextBlock Grid.Column="2" Grid.Row="1" Text="Номер рецепта" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding RecipeNumber, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Температура смесителя" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding MixerTemperature, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding MixerTemperature, ValidatesOnExceptions=True, StringFormat=\{0:f2\}, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
             </Grid>
         </GroupBox>
         <GroupBox Header="Компоненты заливки" DockPanel.Dock="Top">
@@ -85,51 +85,51 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Column="0" Grid.Row="0" Text="Заданный вес обр.ш." HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding SetRevertMud, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding SetRevertMud, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="2" Grid.Row="0" Text="Факт вес обр.ш." HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="3" Grid.Row="0" Text="{Binding ActRevertMud, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="3" Grid.Row="0" Text="{Binding ActRevertMud, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="1" Text="Заданный вес песч.шл." HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SetSandMud, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SetSandMud, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="2" Grid.Row="1" Text="Факт вес песч.ш." HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding ActSandMud, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding ActSandMud, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Заданный вес хол.вода" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding SetColdWater, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding SetColdWater, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="2" Grid.Row="2" Text="Факт вес хол.вода" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding ActColdWater, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding ActColdWater, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="3" Text="Заданный вес гор.вода" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding SetHotWater, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding SetHotWater, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="2" Grid.Row="3" Text="Факт вес гор.вода" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding ActHotWater, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding ActHotWater, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="4" Text="Заданный вес ИПВ1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding SetMixture1, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding SetMixture1, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="2" Grid.Row="4" Text="Факт вес ИПВ1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="3" Grid.Row="4" Text="{Binding ActMixture1, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="3" Grid.Row="4" Text="{Binding ActMixture1, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="5" Text="Заданный вес ИПВ2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding SetMixture2, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding SetMixture2, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="2" Grid.Row="5" Text="Факт вес ИПВ2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="3" Grid.Row="5" Text="{Binding ActMixture2, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="3" Grid.Row="5" Text="{Binding ActMixture2, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="6" Text="Заданный вес цемент1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding SetCement1, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding SetCement1, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="2" Grid.Row="6" Text="Факт вес цемент1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="3" Grid.Row="6" Text="{Binding ActCement1, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="3" Grid.Row="6" Text="{Binding ActCement1, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="7" Text="Заданный вес цемент2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding SetCement2, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding SetCement2, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="2" Grid.Row="7" Text="Факт вес цемент2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="3" Grid.Row="7" Text="{Binding ActCement2, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="3" Grid.Row="7" Text="{Binding ActCement2, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="8" Text="Заданный вес алюминий1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding SetAluminium1, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding SetAluminium1, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="2" Grid.Row="8" Text="Факт вес алюминий1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="3" Grid.Row="8" Text="{Binding ActAluminium1, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="3" Grid.Row="8" Text="{Binding ActAluminium1, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="9" Text="Заданный вес алюминий2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding SetAluminium2, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding SetAluminium2, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="2" Grid.Row="9" Text="Факт вес алюминий2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="3" Grid.Row="9" Text="{Binding ActAluminium2, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="3" Grid.Row="9" Text="{Binding ActAluminium2, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="10" Text="Песок в шламе" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Grid.Row="10" Text="{Binding SandInMud, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="1" Grid.Row="10" Text="{Binding SandInMud, StringFormat=\{0:f2\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="11" Text="Плотность песч.ш." HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="1" Grid.Row="11" Text="{Binding DensitySandMud, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="1" Grid.Row="11" Text="{Binding DensitySandMud, StringFormat=\{0:f3\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
                 <TextBlock Grid.Column="2" Grid.Row="11" Text="Плотность обр.ш." HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Column="3" Grid.Row="11" Text="{Binding DensityRevertMud, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <TextBox Grid.Column="3" Grid.Row="11" Text="{Binding DensityRevertMud, StringFormat=\{0:f3\}, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
             </Grid>
         </GroupBox>
         <GroupBox Header="Характеристики заливки" DockPanel.Dock="Top">
@@ -159,11 +159,11 @@
                 <TextBlock Grid.Column="2" Grid.Row="2" Text="Шлам:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 <CheckBox Grid.Column="3" Grid.Row="2" IsChecked="{Binding IsMud}" Content="Сброшен в шлам!" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="3" Text="Эксперимент:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding Undersized}" Content="Эксперимент!" Margin="3"/>
+                <CheckBox Grid.Column="1" Grid.Row="3" IsChecked="{Binding IsExperiment}" Content="Эксперимент!" Margin="3"/>
                 <TextBlock Grid.Column="2" Grid.Row="3" Text="Другое:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <CheckBox Grid.Column="3" Grid.Row="3" IsChecked="{Binding Overground}" Content="Другое!" Margin="3"/>
+                <CheckBox Grid.Column="3" Grid.Row="3" IsChecked="{Binding Other}" Content="Другое!" Margin="3"/>
                 <TextBlock Grid.Column="0" Grid.Row="4" Text="Комментарий:" HorizontalAlignment="Right" Margin="0,3,0,0"/>
-                <TextBlock Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" TextWrapping="Wrap" Margin="3" Height="40"
+                <TextBox Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" TextWrapping="Wrap" Margin="3" Height="40"
                            Text="{Binding Comment, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                            ToolTip="Полезный комментарии к этой заливке, который должен быть сохранен в базе и в дальнейшем может пригодиться"/>
             </Grid>

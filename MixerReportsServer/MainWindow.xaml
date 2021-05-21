@@ -27,10 +27,15 @@
                           Command="{Binding ImportDataFromDBFCommand}"/>
             </MenuItem>
             <MenuItem Header="Редактировать">
-                <MenuItem Header="Добавить новую заливку"/>
+                <MenuItem Header="Добавить новую заливку"
+                          Command="{Binding AddNewMixCommand}"/>
                 <Separator/>
-                <MenuItem Header="Изменить выделенную заливку"/>
-                <MenuItem Header="Удалить выделенную заливку"/>
+                <MenuItem Header="Изменить выделенную заливку"
+                          Command="{Binding EditSelectedMixCommand}"
+                          CommandParameter="{Binding SelectedEditMix}"/>
+                <MenuItem Header="Удалить выделенную заливку"
+                          Command="{Binding DeleteSelectedMixCommand}"
+                          CommandParameter="{Binding SelectedEditMix}"/>
             </MenuItem>
         </Menu>
 
