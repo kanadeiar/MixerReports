@@ -26,6 +26,12 @@
                 <MenuItem Header="Импорт данных из DBF файлов в базу данных"
                           Command="{Binding ImportDataFromDBFCommand}"/>
             </MenuItem>
+            <MenuItem Header="Редактировать">
+                <MenuItem Header="Добавить новую заливку"/>
+                <Separator/>
+                <MenuItem Header="Изменить выделенную заливку"/>
+                <MenuItem Header="Удалить выделенную заливку"/>
+            </MenuItem>
         </Menu>
 
         <StatusBar DockPanel.Dock="Bottom">
@@ -141,7 +147,99 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-
+            <TabItem Header="Редактирование заливок">
+                <Grid Background="Yellow">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Набор фильтров" Margin="5,5,5,0">
+                        <StackPanel Orientation="Horizontal">
+                            <Grid Margin="5, 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Начало:" VerticalAlignment="Center"/>
+                                <DatePicker Grid.Column="1" Grid.Row="0" Width="180" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"
+                                            SelectedDate="{Binding FilterArchivesBeginDateTime}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Конец:" VerticalAlignment="Center"/>
+                                <DatePicker Grid.Column="1" Grid.Row="1" Width="180" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"
+                                            SelectedDate="{Binding FilterArchivesEndDateTime}"/>
+                            </Grid>
+                            <Button Content="Обновить" Padding="5" Height="40" VerticalAlignment="Center" Margin="3"
+                                    Command="{Binding UpdateEditMixesCommand}"/>
+                            <Button Content="Добавить" Padding="5" Height="40" VerticalAlignment="Center" Margin="3"
+                                    Command="{Binding AddNewMixCommand}"/>
+                            <Button Content="Изменить" Padding="5" Height="40" VerticalAlignment="Center" Margin="3"
+                                    Command="{Binding EditSelectedMixCommand}"
+                                    CommandParameter="{Binding SelectedEditMix}"/>
+                            <Button Content="Удалить" Padding="5" Height="40" VerticalAlignment="Center" Margin="3"
+                                    Command="{Binding DeleteSelectedMixCommand}"
+                                    CommandParameter="{Binding SelectedEditMix}"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Header="Данные для редактирования" Margin="5,0,5,5">
+                        <DataGrid Name="DataGridEditMix" AutoGenerateColumns="False" IsReadOnly="True" AlternatingRowBackground="LightGreen" SelectionMode="Single"
+                                  VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                  ItemsSource="{Binding EditMixes}"
+                                  SelectedItem="{Binding SelectedEditMix}">
+                            <DataGrid.ItemContainerStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Normal}" Value="False">
+                                            <Setter Property="Foreground" Value="#dd0000"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.ItemContainerStyle>
+                            <DataGrid.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel/>
+                                </ItemsPanelTemplate>
+                            </DataGrid.ItemsPanel>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
+                                <DataGridTextColumn Header="Датавремя" Binding="{Binding DateTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
+                                <DataGridTextColumn Header="Форма №" Binding="{Binding FormNumber}"/>
+                                <DataGridTextColumn Header="Рецепт" Binding="{Binding RecipeNumber}"/>
+                                <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
+                                <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
+                                <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. песч. шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт песч. шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. обрат. шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт обрат. шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. холод. вода" Binding="{Binding SetColdWater, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт холод. вода" Binding="{Binding ActColdWater, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. горяч. вода" Binding="{Binding SetHotWater, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт горяч. вода" Binding="{Binding ActHotWater, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. ИПВ1" Binding="{Binding SetMixture1, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт ИПВ1" Binding="{Binding ActMixture1, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. ИПВ2" Binding="{Binding SetMixture2, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт ИПВ2" Binding="{Binding ActMixture2, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. цемент1" Binding="{Binding SetCement1, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт цемент1" Binding="{Binding ActCement1, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. цемент2" Binding="{Binding SetCement2, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт цемент2" Binding="{Binding ActCement2, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. алюминий1" Binding="{Binding SetAluminium1, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт алюминий1" Binding="{Binding ActAluminium1, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. алюминий2" Binding="{Binding SetAluminium2, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт алюминий2" Binding="{Binding ActAluminium2, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Плотн. песч. шлама" Binding="{Binding DensitySandMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Плотн. обрат. шлама" Binding="{Binding DensityRevertMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
         </TabControl>
 
 

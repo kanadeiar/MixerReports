@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
@@ -16,6 +17,7 @@ using MixerReports.lib.Interfaces;
 using MixerReports.lib.Models;
 using MixerReportsServer.Commands;
 using MixerReportsServer.ViewModels.Base;
+using MixerReportsServer.Windows;
 
 namespace MixerReportsServer.ViewModels
 {
@@ -53,6 +55,7 @@ namespace MixerReportsServer.ViewModels
 
         #endregion
 
+        #region Связь с базой данных
 
         private string _Log;
 
@@ -99,7 +102,51 @@ namespace MixerReportsServer.ViewModels
             }
         }
         public string ConnectToDataBaseStr => (ConnectToDataBase) ? "Соединение с базой данных установлено" : "Соединение с базой данных потеряно";
-        
+
+        #endregion
+
+        #region Редактирование заливок
+
+        private DateTime _FilterArchivesBeginDateTime = DateTime.Today.AddDays(-1);
+
+        /// <summary> Выбранная дата начала архивных данных </summary>
+        public DateTime FilterArchivesBeginDateTime
+        {
+            get => _FilterArchivesBeginDateTime;
+            set
+            {
+                Set(ref _FilterArchivesBeginDateTime, value);
+                LoadEditData();
+            }
+        }
+
+        private DateTime _FilterArchivesEndDateTime = DateTime.Today;
+
+        /// <summary> Выбранная дата окончания архивных данных </summary>
+        public DateTime FilterArchivesEndDateTime
+        {
+            get => _FilterArchivesEndDateTime;
+            set
+            {
+                Set(ref _FilterArchivesEndDateTime, value);
+                LoadEditData();
+            }
+        }
+
+        /// <summary> Заливки доступные для редактирования </summary>
+        public ObservableCollection<Mix> EditMixes { get; } = new();
+
+        private Mix _selectedEditMix;
+
+        /// <summary> Выделенная заливка в списке </summary>
+        public Mix SelectedEditMix
+        {
+            get => _selectedEditMix;
+            set => Set(ref _selectedEditMix, value);
+        }
+
+        #endregion
+
         #region Вспомогательное
 
         private string _Title = "Заливочные отчеты - Сервер";
@@ -194,6 +241,14 @@ namespace MixerReportsServer.ViewModels
                     .ConfigureWarnings(w => w.Throw(RelationalEventId.BoolWithDefaultWarning)).Options;
                 using (var db = new SPBSUMixerRaportsEntities(options))
                 {
+                    var mindate = list.Min(l => l.DateTime);
+                    var maxdate = list.Max(l => l.DateTime);
+                    if (db.Mixes.Any(m => m.DateTime >= mindate && m.DateTime <= maxdate))
+                    {
+                        if (MessageBox.Show("В базе данных уже имеются данные по заливкам за диапазон времени заливок из DBF файла. Новые данные из файла будут помещены рядом с имеющимися и возможно будут дублироваться. Действительно добавить заливки?", "Добавление новых данных в базу данных", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+                            return;
+                    }
+
                     db.Mixes.AddRange(list);
                     db.SaveChanges();
                 }
@@ -216,6 +271,116 @@ namespace MixerReportsServer.ViewModels
             {
                 AddToLog($"{DateTime.Now} Ошибка связи с базой данных {ex.Message}, Подробности: {ex?.InnerException?.Message} Данные: {PrintDatas(list[0])} ... {list.Count} штук.");
                 ConnectToDataBase = false;
+            }
+        }
+
+        #endregion
+
+        #region Редактирование заливок
+
+        private ICommand _UpdateEditMixesCommand;
+
+        /// <summary> Команда обновить заливки доступные для редактирования </summary>
+        public ICommand UpdateEditMixesCommand => _UpdateEditMixesCommand ??=
+            new LambdaCommand(OnUpdateEditMixesCommandExecuted, CanUpdateEditMixesCommandExecute);
+
+        private bool CanUpdateEditMixesCommandExecute(object p) => true;
+
+        private void OnUpdateEditMixesCommandExecuted(object p)
+        {
+            LoadEditData();
+        }
+
+        private ICommand _AddNewMixCommand;
+
+        /// <summary> Команда добавления новой заливки </summary>
+        public ICommand AddNewMixCommand => _AddNewMixCommand ??=
+            new LambdaCommand(OnAddNewMixCommandExecuted, CanAddNewMixCommandExecute);
+
+        private bool CanAddNewMixCommandExecute(object p) => true;
+
+        private void OnAddNewMixCommandExecuted(object p)
+        {
+            if (!MixEditWindow.Create(out Mix mix))
+                return;
+            var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
+                .UseSqlServer(App.DefaultConnectionString, o => o.EnableRetryOnFailure())
+                .ConfigureWarnings(w => w.Throw(RelationalEventId.BoolWithDefaultWarning)).Options;
+            try
+            {
+                using (var db = new SPBSUMixerRaportsEntities(options))
+                {
+                    db.Mixes.Add(mix);
+                    db.SaveChanges();
+                    EditMixes.Add(mix);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось добавить новую заливку в базу данных, ошибка: {ex.Message}, внутренняя: {ex?.InnerException?.Message}", "Ошибка добавления новой заливки в базу данных", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private ICommand _EditSelectedMixCommand;
+
+        /// <summary> Команда редактирования выбранной заливки </summary>
+        public ICommand EditSelectedMixCommand => _EditSelectedMixCommand ??=
+            new LambdaCommand(OnEditSelectedMixCommandExecuted, CanEditSelectedMixCommandExecute);
+
+        private bool CanEditSelectedMixCommandExecute(object p) => p is Mix;
+
+        private void OnEditSelectedMixCommandExecuted(object p)
+        {
+            if (!(p is Mix mix))
+                return;
+            if (!MixEditWindow.ShowEdit(ref mix))
+                return;
+            var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
+                .UseSqlServer(App.DefaultConnectionString, o => o.EnableRetryOnFailure())
+                .ConfigureWarnings(w => w.Throw(RelationalEventId.BoolWithDefaultWarning)).Options;
+            try
+            {
+                using (var db = new SPBSUMixerRaportsEntities(options))
+                {
+                    db.Mixes.Update(mix);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось изменить выбранную заливку в базе данных, ошибка: {ex.Message}, внутренняя: {ex?.InnerException?.Message}", "Ошибка изменения выбранной заливки в базе данных", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private ICommand _DeleteSelectedMixCommand;
+
+        /// <summary> Команда удаления выбранной заливки из базы данных </summary>
+        public ICommand DeleteSelectedMixCommand => _DeleteSelectedMixCommand ??=
+            new LambdaCommand(OnDeleteSelectedMixCommandExecuted, CanDeleteSelectedMixCommandExecute);
+
+        private bool CanDeleteSelectedMixCommandExecute(object p) => p is Mix;
+
+        private void OnDeleteSelectedMixCommandExecuted(object p)
+        {
+            if (!(p is Mix mix))
+                return;
+            if (MessageBox.Show("Действительно удалить выделенную заливку?", "Удаление заливки из базы данных", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+                return;
+            var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
+                .UseSqlServer(App.DefaultConnectionString, o => o.EnableRetryOnFailure())
+                .ConfigureWarnings(w => w.Throw(RelationalEventId.BoolWithDefaultWarning)).Options;
+            try
+            {
+                using (var db = new SPBSUMixerRaportsEntities(options))
+                {
+                    db.Mixes.Remove(mix);
+                    db.SaveChanges();
+                    EditMixes.Remove(mix);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось удалить выбранную заливку в базе данных, ошибка: {ex.Message}, внутренняя: {ex?.InnerException?.Message}", "Ошибка удаления выбранной заливки в базе данных", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -348,6 +513,22 @@ namespace MixerReportsServer.ViewModels
             }
             OnPropertyChanged(nameof(LastMixes));
             OnPropertyChanged(nameof(NowShiftMixes));
+            ConnectToDataBase = true;
+        }
+        /// <summary> Загрузка данных из бд во вьюмодель для редактирования </summary>
+        private void LoadEditData()
+        {
+            var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()
+                .UseSqlServer(App.DefaultConnectionString, o => o.EnableRetryOnFailure())
+                .ConfigureWarnings(w => w.Throw(RelationalEventId.BoolWithDefaultWarning)).Options;
+            EditMixes.Clear();
+            using (var db = new SPBSUMixerRaportsEntities(options))
+            {
+                foreach (var mix in db.Mixes.Where(m => m.DateTime >= FilterArchivesBeginDateTime.AddHours(8) && m.DateTime <= FilterArchivesEndDateTime.AddHours(24).AddHours(8))) 
+                {
+                    EditMixes.Add(mix);
+                }
+            }
             ConnectToDataBase = true;
         }
         private DateTime GetDateTimesFrom()
