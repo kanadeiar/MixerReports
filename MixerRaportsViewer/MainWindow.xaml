@@ -25,6 +25,10 @@
                 <MenuItem Header="Создать и сохранить отчет Excel по заливкам выбранного дня как ..."
                           Command="{Binding GenerateRaportMixesCommand}"/>
             </MenuItem>
+            <MenuItem Header="Помощь">
+                <MenuItem Header="О программе"
+                          Command="{Binding AboutCommand}"/>
+            </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBar.Resources>

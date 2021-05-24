@@ -37,6 +37,10 @@
                           Command="{Binding DeleteSelectedMixCommand}"
                           CommandParameter="{Binding SelectedEditMix}"/>
             </MenuItem>
+            <MenuItem Header="Помощь">
+                <MenuItem Header="О программе"
+                          Command="{Binding AboutCommand}"/>
+            </MenuItem>
         </Menu>
 
         <StatusBar DockPanel.Dock="Bottom">

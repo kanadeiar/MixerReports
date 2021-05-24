@@ -405,6 +405,19 @@ namespace MixerReportsServer.ViewModels
             Application.Current.Shutdown();
         }
 
+        private ICommand _AboutCommand;
+
+        /// <summary> О программе </summary>
+        public ICommand AboutCommand => _AboutCommand ??=
+            new LambdaCommand(OnAboutCommandExecuted, CanAboutCommandExecute);
+
+        private bool CanAboutCommandExecute(object p) => true;
+
+        private void OnAboutCommandExecuted(object p)
+        {
+            MessageBox.Show("Заливочные отчеты - Сервер.\nСерверная часть информационной программы заливок. Предназначена для администрирования. \nВерсия 1.0", "О программе", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
         #endregion
 
         #endregion

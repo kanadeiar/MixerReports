@@ -918,7 +918,7 @@ namespace MixerRaportsViewer.ViewModels
 
         #region Вспомогательные данные
 
-        private string _Title = "Заливочные отчеты - Обзор данных";
+        private string _Title = "Заливочные отчеты - Просмотр данных";
 
         /// <summary> Название приложения </summary>
         public string Title
@@ -1145,6 +1145,19 @@ namespace MixerRaportsViewer.ViewModels
         private void OnCloseApplicationCommandExecuted(object p)
         {
             Application.Current.Shutdown();
+        }
+
+        private ICommand _AboutCommand;
+
+        /// <summary> О программе </summary>
+        public ICommand AboutCommand => _AboutCommand ??=
+            new LambdaCommand(OnAboutCommandExecuted, CanAboutCommandExecute);
+
+        private bool CanAboutCommandExecute(object p) => true;
+
+        private void OnAboutCommandExecuted(object p)
+        {
+            MessageBox.Show("Заливочные отчеты - Просмотр данных.\nИнформационная часть программы заливок. Предназначена для просмотра данных технологом. \nВерсия 1.0", "О программе", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         #endregion
