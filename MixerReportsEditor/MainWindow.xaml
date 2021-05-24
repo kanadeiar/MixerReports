@@ -21,6 +21,10 @@
                 <MenuItem Header="Выход" 
                           Command="{Binding CloseApplicationCommand}"/>
             </MenuItem>
+            <MenuItem Header="Помощь">
+                <MenuItem Header="О программе"
+                          Command="{Binding AboutCommand}"/>
+            </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBar.Resources>
