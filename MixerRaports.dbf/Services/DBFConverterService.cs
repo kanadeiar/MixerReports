@@ -50,7 +50,6 @@ namespace MixerRaports.dbf.Services
                         SandInMud = float.Parse(row.GetString("0060")),
                         DensityRevertMud = float.Parse(row.GetString("0038")),
                         DensitySandMud = float.Parse(row.GetString("0039")),
-                        Normal = true,
                     };
                     if (i > 0 && mix.SetRevertMud < 0.1 && mix.ActRevertMud < 0.1 && mix.SetSandMud < 0.1 &&
                         mix.ActSandMud < 0.1 && mix.SetColdWater < 0.1 && mix.ActColdWater < 0.1)

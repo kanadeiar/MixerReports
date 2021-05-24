@@ -233,7 +233,11 @@ namespace MixerReportsServer.ViewModels
                 MessageBox.Show($"Не удалось прочитать информацию из файлов о заливках, ошибка:\n{e.Message}", "Ошибка импорта данных", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
+            if (list.Count == 0)
+            {
+                MessageBox.Show("Не удалось найти в выбранных файлах хоть сколько-нибудь информации по заливкам", "Импорт информации о новых заливках", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             try
             {
                 var options = new DbContextOptionsBuilder<SPBSUMixerRaportsEntities>()

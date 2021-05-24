@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MixerReportsEditor", "Mixer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MixerReports.Raports", "MixerReports.Raports\MixerReports.Raports.csproj", "{3C9E2346-D871-4348-9D35-29B4D07289CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MixerRaports.dbf", "MixerRaports.dbf\MixerRaports.dbf.csproj", "{3AA58B4A-5893-4CB2-8EEF-A72FB9C5858F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MixerRaports.dbf", "MixerRaports.dbf\MixerRaports.dbf.csproj", "{3AA58B4A-5893-4CB2-8EEF-A72FB9C5858F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MixerReports.lib.Tests", "Tests\MixerReports.lib.Tests\MixerReports.lib.Tests.csproj", "{24D9037E-0B71-4199-A52A-6BF42C6A795E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{3AA58B4A-5893-4CB2-8EEF-A72FB9C5858F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AA58B4A-5893-4CB2-8EEF-A72FB9C5858F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AA58B4A-5893-4CB2-8EEF-A72FB9C5858F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D9037E-0B71-4199-A52A-6BF42C6A795E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D9037E-0B71-4199-A52A-6BF42C6A795E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D9037E-0B71-4199-A52A-6BF42C6A795E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D9037E-0B71-4199-A52A-6BF42C6A795E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{812655A2-E2AC-427F-93E2-CF86D4540941} = {453C7D5A-BB30-48F6-B898-B66F09454F6D}
 		{02DEBF8A-609D-4F3F-86DB-D3D08EEE8C5C} = {453C7D5A-BB30-48F6-B898-B66F09454F6D}
+		{24D9037E-0B71-4199-A52A-6BF42C6A795E} = {453C7D5A-BB30-48F6-B898-B66F09454F6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6F3E1FE1-C859-47E0-8A33-F291BEBC3573}

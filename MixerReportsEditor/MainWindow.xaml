@@ -263,10 +263,29 @@
                                         <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
                                         <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
-                                        <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. песч. шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт песч. шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. обрат. шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обрат. шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. холод. вода" Binding="{Binding SetColdWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт холод. вода" Binding="{Binding ActColdWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. горяч. вода" Binding="{Binding SetHotWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт горяч. вода" Binding="{Binding ActHotWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. ИПВ1" Binding="{Binding SetMixture1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт ИПВ1" Binding="{Binding ActMixture1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. ИПВ2" Binding="{Binding SetMixture2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт ИПВ2" Binding="{Binding ActMixture2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. цемент1" Binding="{Binding SetCement1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт цемент1" Binding="{Binding ActCement1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. цемент2" Binding="{Binding SetCement2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт цемент2" Binding="{Binding ActCement2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. алюминий1" Binding="{Binding SetAluminium1, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Факт алюминий1" Binding="{Binding ActAluminium1, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Зад. алюминий2" Binding="{Binding SetAluminium2, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Факт алюминий2" Binding="{Binding ActAluminium2, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Плотн. песч. шлама" Binding="{Binding DensitySandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Плотн. обрат. шлама" Binding="{Binding DensityRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -326,10 +345,29 @@
                                         <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
                                         <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
-                                        <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. песч. шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт песч. шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. обрат. шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обрат. шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. холод. вода" Binding="{Binding SetColdWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт холод. вода" Binding="{Binding ActColdWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. горяч. вода" Binding="{Binding SetHotWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт горяч. вода" Binding="{Binding ActHotWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. ИПВ1" Binding="{Binding SetMixture1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт ИПВ1" Binding="{Binding ActMixture1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. ИПВ2" Binding="{Binding SetMixture2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт ИПВ2" Binding="{Binding ActMixture2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. цемент1" Binding="{Binding SetCement1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт цемент1" Binding="{Binding ActCement1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. цемент2" Binding="{Binding SetCement2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт цемент2" Binding="{Binding ActCement2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. алюминий1" Binding="{Binding SetAluminium1, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Факт алюминий1" Binding="{Binding ActAluminium1, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Зад. алюминий2" Binding="{Binding SetAluminium2, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Факт алюминий2" Binding="{Binding ActAluminium2, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Плотн. песч. шлама" Binding="{Binding DensitySandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Плотн. обрат. шлама" Binding="{Binding DensityRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -393,10 +431,29 @@
                                         <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
                                         <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
-                                        <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. песч. шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт песч. шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. обрат. шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обрат. шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. холод. вода" Binding="{Binding SetColdWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт холод. вода" Binding="{Binding ActColdWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. горяч. вода" Binding="{Binding SetHotWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт горяч. вода" Binding="{Binding ActHotWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. ИПВ1" Binding="{Binding SetMixture1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт ИПВ1" Binding="{Binding ActMixture1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. ИПВ2" Binding="{Binding SetMixture2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт ИПВ2" Binding="{Binding ActMixture2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. цемент1" Binding="{Binding SetCement1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт цемент1" Binding="{Binding ActCement1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. цемент2" Binding="{Binding SetCement2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт цемент2" Binding="{Binding ActCement2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. алюминий1" Binding="{Binding SetAluminium1, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Факт алюминий1" Binding="{Binding ActAluminium1, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Зад. алюминий2" Binding="{Binding SetAluminium2, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Факт алюминий2" Binding="{Binding ActAluminium2, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Плотн. песч. шлама" Binding="{Binding DensitySandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Плотн. обрат. шлама" Binding="{Binding DensityRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -439,10 +496,29 @@
                                         <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
                                         <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
-                                        <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
-                                        <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. песч. шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт песч. шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. обрат. шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт обрат. шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. холод. вода" Binding="{Binding SetColdWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт холод. вода" Binding="{Binding ActColdWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. горяч. вода" Binding="{Binding SetHotWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт горяч. вода" Binding="{Binding ActHotWater, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. ИПВ1" Binding="{Binding SetMixture1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт ИПВ1" Binding="{Binding ActMixture1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. ИПВ2" Binding="{Binding SetMixture2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт ИПВ2" Binding="{Binding ActMixture2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. цемент1" Binding="{Binding SetCement1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт цемент1" Binding="{Binding ActCement1, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. цемент2" Binding="{Binding SetCement2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Факт цемент2" Binding="{Binding ActCement2, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Зад. алюминий1" Binding="{Binding SetAluminium1, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Факт алюминий1" Binding="{Binding ActAluminium1, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Зад. алюминий2" Binding="{Binding SetAluminium2, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Факт алюминий2" Binding="{Binding ActAluminium2, StringFormat={}{0:n3}}"/>
+                                        <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Плотн. песч. шлама" Binding="{Binding DensitySandMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Плотн. обрат. шлама" Binding="{Binding DensityRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -505,10 +581,29 @@
                                 <DataGridTextColumn Header="Темп. в см-ле" Binding="{Binding MixerTemperature, StringFormat=f2}"/>
                                 <DataGridTextColumn Header="Норма" Binding="{Binding NormalStr}"/>
                                 <DataGridTextColumn Header="Характеристики" Binding="{Binding CharsStr}"/>
-                                <DataGridTextColumn Header="Зад. песчаный шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
-                                <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
-                                <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
-                                <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. песч. шлам" Binding="{Binding SetSandMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт песч. шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. обрат. шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт обрат. шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. холод. вода" Binding="{Binding SetColdWater, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт холод. вода" Binding="{Binding ActColdWater, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. горяч. вода" Binding="{Binding SetHotWater, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт горяч. вода" Binding="{Binding ActHotWater, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. ИПВ1" Binding="{Binding SetMixture1, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт ИПВ1" Binding="{Binding ActMixture1, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. ИПВ2" Binding="{Binding SetMixture2, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт ИПВ2" Binding="{Binding ActMixture2, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. цемент1" Binding="{Binding SetCement1, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт цемент1" Binding="{Binding ActCement1, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. цемент2" Binding="{Binding SetCement2, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Факт цемент2" Binding="{Binding ActCement2, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Зад. алюминий1" Binding="{Binding SetAluminium1, StringFormat={}{0:n3}}"/>
+                                <DataGridTextColumn Header="Факт алюминий1" Binding="{Binding ActAluminium1, StringFormat={}{0:n3}}"/>
+                                <DataGridTextColumn Header="Зад. алюминий2" Binding="{Binding SetAluminium2, StringFormat={}{0:n3}}"/>
+                                <DataGridTextColumn Header="Факт алюминий2" Binding="{Binding ActAluminium2, StringFormat={}{0:n3}}"/>
+                                <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Плотн. песч. шлама" Binding="{Binding DensitySandMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Плотн. обрат. шлама" Binding="{Binding DensityRevertMud, StringFormat=f2}"/>
                                 <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                             </DataGrid.Columns>
                         </DataGrid>

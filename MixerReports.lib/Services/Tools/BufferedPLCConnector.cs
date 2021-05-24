@@ -209,7 +209,7 @@ namespace MixerReports.lib.Services.Tools
             if (_mix is null)
                 return null;
             _mix.DateTime = DateTime.Now.AddSeconds(_seconds);
-            _mix.MixerTemperature = _bufferDb.GetIntAt(6) / 10.0f;
+            _mix.MixerTemperature = (_bufferDb.GetIntAt(6) / 10.0f) + 0.5f;
             return _mix;
         }
 
