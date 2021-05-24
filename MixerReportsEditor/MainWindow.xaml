@@ -267,6 +267,7 @@
                                         <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -330,6 +331,7 @@
                                         <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -397,6 +399,7 @@
                                         <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -443,6 +446,7 @@
                                         <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                        <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
                                         <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -509,6 +513,7 @@
                                 <DataGridTextColumn Header="Факт песчаный шлам" Binding="{Binding ActSandMud, StringFormat=f2}"/>
                                 <DataGridTextColumn Header="Зад. обратный шлам" Binding="{Binding SetRevertMud, StringFormat=f2}"/>
                                 <DataGridTextColumn Header="Факт обратный шлам" Binding="{Binding ActRevertMud, StringFormat=f2}"/>
+                                <DataGridTextColumn Header="Песок в шламе" Binding="{Binding SandInMud, StringFormat=f2}"/>
                                 <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
                             </DataGrid.Columns>
                         </DataGrid>

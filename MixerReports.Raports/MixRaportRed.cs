@@ -1387,22 +1387,22 @@ namespace MixerReports.Raports
 
             Cell cell162 = new Cell() { CellReference = $"V{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue155 = new CellValue();
-            cellValue155.Text = mix.SetAluminium1.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
+            cellValue155.Text = mix.SetAluminium1.ToString("F3", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell162.Append(cellValue155);
 
             Cell cell163 = new Cell() { CellReference = $"W{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue156 = new CellValue();
-            cellValue156.Text = mix.ActAluminium1.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
+            cellValue156.Text = mix.ActAluminium1.ToString("F3", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell163.Append(cellValue156);
 
             Cell cell164 = new Cell() { CellReference = $"X{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue157 = new CellValue();
-            cellValue157.Text = mix.SetAluminium2.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
+            cellValue157.Text = mix.SetAluminium2.ToString("F3", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell164.Append(cellValue157);
 
             Cell cell165 = new Cell() { CellReference = $"Y{index + 2}", StyleIndex = styleNumber };
             CellValue cellValue158 = new CellValue();
-            cellValue158.Text = mix.ActAluminium2.ToString("F2", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
+            cellValue158.Text = mix.ActAluminium2.ToString("F3", new NumberFormatInfo { CurrencyDecimalSeparator = "." });
             cell165.Append(cellValue158);
 
             Cell cell166 = new Cell() { CellReference = $"Z{index + 2}", StyleIndex = styleNumber };
