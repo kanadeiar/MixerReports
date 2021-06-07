@@ -71,8 +71,15 @@
                                 <TextBox IsReadOnly="True" FontSize="14" FontWeight="Bold"
                                          Text="{Binding CountCurrentShiftMixes, Mode=OneWay}"/>
                             </StackPanel>
-                            <Button Content="Обновить" Padding="5" VerticalAlignment="Center" Height="40"
+                            <Button Content="Обновить" Padding="5" VerticalAlignment="Center" Height="40" ToolTip="Показать самые свежие данные за последние три часа"
                                     Command="{Binding UpdateMixCommand}"/>
+                            <StackPanel Margin="5,0">
+                                <TextBlock Text="По умолчанию показаны данные за последние три часа"/>
+                                <TextBlock Text="Они автоматически обновляются 1 раз в минуту"/>
+                            </StackPanel>
+                            <Button Content="Показать за 8 часов" VerticalAlignment="Center" Height="40" BorderBrush="Yellow" 
+                                    ToolTip="Будут показаны данные за последние 8 часов работы, после ежеминутного автоматического обновления данные будут потеряны"
+                                    Command="{Binding LoadDataSixHourCommand}"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Grid.Row="1" Header="Уточнение данных по заливкам (двойной клик или Enter)">
