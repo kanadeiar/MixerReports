@@ -307,6 +307,18 @@ namespace MixerReportsEditor.ViewModel
             LoadData();
         }
 
+        private ICommand _LoadDataSixHourCommand;
+
+        /// <summary> Команда загрузки данных за последние 6 часов </summary>
+        public ICommand LoadDataSixHourCommand => _LoadDataSixHourCommand ??=
+            new LambdaCommand(OnLoadDataSixHourCommandExecuted, CanLoadDataSixHourCommandExecute);
+
+        private bool CanLoadDataSixHourCommandExecute(object p) => true;
+
+        private void OnLoadDataSixHourCommandExecuted(object p)
+        {
+            LoadData(true);
+        }
         #endregion
 
         #region Данные по заливкам за последние два часа
@@ -484,15 +496,23 @@ namespace MixerReportsEditor.ViewModel
 
         #region Support Methods
 
-        /// <summary> Загрузка данных из бд во вьюмодель </summary>
-        private void LoadData()
+
+
+        /// <summary>  Загрузка данных из бд во вьюмодель </summary>
+        /// <param name="needMore">Нужно больше данных, за последние 6 часов </param>
+        private void LoadData(bool needMore = false)
         {
             try
             {
                 Mixes.Clear();
-                foreach (var mix in _Mixes.GetAll()
-                    .Where(m => m.DateTime >= DateTime.Now.AddHours(-2))
-                    .OrderByDescending(m => m.DateTime))
+                var mixes = _Mixes.GetAll()
+                    .Where(m => m.DateTime >= DateTime.Now.AddHours(- 3))
+                    .OrderByDescending(m => m.DateTime);
+                if (needMore)
+                    mixes = _Mixes.GetAll()
+                        .Where(m => m.DateTime >= DateTime.Now.AddHours(- 8))
+                        .OrderByDescending(m => m.DateTime);
+                foreach (var mix in mixes)
                 {
                     Mixes.Add(mix);
                 }
