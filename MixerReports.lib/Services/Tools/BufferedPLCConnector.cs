@@ -46,6 +46,7 @@ namespace MixerReports.lib.Services.Tools
                     {
                         #region Запомнить текущие данные уже ведущейся заливки - т.е. приложение запустили во время ведения заливки
 
+                        FormNumber = _bufferDb.GetIntAt(0),
                         SetRevertMud = _bufferDb.GetDIntAt(170) / 100.0f,
                         ActRevertMud = _bufferDb.GetDIntAt(174) / 100.0f,
                         SetSandMud = _bufferDb.GetDIntAt(178) / 100.0f,
@@ -66,6 +67,8 @@ namespace MixerReports.lib.Services.Tools
                         ActAluminium1 = _bufferDb.GetDIntAt(254) / 100.0f / (_aluminiumProp + 1),
                         SetAluminium2 = _bufferDb.GetDIntAt(258) / 100.0f / (_aluminiumProp + 1),
                         ActAluminium2 = _bufferDb.GetDIntAt(262) / 100.0f / (_aluminiumProp + 1),
+                        DensitySandMud = _bufferDb.GetIntAt(284) / 1000.0f,
+                        DensityRevertMud = _bufferDb.GetIntAt(282) / 1000.0f,
 
                         #endregion
                     };
@@ -74,78 +77,104 @@ namespace MixerReports.lib.Services.Tools
                 _mixBuffer = new Mix();
             }
             #region Обновление данных в буфере на основе сигналов дозирования с контроллера
-
+#if DEBUG
             StringBuilder sb = new StringBuilder();
+#endif
             if (GetSignalFromBit(ref _bufferDb, 454, 0))
             {
                 _mixBuffer.SetRevertMud = _bufferDb.GetDIntAt(170) / 100.0f;
                 _mixBuffer.ActRevertMud = _bufferDb.GetDIntAt(174) / 100.0f;
                 count++;
+#if DEBUG
                 sb.Append($"ОШ: {_mixBuffer.SetRevertMud} {_mixBuffer.ActRevertMud} ");
+#endif
             }
             if (GetSignalFromBit(ref _bufferDb, 452, 6))
             {
                 _mixBuffer.SetSandMud = _bufferDb.GetDIntAt(178) / 100.0f;
                 _mixBuffer.ActSandMud = _bufferDb.GetDIntAt(182) / 100.0f;
                 count++;
+#if DEBUG
                 sb.Append($"ПШ: {_mixBuffer.SetSandMud} {_mixBuffer.ActSandMud} ");
+#endif
             }
             if (GetSignalFromBit(ref _bufferDb, 453, 6))
             {
                 _mixBuffer.SetColdWater = _bufferDb.GetDIntAt(186) / 100.0f;
                 _mixBuffer.ActColdWater = _bufferDb.GetDIntAt(190) / 100.0f;
                 count++;
+#if DEBUG
                 sb.Append($"холодной воды: {_mixBuffer.SetColdWater} {_mixBuffer.ActColdWater} ");
+#endif
             }
             if (GetSignalFromBit(ref _bufferDb, 453, 4))
             {
                 _mixBuffer.SetHotWater = _bufferDb.GetDIntAt(194) / 100.0f;
                 _mixBuffer.ActHotWater = _bufferDb.GetDIntAt(198) / 100.0f;
                 count++;
+#if DEBUG
                 sb.Append($"горячей воды: {_mixBuffer.SetHotWater} {_mixBuffer.ActHotWater} ");
+#endif
             }
             if (GetSignalFromBit(ref _bufferDb, 452, 0))
             {
                 _mixBuffer.SetMixture1 = _bufferDb.GetDIntAt(202) / 100.0f;
                 _mixBuffer.ActMixture1 = _bufferDb.GetDIntAt(206) / 100.0f;
                 count++;
+#if DEBUG
                 sb.Append($"ИПВ1: {_mixBuffer.SetMixture1} {_mixBuffer.ActMixture1} ");
+#endif
             }
             if (GetSignalFromBit(ref _bufferDb, 454, 4))
             {
                 _mixBuffer.SetMixture2 = _bufferDb.GetDIntAt(210) / 100.0f;
                 _mixBuffer.ActMixture2 = _bufferDb.GetDIntAt(214) / 100.0f;
                 count++;
+#if DEBUG
                 sb.Append($"ИПВ2: {_mixBuffer.SetMixture2} {_mixBuffer.ActMixture2} ");
+#endif
             }
             if (GetSignalFromBit(ref _bufferDb, 452, 4))
             {
                 _mixBuffer.SetCement1 = _bufferDb.GetDIntAt(234) / 100.0f;
                 _mixBuffer.ActCement1 = _bufferDb.GetDIntAt(238) / 100.0f;
                 count++;
+#if DEBUG
                 sb.Append($"цемента1: {_mixBuffer.SetCement1} {_mixBuffer.ActCement1} ");
+#endif
             }
             if (GetSignalFromBit(ref _bufferDb, 454, 6))
             {
                 _mixBuffer.SetCement2 = _bufferDb.GetDIntAt(242) / 100.0f;
                 _mixBuffer.ActCement2 = _bufferDb.GetDIntAt(246) / 100.0f;
                 count++;
+#if DEBUG
                 sb.Append($"цемента2: {_mixBuffer.SetCement2} {_mixBuffer.ActCement2} ");
+#endif
             }
             if (GetSignalFromBit(ref _bufferDb, 453, 0) || GetSignalFromBit(ref _bufferDb, 453, 2))
             {
+                _mixBuffer.FormNumber = _bufferDb.GetIntAt(0);
+                
                 _mixBuffer.SetAluminium1 = _bufferDb.GetDIntAt(250) / 100.0f / (_aluminiumProp + 1);
                 _mixBuffer.ActAluminium1 = _bufferDb.GetDIntAt(254) / 100.0f / (_aluminiumProp + 1);
                 count++;
+#if DEBUG
                 sb.Append($"алюминия1: {_mixBuffer.SetAluminium1} {_mixBuffer.ActAluminium1} ");
+#endif
                 _mixBuffer.SetAluminium2 = _bufferDb.GetDIntAt(258) / 100.0f / (_aluminiumProp + 1);
                 _mixBuffer.ActAluminium2 = _bufferDb.GetDIntAt(262) / 100.0f / (_aluminiumProp + 1);
                 count++;
+#if DEBUG
                 sb.Append($"алюминия2: {_mixBuffer.SetAluminium2} {_mixBuffer.ActAluminium2} ");
+#endif
+                _mixBuffer.DensitySandMud = _bufferDb.GetIntAt(284) / 1000.0f;
+                _mixBuffer.DensityRevertMud = _bufferDb.GetIntAt(282) / 1000.0f;
             }
+#if DEBUG
             if (sb.Length > 0)
                 Debug.WriteLine(sb.ToString());
-
+#endif
             #endregion
             return count;
 
@@ -160,17 +189,21 @@ namespace MixerReports.lib.Services.Tools
         /// <summary> Получение данных новой заливки из внутреннего буфера и контроллера в новую заливку  </summary>
         public bool SetNewMixFromBuffer()
         {
-            var densSand = _bufferDb.GetIntAt(284);
-            var densRevert = _bufferDb.GetIntAt(282);
             var sandInMud = 0.0f;
-            if (densSand >= 900 && densSand <= 2000)
-                sandInMud = (_bufferDb.GetDIntAt(182) / 100.0f / densSand) * 1110.0f * 1.0075f;
+            if (_mixBuffer.DensitySandMud >= 1 && _mixBuffer.DensitySandMud <= 9000)
+            {
+                var specDensity = 2.65f;
+                var densMud = _mixBuffer.DensitySandMud;
+                var actSandMud = _mixBuffer.ActSandMud;
+                var percWater = ((specDensity - densMud) / (specDensity - 1) / densMud) * 100.0f;
+                sandInMud = actSandMud * (100.0f - percWater) / 100.0f;
+            }
             _mix = new Mix
             {
                 #region Копирование данных из буфера в новую заливку
 
                 Number = 1,
-                FormNumber = _bufferDb.GetIntAt(0),
+                FormNumber = _mixBuffer.FormNumber,
                 SetRevertMud = _mixBuffer.SetRevertMud,
                 ActRevertMud = _mixBuffer.ActRevertMud,
                 SetSandMud = _mixBuffer.SetSandMud,
@@ -192,8 +225,8 @@ namespace MixerReports.lib.Services.Tools
                 SetAluminium2 = _mixBuffer.SetAluminium2,
                 ActAluminium2 = _mixBuffer.ActAluminium2,
                 SandInMud = sandInMud,
-                DensitySandMud = densSand / 1000.0f,
-                DensityRevertMud = densRevert / 1000.0f,
+                DensitySandMud = _mixBuffer.DensitySandMud,
+                DensityRevertMud = _mixBuffer.DensityRevertMud,
                 Normal = true,
                 
                 #endregion
