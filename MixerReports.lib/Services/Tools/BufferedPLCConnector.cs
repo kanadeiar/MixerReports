@@ -84,6 +84,7 @@ namespace MixerReports.lib.Services.Tools
             {
                 _mixBuffer.SetRevertMud = _bufferDb.GetDIntAt(170) / 100.0f;
                 _mixBuffer.ActRevertMud = _bufferDb.GetDIntAt(174) / 100.0f;
+                _mixBuffer.DensityRevertMud = _bufferDb.GetIntAt(282) / 1000.0f;
                 count++;
 #if DEBUG
                 sb.Append($"ОШ: {_mixBuffer.SetRevertMud} {_mixBuffer.ActRevertMud} ");
@@ -93,6 +94,7 @@ namespace MixerReports.lib.Services.Tools
             {
                 _mixBuffer.SetSandMud = _bufferDb.GetDIntAt(178) / 100.0f;
                 _mixBuffer.ActSandMud = _bufferDb.GetDIntAt(182) / 100.0f;
+                _mixBuffer.DensitySandMud = _bufferDb.GetIntAt(284) / 1000.0f;
                 count++;
 #if DEBUG
                 sb.Append($"ПШ: {_mixBuffer.SetSandMud} {_mixBuffer.ActSandMud} ");
@@ -168,8 +170,6 @@ namespace MixerReports.lib.Services.Tools
 #if DEBUG
                 sb.Append($"алюминия2: {_mixBuffer.SetAluminium2} {_mixBuffer.ActAluminium2} ");
 #endif
-                _mixBuffer.DensitySandMud = _bufferDb.GetIntAt(284) / 1000.0f;
-                _mixBuffer.DensityRevertMud = _bufferDb.GetIntAt(282) / 1000.0f;
             }
 #if DEBUG
             if (sb.Length > 0)
