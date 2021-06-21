@@ -7,6 +7,7 @@
     <ApplicationIcon>Avatar.ico</ApplicationIcon>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>test.snk</AssemblyOriginatorKeyFile>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
