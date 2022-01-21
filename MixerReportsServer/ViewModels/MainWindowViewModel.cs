@@ -459,6 +459,7 @@ namespace MixerReportsServer.ViewModels
             {
                 try
                 {
+                    _mix.Id = 0;
                     _mix.Number = NowShiftMixes
                         .OrderByDescending(r => r.Number)
                         .FirstOrDefault()?.Number + 1 ?? 1;
